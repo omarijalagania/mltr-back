@@ -22,15 +22,15 @@ passport.deserializeUser(function (user: any, cb) {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: "login",
       passwordField: "password",
     },
-    async function (email, password, done) {
+    async function (login, password, done) {
       try {
-        const user = await User.findOne({ email: email })
+        const user = await User.findOne({ email: login })
 
         if (!user) {
-          return done(null, false, { message: "Incorrect email or password" })
+          return done(null, false, { message: "Incorrect login or password" })
         }
         const isMatch = await bcrypt.compare(password, user.password as any)
 

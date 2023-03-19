@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 import passport from "passport"
-import bcrypt from "bcryptjs"
-import { User } from "models"
+import { User, Code } from "models"
 import { Sessions, Users } from "types"
+import { generateCode } from "helpers"
 
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
@@ -71,21 +71,47 @@ export const logOut = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const userRegister = async (req: Request, res: Response) => {
-  const { password, email } = req.body
+  const {
+    login,
+    sex,
+    birthheight,
+    is_ft_heigth,
+    body_type,
+    physical_activities,
+    weight,
+    is_ft_weight,
+  } = req.body
 
   try {
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ email: login })
 
     if (user) {
       return res.status(422).json({ message: "User already exists" })
     }
 
-    const salt = bcrypt.genSaltSync(10)
-    const hashedPassword = bcrypt.hashSync(password, salt)
+    let code = generateCode()
+
+    const newCode = await Code.create({
+      email: login,
+      code,
+    })
+
+    if (!newCode) {
+      return res.status(422).json({ message: "Code generation error" })
+    }
+
+    //send email with code here:
+    //sendEmail(newCode.code)
 
     await User.create({
-      email: email,
-      password: hashedPassword,
+      email: login,
+      sex,
+      birthheight,
+      is_ft_heigth,
+      body_type,
+      physical_activities,
+      weight,
+      is_ft_weight,
     })
 
     return res.status(200).json({ message: "User registered" })
