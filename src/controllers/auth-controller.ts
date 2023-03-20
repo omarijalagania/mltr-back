@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import passport from "passport"
-import { User, Code } from "models"
+import { User } from "models"
 import { Sessions, Users } from "types"
 import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
@@ -20,7 +20,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   passport.authenticate(
     "local",
@@ -41,7 +41,7 @@ export const userLogin = async (
           email: user.email,
         })
       })
-    }
+    },
   )(req, res, next)
 }
 
@@ -84,39 +84,46 @@ export const userRegister = async (req: Request, res: Response) => {
   } = req.body
 
   try {
-    /*   const user = await User.findOne({ email: login })
+    let code = generateCode()
+    let user: any
+    user = await User.findOne({ email: login })
 
     if (user) {
-      return res.status(422).json({ message: "User already exists" })
-    } */
+      // User already exists, update user with new data
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          code,
+          sex,
+          birthheight,
+          is_ft_heigth,
+          body_type,
+          physical_activities,
+          weight,
+          is_ft_weight,
+        },
+        { new: true },
+      )
 
-    let code = generateCode()
+      sendCodeConfirmation(code, user.email)
+      return res.status(201).json({ message: "User updated" })
+    } else {
+      // User does not exist, create new user with provided data
+      user = await User.create({
+        email: login,
+        code,
+        sex,
+        birthheight,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight,
+      })
 
-    const newCode: any = await Code.create({
-      email: login,
-      code,
-    })
-
-    if (!newCode) {
-      return res.status(422).json({ message: "Code generation error" })
+      sendCodeConfirmation(code, login)
+      return res.status(200).json({ message: "User registered" })
     }
-
-    //send email with code here:
-    //sendEmail(newCode.code)
-    sendCodeConfirmation(newCode.code, newCode.email)
-
-    await User.create({
-      email: login,
-      sex,
-      birthheight,
-      is_ft_heigth,
-      body_type,
-      physical_activities,
-      weight,
-      is_ft_weight,
-    })
-
-    return res.status(200).json({ message: "User registered" })
   } catch (error) {
     res.status(500).json({ message: "something went wrong..." })
   }

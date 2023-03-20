@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema({
   is_ft_weight: {
     type: Boolean,
   },
+  code: {
+    type: String,
+  },
 
   joined: { type: Date, default: Date.now },
 })
