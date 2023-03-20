@@ -3,6 +3,7 @@ import passport from "passport"
 import { User, Code } from "models"
 import { Sessions, Users } from "types"
 import { generateCode } from "helpers"
+import { sendCodeConfirmation } from "mail"
 
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
@@ -19,7 +20,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   passport.authenticate(
     "local",
@@ -40,7 +41,7 @@ export const userLogin = async (
           email: user.email,
         })
       })
-    },
+    }
   )(req, res, next)
 }
 
@@ -83,15 +84,15 @@ export const userRegister = async (req: Request, res: Response) => {
   } = req.body
 
   try {
-    const user = await User.findOne({ email: login })
+    /*   const user = await User.findOne({ email: login })
 
     if (user) {
       return res.status(422).json({ message: "User already exists" })
-    }
+    } */
 
     let code = generateCode()
 
-    const newCode = await Code.create({
+    const newCode: any = await Code.create({
       email: login,
       code,
     })
@@ -102,6 +103,7 @@ export const userRegister = async (req: Request, res: Response) => {
 
     //send email with code here:
     //sendEmail(newCode.code)
+    sendCodeConfirmation(newCode.code, newCode.email)
 
     await User.create({
       email: login,
