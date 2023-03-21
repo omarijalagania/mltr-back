@@ -23,29 +23,26 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "login",
-      passwordField: "password",
+      passwordField: "code",
     },
-    async function (login, password, done) {
+    async function (login, code, done) {
       try {
         const user = await User.findOne({ email: login })
 
         if (!user) {
-          return done(null, false, { message: "Incorrect login or password" })
+          return done(null, false, { message: "User not found" })
         }
-        const isMatch = await bcrypt.compare(password, user.password as any)
+        const isMatch = code === user.code
 
         if (!isMatch) {
-          return done(null, false, { message: "Incorrect email or password" })
+          return done(null, false, { message: "Incorrect code" })
         }
-        return done(null, {
-          _id: user._id,
-          email: user.email,
-        })
+        return done(null, user)
       } catch (err) {
         return done(err)
       }
-    },
-  ),
+    }
+  )
 )
 
 passport.use(
@@ -59,7 +56,7 @@ passport.use(
       _accessToken: string,
       _refreshToken: string,
       profile: Profile,
-      done: (error: any, user?: any, info?: any) => void,
+      done: (error: any, user?: any, info?: any) => void
     ) => {
       try {
         // Check if user already exists in MongoDB
@@ -85,6 +82,6 @@ passport.use(
       } catch (error) {
         done(error, null)
       }
-    },
-  ),
+    }
+  )
 )
