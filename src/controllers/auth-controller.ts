@@ -113,9 +113,7 @@ export const userRegister = async (req: Request, res: Response) => {
       )
 
       sendCodeConfirmation(code, user.email)
-      return res
-        .status(201)
-        .json({ message: "User registered", user: user.email })
+      return res.status(201).json({ message: "User Updated", user: user.email })
     } else {
       // User does not exist, create new user with provided data
       user = await User.create({
