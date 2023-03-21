@@ -4,6 +4,7 @@ import { User } from "models"
 import { Sessions, Users } from "types"
 import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
+import bcrypt from "bcryptjs"
 
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
@@ -20,7 +21,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   passport.authenticate(
     "local",
@@ -41,7 +42,7 @@ export const userLogin = async (
           email: user.email,
         })
       })
-    },
+    }
   )(req, res, next)
 }
 
@@ -88,12 +89,16 @@ export const userRegister = async (req: Request, res: Response) => {
     let user: any
     user = await User.findOne({ email: login })
 
+    const salt = await bcrypt.genSalt(10)
+    // generate hashed password with salt (password = entered password, from request body)
+    const hashedCode = await bcrypt.hash(code, salt)
+
     if (user) {
       // User already exists, update user with new data
       user = await User.findOneAndUpdate(
         { email: login },
         {
-          code,
+          code: hashedCode,
           sex,
           birthheight,
           is_ft_heigth,
@@ -102,7 +107,7 @@ export const userRegister = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
@@ -111,7 +116,7 @@ export const userRegister = async (req: Request, res: Response) => {
       // User does not exist, create new user with provided data
       user = await User.create({
         email: login,
-        code,
+        code: hashedCode,
         sex,
         birthheight,
         is_ft_heigth,

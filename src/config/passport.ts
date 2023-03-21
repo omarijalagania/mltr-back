@@ -32,10 +32,10 @@ passport.use(
         if (!user) {
           return done(null, false, { message: "User not found" })
         }
-        const isMatch = code === user.code
+        const isMatch = await bcrypt.compare(code, user.code as any)
 
         if (!isMatch) {
-          return done(null, false, { message: "Incorrect code" })
+          return done(null, false, { message: "Incorrect  code" })
         }
         return done(null, user)
       } catch (err) {
