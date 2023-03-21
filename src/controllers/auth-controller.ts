@@ -76,7 +76,8 @@ export const userRegister = async (req: Request, res: Response) => {
   const {
     login,
     sex,
-    birthheight,
+    birth,
+    height,
     is_ft_heigth,
     body_type,
     physical_activities,
@@ -100,7 +101,8 @@ export const userRegister = async (req: Request, res: Response) => {
         {
           code: hashedCode,
           sex,
-          birthheight,
+          birth,
+          height,
           is_ft_heigth,
           body_type,
           physical_activities,
@@ -111,14 +113,17 @@ export const userRegister = async (req: Request, res: Response) => {
       )
 
       sendCodeConfirmation(code, user.email)
-      return res.status(201).json({ message: "User updated" })
+      return res
+        .status(201)
+        .json({ message: "User registered", user: user.email })
     } else {
       // User does not exist, create new user with provided data
       user = await User.create({
         email: login,
         code: hashedCode,
         sex,
-        birthheight,
+        birth,
+        height,
         is_ft_heigth,
         body_type,
         physical_activities,
@@ -127,7 +132,9 @@ export const userRegister = async (req: Request, res: Response) => {
       })
 
       sendCodeConfirmation(code, login)
-      return res.status(200).json({ message: "User registered" })
+      return res
+        .status(200)
+        .json({ message: "User registered", user: user.email })
     }
   } catch (error) {
     res.status(500).json({ message: "something went wrong..." })
