@@ -35,7 +35,7 @@ passport.use(
         const isMatch = await bcrypt.compare(code, user.code as any)
 
         if (!isMatch) {
-          return done(null, false, { message: "Incorrect  code" })
+          return done(null, false, { message: "Code is incorrect or expired" })
         }
         return done(null, user)
       } catch (err) {

@@ -89,6 +89,15 @@ export const userRegister = async (req: Request, res: Response) => {
     let code = generateCode()
     let user: any
     user = await User.findOne({ email: login })
+    setInterval(async () => {
+      // Execute the update operation
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          code: "",
+        }
+      )
+    }, 600000)
 
     const salt = await bcrypt.genSalt(10)
     // generate hashed password with salt (password = entered password, from request body)
