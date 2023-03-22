@@ -41,8 +41,8 @@ passport.use(
       } catch (err) {
         return done(err)
       }
-    }
-  )
+    },
+  ),
 )
 
 passport.use(
@@ -51,22 +51,44 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
+      passReqToCallback: true,
     },
     async (
+      req: any,
       _accessToken: string,
       _refreshToken: string,
       profile: Profile,
-      done: (error: any, user?: any, info?: any) => void
+      done: (error: any, user?: any, info?: any) => void,
     ) => {
       try {
         // Check if user already exists in MongoDB
-        const existingUser = await User.findOne({ googleId: profile.id })
+        console.log(req)
+        let existingUser = await User.findOne({ googleId: profile.id })
         if (existingUser) {
           // User already exists, update their information and return it
-          existingUser.email = profile._json.email
-          const updatedUser = await existingUser.save()
+          existingUser = await User.findOneAndUpdate(
+            { googleId: profile.id },
+            {
+              googleId: profile.id,
+              name: profile.displayName,
+              email: profile._json.email,
+              picture: profile._json.picture,
+              sex: "Camel",
+              birth: "1983/09/08",
+              height: 112383,
+              is_ft_heigth: true,
+              body_type: "111",
+              physical_activities: "11111123",
+              weight: 100,
+              is_ft_weight: true,
+            },
+            {
+              new: true,
+            },
+          )
+
           // User already exists, return it
-          done(null, updatedUser)
+          done(null, existingUser)
         } else {
           // User doesn't exist, create a new user and save to MongoDB
 
@@ -75,6 +97,14 @@ passport.use(
             name: profile.displayName,
             email: profile._json.email,
             picture: profile._json.picture,
+            sex: "yes",
+            birth: "1983/09/08",
+            height: 112383,
+            is_ft_heigth: true,
+            body_type: "111",
+            physical_activities: "11111123",
+            weight: 100,
+            is_ft_weight: true,
           })
 
           done(null, newUser)
@@ -82,6 +112,6 @@ passport.use(
       } catch (error) {
         done(error, null)
       }
-    }
-  )
+    },
+  ),
 )

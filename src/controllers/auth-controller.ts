@@ -21,7 +21,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   passport.authenticate(
     "local",
@@ -49,7 +49,7 @@ export const userLogin = async (
           is_ft_weight: user.is_ft_weight,
         })
       })
-    }
+    },
   )(req, res, next)
 }
 
@@ -102,7 +102,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -125,7 +125,7 @@ export const userRegister = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true }
+        { new: true },
       )
 
       sendCodeConfirmation(code, user.email)
