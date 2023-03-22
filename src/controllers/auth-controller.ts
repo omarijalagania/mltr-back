@@ -38,8 +38,15 @@ export const userLogin = async (
         }
         return res.json({
           _id: user._id,
-          name: user.name,
           email: user.email,
+          sex: user.sex,
+          birth: user.birth,
+          height: user.height,
+          is_ft_heigth: user.is_ft_heigth,
+          body_type: user.body_type,
+          physical_activities: user.physical_activities,
+          weight: user.weight,
+          is_ft_weight: user.is_ft_weight,
         })
       })
     }

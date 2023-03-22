@@ -7,9 +7,16 @@ export interface JwtStrategyOptions {
 
 export type Users = {
   _id?: string
-  name?: string
   email?: string
   googleId?: string
+  sex?: string
+  birth?: string
+  height?: number
+  is_ft_heigth?: boolean
+  body_type?: string
+  physical_activities?: string
+  weight?: number
+  is_ft_weight?: boolean
 }
 
 export type Sessions = {
