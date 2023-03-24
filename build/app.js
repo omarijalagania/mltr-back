@@ -31,7 +31,11 @@ app.use(_bodyParser.default.json());
 app.use((0, _expressSession.default)({
   secret: "your-secret-key",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    httpOnly: true
+  }
 }));
 app.use(_passport.default.initialize());
 app.use(_passport.default.session());
