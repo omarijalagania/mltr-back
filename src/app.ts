@@ -17,7 +17,13 @@ connectDB(false)
 export const app = express()
 
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({ credentials: true, origin: "https://localhost:3000" }))
+app.use(
+  cors({
+    origin: "https://localhost:3000",
+    credentials: true,
+    preflightContinue: true,
+  }),
+)
 app.use(cookieParser())
 app.use(bodyParser.json())
 
