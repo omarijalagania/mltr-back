@@ -57,7 +57,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://mltr-test.onrender.com/auth/google/callback",
+      callbackURL: "/auth/google/callback",
       passReqToCallback: true,
     },
     async (
