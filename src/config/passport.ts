@@ -42,14 +42,14 @@ passport.use(
           { email: login },
           {
             status: "active",
-          }
+          },
         )
         return done(null, user)
       } catch (err) {
         return done(err)
       }
-    }
-  )
+    },
+  ),
 )
 
 passport.use(
@@ -57,7 +57,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL:
+        "http://mltr-test.onrender.com/auth/google/callback/auth/google/callback",
       passReqToCallback: true,
     },
     async (
@@ -65,7 +66,7 @@ passport.use(
       _accessToken: string,
       _refreshToken: string,
       profile: Profile,
-      done: (error: any, user?: any, info?: any) => void
+      done: (error: any, user?: any, info?: any) => void,
     ) => {
       try {
         // Check if user already exists in MongoDB
@@ -91,7 +92,7 @@ passport.use(
             },
             {
               new: true,
-            }
+            },
           )
 
           // User already exists, return it
@@ -119,6 +120,6 @@ passport.use(
       } catch (error) {
         done(error, null)
       }
-    }
-  )
+    },
+  ),
 )
