@@ -26,7 +26,6 @@ app.use(
     secret: "your-secret-key",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, httpOnly: false },
   }),
 )
 
@@ -36,7 +35,7 @@ app.use(passport.session())
 app.use("/auth", authRoute)
 
 app.get("/", async (_, res) => {
-  res.status(200).send("Welcome to Node.js")
+  res.status(200).send("Welcome to Node.js Server")
 })
 
 app.listen(process.env.SERVER_PORT, () =>
