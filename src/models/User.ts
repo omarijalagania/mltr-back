@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema({
   code: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 
   joined: { type: Date, default: Date.now },
 })

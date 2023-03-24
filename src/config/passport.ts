@@ -37,12 +37,19 @@ passport.use(
         if (!isMatch) {
           return done(null, false, { message: "Code is incorrect or expired" })
         }
+        /* Set user status "active" after successfully logged in */
+        await User.findOneAndUpdate(
+          { email: login },
+          {
+            status: "active",
+          }
+        )
         return done(null, user)
       } catch (err) {
         return done(err)
       }
-    },
-  ),
+    }
+  )
 )
 
 passport.use(
@@ -58,7 +65,7 @@ passport.use(
       _accessToken: string,
       _refreshToken: string,
       profile: Profile,
-      done: (error: any, user?: any, info?: any) => void,
+      done: (error: any, user?: any, info?: any) => void
     ) => {
       try {
         // Check if user already exists in MongoDB
@@ -84,7 +91,7 @@ passport.use(
             },
             {
               new: true,
-            },
+            }
           )
 
           // User already exists, return it
@@ -112,6 +119,6 @@ passport.use(
       } catch (error) {
         done(error, null)
       }
-    },
-  ),
+    }
+  )
 )

@@ -21,7 +21,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   passport.authenticate(
     "local",
@@ -47,9 +47,10 @@ export const userLogin = async (
           physical_activities: user.physical_activities,
           weight: user.weight,
           is_ft_weight: user.is_ft_weight,
+          status: user.status,
         })
       })
-    },
+    }
   )(req, res, next)
 }
 
@@ -96,15 +97,22 @@ export const userRegister = async (req: Request, res: Response) => {
     let code = generateCode()
     let user: any
     user = await User.findOne({ email: login })
+    /* Delete verification code, 1 hour after user registered or updated */
     setInterval(async () => {
       // Execute the update operation
       user = await User.findOneAndUpdate(
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
+
+    /* Delete user after one day after inactive status */
+    setInterval(async () => {
+      var query = { status: { $eq: "inactive" } }
+      user = await User.deleteMany(query)
+    }, 86400000)
 
     const salt = await bcrypt.genSalt(10)
     // generate hashed password with salt (password = entered password, from request body)
@@ -124,8 +132,9 @@ export const userRegister = async (req: Request, res: Response) => {
           physical_activities,
           weight,
           is_ft_weight,
+          status: "inactive",
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
@@ -143,6 +152,7 @@ export const userRegister = async (req: Request, res: Response) => {
         physical_activities,
         weight,
         is_ft_weight,
+        status: "inactive",
       })
 
       sendCodeConfirmation(code, login)

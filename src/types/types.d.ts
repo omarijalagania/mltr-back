@@ -17,6 +17,7 @@ export type Users = {
   physical_activities?: string
   weight?: number
   is_ft_weight?: boolean
+  status?: string
 }
 
 export type Sessions = {
