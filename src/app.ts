@@ -26,7 +26,8 @@ app.use(
     secret: "your-secret-key",
     resave: false,
     saveUninitialized: true,
-  })
+    cookie: { secure: true },
+  }),
 )
 
 app.use(passport.initialize())
@@ -40,6 +41,6 @@ app.get("/", async (_, res) => {
 
 app.listen(process.env.SERVER_PORT, () =>
   console.log(
-    `Server is listening at http://localhost:${process.env.SERVER_PORT}`
-  )
+    `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
+  ),
 )
