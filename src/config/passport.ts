@@ -93,7 +93,6 @@ passport.use(
               new: true,
             },
           )
-
           // User already exists, return it
           done(null, existingUser)
         } else {

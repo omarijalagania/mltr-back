@@ -11,7 +11,7 @@ export const googleAuthMiddleware = passport.authenticate("google", {
 })
 
 export const googleFallbackMiddleware = passport.authenticate("google", {
-  successRedirect: "http://localhost:3000/dashboard",
+  successRedirect: "https://localhost:3000/dashboard",
   failureRedirect: "/login/failed",
 })
 
@@ -21,7 +21,7 @@ let session: Sessions
 export const userLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   passport.authenticate(
     "local",
@@ -50,7 +50,7 @@ export const userLogin = async (
           status: user.status,
         })
       })
-    }
+    },
   )(req, res, next)
 }
 
@@ -104,7 +104,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -134,7 +134,7 @@ export const userRegister = async (req: Request, res: Response) => {
           is_ft_weight,
           status: "inactive",
         },
-        { new: true }
+        { new: true },
       )
 
       sendCodeConfirmation(code, user.email)
