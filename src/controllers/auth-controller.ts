@@ -56,7 +56,7 @@ export const userLogin = async (
 export const getUser = async (req: Request, res: Response) => {
   user = req.user
   session = req.session
-  console.log("User REquest", req.user)
+  console.log("User REquest", req)
   console.log("User", user)
   try {
     res.send(req.user)
