@@ -59,7 +59,9 @@ export const getUser = async (req: Request, res: Response) => {
   console.log("User REquest", req)
   console.log("User", user)
   try {
-    res.send(req.user)
+    if (user) {
+      res.send(user)
+    }
   } catch (error: any) {
     console.error(`Error setting session data: ${error.message}`)
     res.status(500).send("Server error")
