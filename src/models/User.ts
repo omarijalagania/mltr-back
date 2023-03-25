@@ -37,6 +37,9 @@ const userSchema = new mongoose.Schema({
   status: {
     type: String,
   },
+  deactivateCode: {
+    type: String,
+  },
 
   joined: { type: Date, default: Date.now },
 })

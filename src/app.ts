@@ -19,7 +19,7 @@ export const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: "https://localhost:3000",
+    origin: "http://localhost:3000",
     credentials: true,
     preflightContinue: true,
   }),
@@ -32,10 +32,6 @@ app.use(
     secret: "your-secret-key",
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      secure: true,
-      httpOnly: true,
-    },
   }),
 )
 

@@ -11,7 +11,7 @@ export const googleAuthMiddleware = passport.authenticate("google", {
 })
 
 export const googleFallbackMiddleware = passport.authenticate("google", {
-  successRedirect: "https://localhost:3000/dashboard",
+  successRedirect: "http://localhost:3000/dashboard",
   failureRedirect: "/login/failed",
 })
 
@@ -159,6 +159,58 @@ export const userRegister = async (req: Request, res: Response) => {
       return res
         .status(200)
         .json({ message: "User registered", user: user.email })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong..." })
+  }
+}
+
+export const deactivateAccount = async (req: Request, res: Response) => {
+  const { login } = req.body
+  let code = generateCode()
+
+  try {
+    let user = await User.findOne({ email: login })
+
+    if (!user) {
+      return res.status(422).json({ message: "user not found" })
+    }
+
+    if (user) {
+      sendCodeConfirmation(code, login)
+      user = await User.findOneAndUpdate(
+        {
+          email: login,
+        },
+        {
+          deactivateCode: code,
+        },
+        {
+          new: true,
+        },
+      )
+      return res.status(200).json({ message: "deactivation code sended" })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong..." })
+  }
+}
+
+export const confirmDeactivationCode = async (req: Request, res: Response) => {
+  const { login, code } = req.body
+
+  try {
+    let user = await User.findOne({ email: login })
+
+    if (!user) {
+      return res.status(422).json({ message: "user not found" })
+    }
+
+    if (user) {
+      if (user.deactivateCode === code) {
+        user = await User.findOneAndDelete({ email: login })
+        return res.status(200).json({ message: "account deactivated" })
+      }
     }
   } catch (error) {
     res.status(500).json({ message: "something went wrong..." })

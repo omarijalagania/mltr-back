@@ -1,5 +1,7 @@
 import express from "express"
 import {
+  confirmDeactivationCode,
+  deactivateAccount,
   getUser,
   googleAuthMiddleware,
   googleFallbackMiddleware,
@@ -22,5 +24,7 @@ router.get("/get-user", getUser)
 
 router.post("/register", userRegister)
 router.post("/login", userLogin)
+router.post("/deactivate-account", deactivateAccount)
+router.post("/confirm-deactivate-account", confirmDeactivationCode)
 
 export default router
