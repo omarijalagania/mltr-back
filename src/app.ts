@@ -16,11 +16,11 @@ export const app = express()
 connectDB(false)
   .then(() => {
     app.use(express.urlencoded({ extended: true }))
-    app.use(cookieParser())
+    app.use(cookieParser("mysecretsdfsdfkljsadflksjflsjkdflkj"))
     app.use(bodyParser.json())
     app.use(
       cors({
-        origin: "https://auth-react.onrender.com",
+        origin: ["https://auth-react.onrender.com", "http://localhost:3000"],
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         optionsSuccessStatus: 200,
