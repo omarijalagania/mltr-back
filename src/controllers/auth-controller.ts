@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import passport from "passport"
 import { User } from "models"
-import { Sessions, Users } from "types"
 import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
@@ -25,7 +24,7 @@ export const userLogin = async (
 ) => {
   passport.authenticate(
     "local",
-    function (err: string, user: Users, info: { message: string | undefined }) {
+    function (err: string, user: any, info: { message: string | undefined }) {
       if (err) {
         return next(err)
       }
@@ -58,6 +57,7 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     user = req.user
     session = req.session
+    console.log(user, session)
     res.send(req.user)
   } catch (error: any) {
     console.error(`Error setting session data: ${error.message}`)
