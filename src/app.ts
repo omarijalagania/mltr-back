@@ -7,9 +7,7 @@ import session from "express-session"
 import cookieParser from "cookie-parser"
 import { connectDB } from "config"
 import passport from "passport"
-
 import "./config/passport"
-
 import authRoute from "./routes"
 import { storeMongo } from "config/mongo"
 
@@ -33,7 +31,6 @@ connectDB(false)
       cors({
         origin: "http://localhost:3000",
         credentials: true,
-        preflightContinue: true,
       }),
     )
     app.use(cookieParser())
