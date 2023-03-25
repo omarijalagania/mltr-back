@@ -19,12 +19,12 @@ connectDB(false)
   .then(() => {
     // Set up session middleware using the storeMongo object
     const sessionConfig = {
-      secret: "mysecret",
+      secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
       resave: false,
       saveUninitialized: false,
       store: storeMongo,
       cookie: {
-        secure: false,
+        secure: true,
       },
     }
     app.use(session(sessionConfig))

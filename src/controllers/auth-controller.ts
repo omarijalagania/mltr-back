@@ -15,8 +15,8 @@ export const googleFallbackMiddleware = passport.authenticate("google", {
   failureRedirect: "/login/failed",
 })
 
-let user: Users | undefined
-let session: Sessions
+let user: any
+let session: any
 
 export const userLogin = async (
   req: Request,
@@ -54,12 +54,15 @@ export const userLogin = async (
   )(req, res, next)
 }
 
-export const getUser = (req: Request, res: Response) => {
-  user = req.user
-  session = req.session
-  res.send(req.user)
-
-  console.log(session)
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    user = req.user
+    session = req.session
+    res.send(req.user)
+  } catch (error: any) {
+    console.error(`Error setting session data: ${error.message}`)
+    res.status(500).send("Server error")
+  }
 }
 
 export const logOut = (req: Request, res: Response, next: NextFunction) => {
