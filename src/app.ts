@@ -42,6 +42,14 @@ connectDB(false)
     app.use(passport.initialize())
     app.use(passport.session())
 
+    app.use((req, res, next) => {
+      res.setHeader(
+        "Strict-Transport-Security",
+        "max-age=31536000; includeSubDomains; preload",
+      )
+      next()
+    })
+
     app.use("/auth", authRoute)
 
     app.get("/", async (_, res) => {
