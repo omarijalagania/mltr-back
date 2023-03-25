@@ -24,7 +24,7 @@ connectDB(false)
       saveUninitialized: false,
       store: storeMongo,
       cookie: {
-        secure: true,
+        secure: false,
       },
     }
     app.use(session(sessionConfig))
