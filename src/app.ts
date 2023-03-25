@@ -15,26 +15,30 @@ export const app = express()
 
 connectDB(false)
   .then(() => {
-    // Set up session middleware using the storeMongo object
-    const sessionConfig = {
-      secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
-      resave: false,
-      saveUninitialized: false,
-      store: storeMongo,
-      cookie: {
-        secure: true,
-      },
-    }
-    app.use(session(sessionConfig))
     app.use(express.urlencoded({ extended: true }))
+    app.use(cookieParser())
+    app.use(bodyParser.json())
     app.use(
       cors({
         origin: "https://auth-react.onrender.com",
         credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        optionsSuccessStatus: 200,
       }),
     )
-    app.use(cookieParser())
-    app.use(bodyParser.json())
+
+    const sessionConfig = {
+      secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
+      resave: false,
+      saveUninitialized: false,
+      proxy: true,
+      store: storeMongo,
+      cookie: {
+        secure: true,
+        httpOnly: true,
+      },
+    }
+    app.use(session(sessionConfig))
 
     app.use(passport.initialize())
     app.use(passport.session())
