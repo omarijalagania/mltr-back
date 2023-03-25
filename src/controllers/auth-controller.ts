@@ -49,14 +49,14 @@ export const userLogin = async (
           status: user.status,
         })
       })
+      user = req.user
+      session = req.session
     },
   )(req, res, next)
 }
 
 export const getUser = async (req: Request, res: Response) => {
   try {
-    user = req.user
-    session = req.session
     console.log(user, session)
     res.send(req.user)
   } catch (error: any) {
