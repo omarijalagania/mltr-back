@@ -36,7 +36,7 @@ connectDB(false)
       proxy: true,
       store: storeMongo,
       cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true,
       },
     }
