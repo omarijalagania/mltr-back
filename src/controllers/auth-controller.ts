@@ -5,17 +5,19 @@ import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 
+let user: any
+let session: any
+
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
 })
 
-export const googleFallbackMiddleware = passport.authenticate("google", {
-  successRedirect: "https://auth-react.onrender.com/dashboard",
-  failureRedirect: "/login/failed",
-})
+export const googleFallbackMiddleware = passport.authenticate("google", {failureRedirect: "/login/failed"}),
+function(req: Request, res: Response) {
+  res.redirect("https://auth-react.onrender.com/dashboard")
+}
 
-let user: any
-let session: any
+
 
 export const userLogin = async (
   req: Request,
