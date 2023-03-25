@@ -5,6 +5,9 @@ import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 
+let user: any
+let session: any
+
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
 })
@@ -51,8 +54,12 @@ export const userLogin = async (
 }
 
 export const getUser = async (req: Request, res: Response) => {
+  user = await req.user
+  session = await req.session
+  console.log("User REquest", req)
+  console.log("User", user)
   try {
-    res.send(req.user)
+    res.send(user)
   } catch (error: any) {
     console.error(`Error setting session data: ${error.message}`)
     res.status(500).send("Server error")
@@ -60,11 +67,21 @@ export const getUser = async (req: Request, res: Response) => {
 }
 
 export const logOut = (req: Request, res: Response, next: NextFunction) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err)
-    }
-  })
+  if (user) {
+    req.logout((err) => {
+      if (err) {
+        return next(err)
+      }
+    })
+    session.destroy((err: string) => {
+      // Destroy the session
+      if (err) {
+        return next(err)
+      }
+      res.clearCookie("connect.sid") // Clear the session cookie
+      res.status(200).send("Logged out successfully.")
+    })
+  }
 }
 
 export const userRegister = async (req: Request, res: Response) => {
