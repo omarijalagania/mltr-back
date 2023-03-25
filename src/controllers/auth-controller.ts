@@ -13,11 +13,9 @@ export const googleAuthMiddleware = passport.authenticate("google", {
 })
 
 export const googleFallbackMiddleware = passport.authenticate("google", {
+  successRedirect: "https://auth-react.onrender.com/dashboard",
   failureRedirect: "/login/failed",
 })
-;(req: Request, res: Response) => {
-  res.redirect("https://auth-react.onrender.com/dashboard")
-}
 
 export const userLogin = async (
   req: Request,

@@ -27,13 +27,10 @@ connectDB(false)
       }),
     )
 
-    //["https://auth-react.onrender.com", "http://localhost:3000"]
-
     const sessionConfig = {
       secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
       resave: false,
       saveUninitialized: false,
-      proxy: true,
       store: storeMongo,
       cookie: {
         secure: true,
