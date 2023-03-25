@@ -24,14 +24,20 @@ passport.use(
     {
       usernameField: "login",
       passwordField: "code",
+      passReqToCallback: true,
     },
-    async function (login, code, done) {
+    async function (_req, login, code, done) {
       try {
         const user = await User.findOne({ email: login })
 
         if (!user) {
           return done(null, false, { message: "User not found" })
         }
+
+        if (!code) {
+          return done(null, user)
+        }
+
         const isMatch = await bcrypt.compare(code, user.code as any)
 
         if (!isMatch) {
