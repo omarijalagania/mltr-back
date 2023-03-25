@@ -126,6 +126,7 @@ export const userRegister = async (req: Request, res: Response) => {
       user = await User.findOneAndUpdate(
         { email: login },
         {
+          email: login,
           code: hashedCode,
           sex,
           birth,
