@@ -35,7 +35,7 @@ connectDB(false)
       cookie: {
         secure: true,
         httpOnly: true,
-        domain: ".auth-react.onrender.com",
+        domain: ".onrender.com",
         sameSite: "none" as const,
       },
     }
