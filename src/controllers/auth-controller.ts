@@ -12,12 +12,12 @@ export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
 })
 
-export const googleFallbackMiddleware = passport.authenticate("google", {failureRedirect: "/login/failed"}),
-function(req: Request, res: Response) {
+export const googleFallbackMiddleware = passport.authenticate("google", {
+  failureRedirect: "/login/failed",
+})
+;(req: Request, res: Response) => {
   res.redirect("https://auth-react.onrender.com/dashboard")
 }
-
-
 
 export const userLogin = async (
   req: Request,
