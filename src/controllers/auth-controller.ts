@@ -38,7 +38,7 @@ export const userLogin = async (
         }
         return res.json({
           _id: user._id,
-          email: user.email,
+          login: user.email,
           sex: user.sex,
           birth: user.birth,
           height: user.height,
