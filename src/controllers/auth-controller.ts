@@ -49,15 +49,16 @@ export const userLogin = async (
           status: user.status,
         })
       })
-      user = req.user
-      session = req.session
     },
   )(req, res, next)
 }
 
 export const getUser = async (req: Request, res: Response) => {
+  user = req.user
+  session = req.session
+  console.log("User REquest", req.user)
+  console.log("User", user)
   try {
-    console.log(user, session)
     res.send(req.user)
   } catch (error: any) {
     console.error(`Error setting session data: ${error.message}`)
