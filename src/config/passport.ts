@@ -75,7 +75,6 @@ passport.use(
     ) => {
       try {
         // Check if user already exists in MongoDB
-
         let existingUser = await User.findOne({ googleId: profile.id })
         if (existingUser) {
           // User already exists, update their information and return it
