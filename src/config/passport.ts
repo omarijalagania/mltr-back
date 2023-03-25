@@ -7,6 +7,18 @@ import { Strategy as LocalStrategy } from "passport-local"
 
 import bcrypt from "bcryptjs"
 
+passport.serializeUser(function (user, cb) {
+  process.nextTick(function () {
+    cb(null, user)
+  })
+})
+
+passport.deserializeUser(function (user: any, cb) {
+  process.nextTick(function () {
+    return cb(null, user)
+  })
+})
+
 passport.use(
   new LocalStrategy(
     {
@@ -115,16 +127,3 @@ passport.use(
     },
   ),
 )
-
-passport.serializeUser(function (user: any, done) {
-  done(null, user._id)
-})
-
-passport.deserializeUser(async function (id, done) {
-  try {
-    const user = await User.findById(id)
-    done(null, user)
-  } catch (err) {
-    done(err)
-  }
-})
