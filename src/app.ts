@@ -11,44 +11,49 @@ import passport from "passport"
 import "./config/passport"
 
 import authRoute from "./routes"
-
-connectDB(false)
+import { storeMongo } from "config/mongo"
 
 export const app = express()
 
-app.use(express.urlencoded({ extended: true }))
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    preflightContinue: true,
-  }),
-)
-app.use(cookieParser())
-app.use(bodyParser.json())
+connectDB(false)
+  .then(() => {
+    // Set up session middleware using the storeMongo object
+    const sessionConfig = {
+      secret: "mysecret",
+      resave: false,
+      saveUninitialized: false,
+      store: storeMongo,
+      cookie: {
+        secure: true,
+      },
+    }
+    app.use(session(sessionConfig))
+    app.use(express.urlencoded({ extended: true }))
+    app.use(
+      cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+        preflightContinue: true,
+      }),
+    )
+    app.use(cookieParser())
+    app.use(bodyParser.json())
 
-app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: true,
-    },
-  }),
-)
+    app.use(passport.initialize())
+    app.use(passport.session())
 
-app.use(passport.initialize())
-app.use(passport.session())
+    app.use("/auth", authRoute)
 
-app.use("/auth", authRoute)
+    app.get("/", async (_, res) => {
+      res.status(200).send("Welcome to Node.js Server")
+    })
 
-app.get("/", async (_, res) => {
-  res.status(200).send("Welcome to Node.js Server")
-})
-
-app.listen(process.env.SERVER_PORT, () =>
-  console.log(
-    `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
-  ),
-)
+    app.listen(process.env.SERVER_PORT, () =>
+      console.log(
+        `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
+      ),
+    )
+  })
+  .catch((error) => {
+    console.error(`Failed to connect to MongoDB: ${error.message}`)
+  })

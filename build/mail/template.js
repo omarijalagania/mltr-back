@@ -1,4 +1,11 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.codeConfirmationTemplate=void 0;const codeConfirmationTemplate=code=>{return`
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.codeConfirmationTemplate = void 0;
+const codeConfirmationTemplate = code => {
+  return `
   <!doctype html>
   <html>
     <head>
@@ -293,4 +300,6 @@
     </body>
   </html>
     
-    `};exports.codeConfirmationTemplate=codeConfirmationTemplate;
+    `;
+};
+exports.codeConfirmationTemplate = codeConfirmationTemplate;
