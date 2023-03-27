@@ -5,9 +5,6 @@ import { generateCode } from "helpers"
 import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 
-let user: any
-let session: any
-
 export const googleAuthMiddleware = passport.authenticate("google", {
   scope: ["profile", "email"],
 })
@@ -17,15 +14,15 @@ export const googleFallbackMiddleware = passport.authenticate("google", {
   failureRedirect: "/login/failed",
 })
 
+let user: any
+let session: any
+
 export const getUser = (req: Request, res: Response) => {
   user = req.user
   session = req.session
-  console.log("User Request", req)
-  console.log("User", user)
+  console.log("User REquest", user)
+  console.log("User", session)
   try {
-    if (!user) {
-      throw new Error("User not found in session")
-    }
     res.send(user)
   } catch (error: any) {
     console.error(`Error setting session data: ${error.message}`)
