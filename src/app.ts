@@ -32,9 +32,6 @@ connectDB(false)
       resave: false,
       saveUninitialized: true,
       store: storeMongo,
-      cookie: {
-        secure: true,
-      },
     }
     app.use(session(sessionConfig))
 
