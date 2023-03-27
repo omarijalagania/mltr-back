@@ -35,8 +35,6 @@ connectDB(false)
       cookie: {
         secure: true,
         httpOnly: true,
-        domain: ".onrender.com",
-        sameSite: "none" as const,
       },
     }
     app.use(session(sessionConfig))
