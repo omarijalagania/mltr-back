@@ -16,7 +16,7 @@ export const app = express()
 connectDB(false)
   .then(() => {
     app.use(express.urlencoded({ extended: true }))
-    app.use(cookieParser("mysecretsdfsdfkljsadflksjflsjkdflkj"))
+    app.use(cookieParser())
     app.use(bodyParser.json())
     app.use(
       cors({
@@ -30,11 +30,10 @@ connectDB(false)
     const sessionConfig = {
       secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       store: storeMongo,
       cookie: {
         secure: true,
-        httpOnly: true,
       },
     }
     app.use(session(sessionConfig))
