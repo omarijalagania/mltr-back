@@ -33,7 +33,7 @@ connectDB(false)
       saveUninitialized: true,
       store: storeMongo,
       cookie: {
-        secure: true,
+        httpOnly: true,
       },
     }
     app.use(session(sessionConfig))
