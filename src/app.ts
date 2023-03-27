@@ -17,6 +17,17 @@ import { storeMongo } from "config/mongo"
 
 export const app = express()
 
+const options = {
+  key: fs.readFileSync("server.key"),
+  cert: fs.readFileSync("server.cert"),
+}
+
+const server = https.createServer(options, (req, res) => {
+  res.statusCode = 200
+  res.setHeader("Content-Type", "text/plain")
+  res.end("Hello, world!\n")
+})
+
 connectDB(false)
   .then(() => {
     app.use(express.urlencoded({ extended: true }))
@@ -50,17 +61,6 @@ connectDB(false)
 
     app.get("/", async (_, res) => {
       res.status(200).send("Welcome to Node.js Server")
-    })
-
-    const options = {
-      key: fs.readFileSync("server.key"),
-      cert: fs.readFileSync("server.cert"),
-    }
-
-    const server = https.createServer(options, (req, res) => {
-      res.statusCode = 200
-      res.setHeader("Content-Type", "text/plain")
-      res.end("Hello, world!\n")
     })
 
     server.listen(process.env.SERVER_PORT, () =>
