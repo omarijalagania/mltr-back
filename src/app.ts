@@ -34,6 +34,7 @@ connectDB(false)
       store: storeMongo,
       cookie: {
         httpOnly: true,
+        secure: true,
       },
     }
     app.use(session(sessionConfig))
