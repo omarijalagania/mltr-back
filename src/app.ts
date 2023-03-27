@@ -1,6 +1,10 @@
 import dotenv from "dotenv"
 dotenv.config()
 import express from "express"
+
+import https from "https"
+import fs from "fs"
+
 import cors from "cors"
 import bodyParser from "body-parser"
 import session from "express-session"
@@ -48,7 +52,18 @@ connectDB(false)
       res.status(200).send("Welcome to Node.js Server")
     })
 
-    app.listen(process.env.SERVER_PORT, () =>
+    const options = {
+      key: fs.readFileSync("server.key"),
+      cert: fs.readFileSync("server.cert"),
+    }
+
+    const server = https.createServer(options, (req, res) => {
+      res.statusCode = 200
+      res.setHeader("Content-Type", "text/plain")
+      res.end("Hello, world!\n")
+    })
+
+    server.listen(process.env.SERVER_PORT, () =>
       console.log(
         `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
       ),
