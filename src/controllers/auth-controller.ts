@@ -53,9 +53,9 @@ export const userLogin = async (
   )(req, res, next)
 }
 
-export const getUser = async (req: Request, res: Response) => {
-  user = await req.user
-  session = await req.session
+export const getUser = (req: Request, res: Response) => {
+  user = req?.user
+  session = req?.session
   console.log("User REquest", req)
   console.log("User", user)
   try {
