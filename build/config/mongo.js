@@ -3,13 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.storeMongo = exports.default = void 0;
+exports.default = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
-var _connectMongo = _interopRequireDefault(require("connect-mongo"));
 var _index = require("./index");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-let storeMongo;
-exports.storeMongo = storeMongo;
 const connectDB = async close => {
   try {
     let connectionUrl;
@@ -23,9 +20,6 @@ const connectDB = async close => {
     if (close) {
       await _mongoose.default.connection.close();
     }
-    exports.storeMongo = storeMongo = _connectMongo.default.create({
-      mongoUrl: connectionUrl
-    });
   } catch (error) {
     throw new Error(error.message);
   }

@@ -1,8 +1,5 @@
 import mongoose from "mongoose"
-import MongoStore from "connect-mongo"
 import { compassMongoConnection, atlasMongoConnection } from "./index"
-
-export let storeMongo: any
 
 const connectDB = async (close: boolean) => {
   try {
@@ -19,10 +16,6 @@ const connectDB = async (close: boolean) => {
     if (close) {
       await mongoose.connection.close()
     }
-
-    storeMongo = MongoStore.create({
-      mongoUrl: connectionUrl,
-    })
   } catch (error: any) {
     throw new Error(error.message)
   }

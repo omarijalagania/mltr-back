@@ -3,86 +3,84 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.logOut = exports.googleFallbackMiddleware = exports.googleAuthMiddleware = exports.getUser = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
-var _passport = _interopRequireDefault(require("passport"));
+exports.userRegister = exports.userLogin = exports.loginWithoutCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const googleAuthMiddleware = _passport.default.authenticate("google", {
-  scope: ["profile", "email"]
-});
-exports.googleAuthMiddleware = googleAuthMiddleware;
-const googleFallbackMiddleware = _passport.default.authenticate("google", {
-  successRedirect: "http://localhost:3000/dashboard",
-  failureRedirect: "/login/failed"
-});
-exports.googleFallbackMiddleware = googleFallbackMiddleware;
-let user;
-let session;
-const getUser = (req, res) => {
-  user = req.user;
-  session = req.session;
-  console.log("User REquest", user);
-  console.log("User", session);
+const loginWithoutCode = async (req, res) => {
+  const {
+    login,
+    sex,
+    birth,
+    height,
+    is_ft_heigth,
+    body_type,
+    physical_activities,
+    weight,
+    is_ft_weight
+  } = req.body;
   try {
-    res.send(user);
+    let user = await _models.User.findOne({
+      email: login
+    });
+    if (user) {
+      var _user, _user2;
+      // User already exists, update user with new data
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        email: login,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      }, {
+        new: true
+      });
+      const token = _jsonwebtoken.default.sign({
+        _id: (_user = user) === null || _user === void 0 ? void 0 : _user._id,
+        name: (_user2 = user) === null || _user2 === void 0 ? void 0 : _user2.email
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User Updated",
+        token
+      });
+    } else {
+      var _user3, _user4;
+      user = await _models.User.create({
+        email: login,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      });
+      const token = _jsonwebtoken.default.sign({
+        _id: (_user3 = user) === null || _user3 === void 0 ? void 0 : _user3._id,
+        name: (_user4 = user) === null || _user4 === void 0 ? void 0 : _user4.email
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User Created",
+        token
+      });
+    }
   } catch (error) {
-    console.error(`Error setting session data: ${error.message}`);
-    res.status(500).send("Server error");
-  }
-};
-exports.getUser = getUser;
-const userLogin = async (req, res, next) => {
-  _passport.default.authenticate("local", function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(401).json({
-        message: info.message
-      });
-    }
-    req.login(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      return res.json({
-        _id: user._id,
-        login: user.email,
-        sex: user.sex,
-        birth: user.birth,
-        height: user.height,
-        is_ft_heigth: user.is_ft_heigth,
-        body_type: user.body_type,
-        physical_activities: user.physical_activities,
-        weight: user.weight,
-        is_ft_weight: user.is_ft_weight,
-        status: user.status
-      });
-    });
-  })(req, res, next);
-};
-exports.userLogin = userLogin;
-const logOut = (req, res, next) => {
-  if (user) {
-    req.logout(err => {
-      if (err) {
-        return next(err);
-      }
-    });
-    session.destroy(err => {
-      // Destroy the session
-      if (err) {
-        return next(err);
-      }
-      res.clearCookie("connect.sid"); // Clear the session cookie
-      res.status(200).send("Logged out successfully.");
+    res.status(500).json({
+      message: "something went wrong..."
     });
   }
 };
-exports.logOut = logOut;
+exports.loginWithoutCode = loginWithoutCode;
 const userRegister = async (req, res) => {
   const {
     login,
@@ -175,6 +173,48 @@ const userRegister = async (req, res) => {
   }
 };
 exports.userRegister = userRegister;
+const userLogin = async (req, res) => {
+  const {
+    login,
+    code
+  } = req.body;
+  try {
+    const user = await _models.User.findOne({
+      email: login
+    });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+    const isMatch = await _bcryptjs.default.compare(code, user.code);
+    if (!isMatch) {
+      return res.status(422).json({
+        message: "Code is incorrect or expired"
+      });
+    }
+
+    /* Set user status "active" after successfully logged in */
+    await _models.User.findOneAndUpdate({
+      email: login
+    }, {
+      status: "active"
+    });
+    const token = _jsonwebtoken.default.sign({
+      _id: user === null || user === void 0 ? void 0 : user._id,
+      name: user === null || user === void 0 ? void 0 : user.email
+    }, process.env.JWT_SECRET);
+    return res.status(201).json({
+      message: "User Created",
+      token
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "something went wrong..."
+    });
+  }
+};
+exports.userLogin = userLogin;
 const deactivateAccount = async (req, res) => {
   const {
     login

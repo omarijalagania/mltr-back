@@ -1,47 +1,18 @@
 import dotenv from "dotenv"
 dotenv.config()
 import express from "express"
-
 import cors from "cors"
 import bodyParser from "body-parser"
-import session from "express-session"
-import cookieParser from "cookie-parser"
 import { connectDB } from "config"
-import passport from "passport"
-import "./config/passport"
 import authRoute from "./routes"
-import { storeMongo } from "config/mongo"
 
 export const app = express()
 
 connectDB(false)
   .then(() => {
     app.use(express.urlencoded({ extended: true }))
-    app.use(cookieParser())
     app.use(bodyParser.json())
-    app.use(
-      cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-        optionsSuccessStatus: 200,
-      }),
-    )
-
-    const sessionConfig = {
-      secret: "mysecretsdfsdfkljsadflksjflsjkdflkj",
-      resave: false,
-      saveUninitialized: true,
-      store: storeMongo,
-      cookie: {
-        httpOnly: true,
-        secure: true,
-      },
-    }
-    app.use(session(sessionConfig))
-
-    app.use(passport.initialize())
-    app.use(passport.session())
+    app.use(cors({}))
 
     app.use("/auth", authRoute)
 

@@ -2,29 +2,27 @@ import express from "express"
 import {
   confirmDeactivationCode,
   deactivateAccount,
-  getUser,
-  googleAuthMiddleware,
-  googleFallbackMiddleware,
-  logOut,
+  loginWithoutCode,
   userLogin,
   userRegister,
 } from "controllers"
+import { authMiddleware } from "middlewares"
 
 const router = express.Router()
 
-// Google auth
-router.get("/google", googleAuthMiddleware)
-router.get("/google/callback", googleFallbackMiddleware)
+//Google - Apple auth route
 
-// log out and user info
-router.post("/logout", logOut)
-router.get("/get-user", getUser)
+router.post("/google-apple-login", loginWithoutCode)
 
 //Email & Password
 
-router.post("/register", userRegister)
 router.post("/login", userLogin)
-router.post("/deactivate-account", deactivateAccount)
-router.post("/confirm-deactivate-account", confirmDeactivationCode)
+router.post("/register", userRegister)
+router.post("/deactivate-account", authMiddleware, deactivateAccount)
+router.post(
+  "/confirm-deactivate-account",
+  authMiddleware,
+  confirmDeactivationCode,
+)
 
 export default router
