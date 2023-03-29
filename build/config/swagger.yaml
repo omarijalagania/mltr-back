@@ -116,3 +116,67 @@ paths:
                   example:
                       message: "User Logged in"
                       token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
+  /auth/deactivate-account:
+    post:
+      summary: Delete account
+      tags:
+        - Deactivate account
+      security:
+        - bearerAuth: []  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+            example:
+              login: "john@gmail.com"
+      responses:
+        '200': 
+          description: Returns message
+          content:
+            application/json:
+              schema: 
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                  example:
+                      message: "Deactivation code sent to email"
+  /auth/confirm-deactivate-account:
+    post:
+      summary: Confirm to delete account
+      tags:
+        - Deactivate account
+      security:
+        - bearerAuth: []  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+                code:
+                  type: string
+                  required: true
+            example:
+              login: "john@gmail.com"
+              code: "asd2w5q"
+      responses:
+        '200': 
+          description: Returns message
+          content:
+            application/json:
+              schema: 
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                  example:
+                      message: "Dccount deactivated"                  

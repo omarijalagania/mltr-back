@@ -76,7 +76,7 @@ const loginWithoutCode = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      message: "something went wrong..."
+      message: "Something went wrong..."
     });
   }
 };
@@ -168,7 +168,7 @@ const userRegister = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      message: "something went wrong..."
+      message: "Something went wrong..."
     });
   }
 };
@@ -210,7 +210,7 @@ const userLogin = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({
-      message: "something went wrong..."
+      message: "Something went wrong..."
     });
   }
 };
@@ -226,7 +226,7 @@ const deactivateAccount = async (req, res) => {
     });
     if (!user) {
       return res.status(422).json({
-        message: "user not found"
+        message: "User not found"
       });
     }
     if (user) {
@@ -239,12 +239,12 @@ const deactivateAccount = async (req, res) => {
         new: true
       });
       return res.status(200).json({
-        message: "deactivation code sended"
+        message: "Deactivation code sent to email"
       });
     }
   } catch (error) {
     res.status(500).json({
-      message: "something went wrong..."
+      message: "Something went wrong..."
     });
   }
 };
@@ -260,7 +260,7 @@ const confirmDeactivationCode = async (req, res) => {
     });
     if (!user) {
       return res.status(422).json({
-        message: "user not found"
+        message: "User not found"
       });
     }
     if (user) {
@@ -269,13 +269,13 @@ const confirmDeactivationCode = async (req, res) => {
           email: login
         });
         return res.status(200).json({
-          message: "account deactivated"
+          message: "Account deactivated"
         });
       }
     }
   } catch (error) {
     res.status(500).json({
-      message: "something went wrong..."
+      message: "Something went wrong..."
     });
   }
 };

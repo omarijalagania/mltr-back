@@ -64,7 +64,7 @@ export const loginWithoutCode = async (req: Request, res: Response) => {
       return res.status(201).json({ message: "User Created", token })
     }
   } catch (error) {
-    res.status(500).json({ message: "something went wrong..." })
+    res.status(500).json({ message: "Something went wrong..." })
   }
 }
 
@@ -127,12 +127,10 @@ export const userRegister = async (req: Request, res: Response) => {
       )
 
       sendCodeConfirmation(code, user.email)
-      return res
-        .status(201)
-        .json({
-          message: "User Updated, confirmation code sent to email",
-          user: user.email,
-        })
+      return res.status(201).json({
+        message: "User Updated, confirmation code sent to email",
+        user: user.email,
+      })
     } else {
       // User does not exist, create new user with provided data
       user = await User.create({
@@ -150,15 +148,13 @@ export const userRegister = async (req: Request, res: Response) => {
       })
 
       sendCodeConfirmation(code, login)
-      return res
-        .status(200)
-        .json({
-          message: "User registered, confirmation code sent to email",
-          user: user.email,
-        })
+      return res.status(200).json({
+        message: "User registered, confirmation code sent to email",
+        user: user.email,
+      })
     }
   } catch (error) {
-    res.status(500).json({ message: "something went wrong..." })
+    res.status(500).json({ message: "Something went wrong..." })
   }
 }
 
@@ -191,7 +187,7 @@ export const userLogin = async (req: Request, res: Response) => {
     )
     return res.status(201).json({ message: "User Logged in", token })
   } catch (err) {
-    res.status(500).json({ message: "something went wrong..." })
+    res.status(500).json({ message: "Something went wrong..." })
   }
 }
 
@@ -203,7 +199,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (!user) {
-      return res.status(422).json({ message: "user not found" })
+      return res.status(422).json({ message: "User not found" })
     }
 
     if (user) {
@@ -219,10 +215,12 @@ export const deactivateAccount = async (req: Request, res: Response) => {
           new: true,
         }
       )
-      return res.status(200).json({ message: "deactivation code sended" })
+      return res
+        .status(200)
+        .json({ message: "Deactivation code sent to email" })
     }
   } catch (error) {
-    res.status(500).json({ message: "something went wrong..." })
+    res.status(500).json({ message: "Something went wrong..." })
   }
 }
 
@@ -233,16 +231,16 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (!user) {
-      return res.status(422).json({ message: "user not found" })
+      return res.status(422).json({ message: "User not found" })
     }
 
     if (user) {
       if (user.deactivateCode === code) {
         user = await User.findOneAndDelete({ email: login })
-        return res.status(200).json({ message: "account deactivated" })
+        return res.status(200).json({ message: "Account deactivated" })
       }
     }
   } catch (error) {
-    res.status(500).json({ message: "something went wrong..." })
+    res.status(500).json({ message: "Something went wrong..." })
   }
 }
