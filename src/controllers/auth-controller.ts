@@ -36,12 +36,12 @@ export const loginWithoutCode = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
 
       return res.status(201).json({ message: "User Updated", token })
@@ -59,7 +59,7 @@ export const loginWithoutCode = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res.status(201).json({ message: "User Created", token })
     }
@@ -92,7 +92,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -123,11 +123,16 @@ export const userRegister = async (req: Request, res: Response) => {
           is_ft_weight,
           status: "inactive",
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
-      return res.status(201).json({ message: "User Updated", user: user.email })
+      return res
+        .status(201)
+        .json({
+          message: "User Updated, confirmation code sent to email",
+          user: user.email,
+        })
     } else {
       // User does not exist, create new user with provided data
       user = await User.create({
@@ -147,7 +152,10 @@ export const userRegister = async (req: Request, res: Response) => {
       sendCodeConfirmation(code, login)
       return res
         .status(200)
-        .json({ message: "User registered", user: user.email })
+        .json({
+          message: "User registered, confirmation code sent to email",
+          user: user.email,
+        })
     }
   } catch (error) {
     res.status(500).json({ message: "something went wrong..." })
@@ -175,13 +183,13 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      },
+      }
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     )
-    return res.status(201).json({ message: "User Created", token })
+    return res.status(201).json({ message: "User Logged in", token })
   } catch (err) {
     res.status(500).json({ message: "something went wrong..." })
   }
@@ -209,7 +217,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        },
+        }
       )
       return res.status(200).json({ message: "deactivation code sended" })
     }

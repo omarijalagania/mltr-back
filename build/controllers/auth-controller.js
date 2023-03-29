@@ -142,7 +142,7 @@ const userRegister = async (req, res) => {
       });
       (0, _mail.sendCodeConfirmation)(code, user.email);
       return res.status(201).json({
-        message: "User Updated",
+        message: "User Updated, confirmation code sent to email",
         user: user.email
       });
     } else {
@@ -162,7 +162,7 @@ const userRegister = async (req, res) => {
       });
       (0, _mail.sendCodeConfirmation)(code, login);
       return res.status(200).json({
-        message: "User registered",
+        message: "User registered, confirmation code sent to email",
         user: user.email
       });
     }
@@ -205,7 +205,7 @@ const userLogin = async (req, res) => {
       name: user === null || user === void 0 ? void 0 : user.email
     }, process.env.JWT_SECRET);
     return res.status(201).json({
-      message: "User Created",
+      message: "User Logged in",
       token
     });
   } catch (err) {
