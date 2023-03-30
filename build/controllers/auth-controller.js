@@ -49,7 +49,7 @@ const loginWithoutCode = async (req, res) => {
         name: (_user2 = user) === null || _user2 === void 0 ? void 0 : _user2.email
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User Updated",
+        message: "User Updated and logged in.",
         token
       });
     } else {
@@ -70,7 +70,7 @@ const loginWithoutCode = async (req, res) => {
         name: (_user4 = user) === null || _user4 === void 0 ? void 0 : _user4.email
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User Created",
+        message: "User Registered and logged in.",
         token
       });
     }

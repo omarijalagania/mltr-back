@@ -44,7 +44,9 @@ export const loginWithoutCode = async (req: Request, res: Response) => {
         process.env.JWT_SECRET
       )
 
-      return res.status(201).json({ message: "User Updated", token })
+      return res
+        .status(201)
+        .json({ message: "User Updated and logged in.", token })
     } else {
       user = await User.create({
         email: login,
@@ -61,7 +63,9 @@ export const loginWithoutCode = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email },
         process.env.JWT_SECRET
       )
-      return res.status(201).json({ message: "User Created", token })
+      return res
+        .status(201)
+        .json({ message: "User Registered and logged in.", token })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })

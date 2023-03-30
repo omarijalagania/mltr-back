@@ -80,7 +80,7 @@ paths:
                       type: string
                   example:
                       message: "User Registered, confirmation code sent to email"
-                      user: "john@gmail.com"
+                      user: "john@gmail.com"               
   /auth/login:
     post:
       summary: Login user with code confirmation
@@ -116,6 +116,69 @@ paths:
                   example:
                       message: "User Logged in"
                       token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
+  /auth/google-apple-login:
+    post:
+      summary: Create new user and login with Google or Apple
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+                sex:
+                  type: string
+                  required: true
+                birth:
+                  type: string
+                  required: true
+                height:
+                  type: number
+                  required: true
+                is_ft_heigth:
+                  type: boolean
+                  required: true
+                body_type:
+                  type: string
+                  required: true
+                physical_activities:
+                  type: string
+                  required: true
+                weight:
+                  type: number
+                  required: true
+                is_ft_weight:
+                  type: boolean
+                  required: true
+            example:
+              login: "john@gmail.com"
+              sex: "male"
+              birth: "1990/01/01"
+              height: 183
+              is_ft_heigth: true
+              body_type: "Athletic"
+              physical_activities: "Swimming"
+              weight: 95
+              is_ft_weight: true
+      responses:
+        '200': 
+          description: Returns message and token
+          content:
+            application/json:
+              schema: 
+                  type: object
+                  properties:                  
+                    message:
+                      type: string
+                    token:
+                      type: string
+                  example:
+                      message: "User Registered and logged in."
+                      token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"                     
   /auth/deactivate-account:
     post:
       summary: Delete account
