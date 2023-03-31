@@ -10,10 +10,21 @@ var _cors = _interopRequireDefault(require("cors"));
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 var _config = require("./config");
 var _routes = _interopRequireDefault(require("./routes"));
+var _yamljs = _interopRequireDefault(require("yamljs"));
+var _swaggerUiExpress = _interopRequireDefault(require("swagger-ui-express"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 _dotenv.default.config();
 const app = (0, _express.default)();
+
+/**
+ * Load swagger document.
+ */
 exports.app = app;
+const swaggerDocument = _yamljs.default.load("./src/config/swagger.yaml");
+/**
+ * Setting up swagger middleware.
+ */
+app.use("/api-docs", _swaggerUiExpress.default.serve, _swaggerUiExpress.default.setup(swaggerDocument));
 (0, _config.connectDB)(false).then(() => {
   app.use(_express.default.urlencoded({
     extended: true

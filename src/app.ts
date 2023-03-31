@@ -5,8 +5,19 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import { connectDB } from "config"
 import authRoute from "./routes"
+import YAML from "yamljs"
+import swaggerUI from "swagger-ui-express"
 
 export const app = express()
+
+/**
+ * Load swagger document.
+ */
+const swaggerDocument = YAML.load("./src/config/swagger.yaml")
+/**
+ * Setting up swagger middleware.
+ */
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 connectDB(false)
   .then(() => {
@@ -22,8 +33,8 @@ connectDB(false)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
-        `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
-      ),
+        `Server is listening at http://localhost:${process.env.SERVER_PORT}`
+      )
     )
   })
   .catch((error) => {
