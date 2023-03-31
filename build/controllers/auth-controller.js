@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.loginWithoutCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.loginWithoutCodeGoogle = exports.loginWithoutCodeApple = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const loginWithoutCode = async (req, res) => {
+const loginWithoutCodeGoogle = async (req, res) => {
   const {
     login,
     sex,
@@ -80,7 +80,83 @@ const loginWithoutCode = async (req, res) => {
     });
   }
 };
-exports.loginWithoutCode = loginWithoutCode;
+exports.loginWithoutCodeGoogle = loginWithoutCodeGoogle;
+const loginWithoutCodeApple = async (req, res) => {
+  const {
+    login,
+    appleToken,
+    sex,
+    birth,
+    height,
+    is_ft_heigth,
+    body_type,
+    physical_activities,
+    weight,
+    is_ft_weight
+  } = req.body;
+  try {
+    let user = await _models.User.findOne({
+      appleToken
+    });
+    if (user) {
+      var _user5, _user6, _user7;
+      // User already exists, update user with new data
+      user = await _models.User.findOneAndUpdate({
+        appleToken
+      }, {
+        email: login,
+        appleToken,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      }, {
+        new: true
+      });
+      const token = _jsonwebtoken.default.sign({
+        _id: (_user5 = user) === null || _user5 === void 0 ? void 0 : _user5._id,
+        name: (_user6 = user) === null || _user6 === void 0 ? void 0 : _user6.email,
+        appleToken: (_user7 = user) === null || _user7 === void 0 ? void 0 : _user7.appleToken
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User Updated and logged in.",
+        token
+      });
+    } else {
+      var _user8, _user9, _user10;
+      user = await _models.User.create({
+        email: login,
+        appleToken,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      });
+      const token = _jsonwebtoken.default.sign({
+        _id: (_user8 = user) === null || _user8 === void 0 ? void 0 : _user8._id,
+        name: (_user9 = user) === null || _user9 === void 0 ? void 0 : _user9.email,
+        appleToken: (_user10 = user) === null || _user10 === void 0 ? void 0 : _user10.appleToken
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User Registered and logged in.",
+        token
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.loginWithoutCodeApple = loginWithoutCodeApple;
 const userRegister = async (req, res) => {
   const {
     login,

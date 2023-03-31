@@ -17,7 +17,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
 paths:
-# User routes
+  # User routes
   /auth/register:
     post:
       summary: Create new user
@@ -67,20 +67,20 @@ paths:
               weight: 95
               is_ft_weight: true
       responses:
-        '200': 
+        "200":
           description: Returns registered user and sends confirmation code to email
           content:
             application/json:
-              schema: 
-                  type: object
-                  properties:                  
-                    message:
-                      type: string
-                    user:
-                      type: string
-                  example:
-                      message: "User Registered, confirmation code sent to email"
-                      user: "john@gmail.com"               
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: string
+                example:
+                  message: "User Registered, confirmation code sent to email"
+                  user: "john@gmail.com"
   /auth/login:
     post:
       summary: Login user with code confirmation
@@ -102,23 +102,23 @@ paths:
               login: "john@gmail.com"
               code: "asda1231xs534"
       responses:
-        '200': 
+        "200":
           description: Returns user token
           content:
             application/json:
-              schema: 
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                    token:
-                      type: string
-                  example:
-                      message: "User Logged in"
-                      token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
-  /auth/google-apple-login:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+                example:
+                  message: "User Logged in"
+                  token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
+  /auth/google-login:
     post:
-      summary: Create new user and login with Google or Apple
+      summary: Create new user and login with Google
       tags:
         - Auth
       requestBody:
@@ -165,27 +165,94 @@ paths:
               weight: 95
               is_ft_weight: true
       responses:
-        '200': 
+        "200":
           description: Returns message and token
           content:
             application/json:
-              schema: 
-                  type: object
-                  properties:                  
-                    message:
-                      type: string
-                    token:
-                      type: string
-                  example:
-                      message: "User Registered and logged in."
-                      token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"                     
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+                example:
+                  message: "User Registered and logged in."
+                  token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
+  /auth/apple-login:
+    post:
+      summary: Create new user and login with Apple
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+                appleToken:
+                  type: string
+                  required: false
+                sex:
+                  type: string
+                  required: true
+                birth:
+                  type: string
+                  required: true
+                height:
+                  type: number
+                  required: true
+                is_ft_heigth:
+                  type: boolean
+                  required: true
+                body_type:
+                  type: string
+                  required: true
+                physical_activities:
+                  type: string
+                  required: true
+                weight:
+                  type: number
+                  required: true
+                is_ft_weight:
+                  type: boolean
+                  required: true
+            example:
+              login: "john@gmail.com"
+              appleToken: "dsjkfhskjhfljkhwhSDFSDFsdfsd"
+              sex: "male"
+              birth: "1990/01/01"
+              height: 183
+              is_ft_heigth: true
+              body_type: "Athletic"
+              physical_activities: "Swimming"
+              weight: 95
+              is_ft_weight: true
+      responses:
+        "200":
+          description: Returns message and token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+                example:
+                  message: "User Registered and logged in."
+                  token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
   /auth/deactivate-account:
     post:
       summary: Delete account
       tags:
         - Deactivate account
       security:
-        - bearerAuth: []  
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -198,24 +265,24 @@ paths:
             example:
               login: "john@gmail.com"
       responses:
-        '200': 
+        "200":
           description: Returns message
           content:
             application/json:
-              schema: 
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                  example:
-                      message: "Deactivation code sent to email"
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Deactivation code sent to email"
   /auth/confirm-deactivate-account:
     post:
       summary: Confirm to delete account
       tags:
         - Deactivate account
       security:
-        - bearerAuth: []  
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -232,14 +299,14 @@ paths:
               login: "john@gmail.com"
               code: "asd2w5q"
       responses:
-        '200': 
+        "200":
           description: Returns message
           content:
             application/json:
-              schema: 
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                  example:
-                      message: "Dccount deactivated"                  
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Dccount deactivated"

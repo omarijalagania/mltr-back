@@ -10,6 +10,9 @@ const userSchema = new _mongoose.default.Schema({
   email: {
     type: String
   },
+  appleToken: {
+    type: String
+  },
   googleId: {
     type: String
   },

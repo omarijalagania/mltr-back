@@ -4,6 +4,9 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
   },
+  appleToken: {
+    type: String,
+  },
   googleId: {
     type: String,
   },
