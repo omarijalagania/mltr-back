@@ -5,7 +5,7 @@ import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
-export const loginWithoutCode = async (req: Request, res: Response) => {
+export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
   const {
     login,
     sex,
