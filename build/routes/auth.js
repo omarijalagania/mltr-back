@@ -21,7 +21,7 @@ router.post("/apple-login", _controllers.loginWithoutCodeApple);
 
 router.post("/login", _controllers.userLogin);
 router.post("/register", _controllers.userRegister);
-router.post("/request-code", _controllers.requestCode);
+router.post("/get-code", _controllers.getConfirmationCode);
 router.post("/deactivate-account", _middlewares.authMiddleware, _controllers.deactivateAccount);
 router.post("/confirm-deactivate-account", _middlewares.authMiddleware, _controllers.confirmDeactivationCode);
 var _default = router;

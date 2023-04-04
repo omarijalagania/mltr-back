@@ -4,7 +4,7 @@ import {
   deactivateAccount,
   loginWithoutCodeApple,
   loginWithoutCodeGoogle,
-  requestCode,
+  getConfirmationCode,
   userLogin,
   userRegister,
 } from "controllers"
@@ -23,7 +23,7 @@ router.post("/apple-login", loginWithoutCodeApple)
 
 router.post("/login", userLogin)
 router.post("/register", userRegister)
-router.post("/request-code", requestCode)
+router.post("/get-code", getConfirmationCode)
 router.post("/deactivate-account", authMiddleware, deactivateAccount)
 router.post(
   "/confirm-deactivate-account",

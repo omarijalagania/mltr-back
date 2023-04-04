@@ -81,6 +81,34 @@ paths:
                 example:
                   message: "User Registered, confirmation code sent to email"
                   user: "john@gmail.com"
+  /auth/get-code:
+    post:
+      summary: Get confirmation code
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+            example:
+              login: "john@gmail.com"
+      responses:
+        "200":
+          description: Sends confirmation code to email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Confirmation code sent to email"                
   /auth/login:
     post:
       summary: Login user with code confirmation

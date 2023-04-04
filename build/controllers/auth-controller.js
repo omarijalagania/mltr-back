@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.requestCode = exports.loginWithoutCodeGoogle = exports.loginWithoutCodeApple = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.loginWithoutCodeGoogle = exports.loginWithoutCodeApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -249,7 +249,7 @@ const userRegister = async (req, res) => {
   }
 };
 exports.userRegister = userRegister;
-const requestCode = async (req, res) => {
+const getConfirmationCode = async (req, res) => {
   const {
     login
   } = req.body;
@@ -309,7 +309,7 @@ const requestCode = async (req, res) => {
     });
   }
 };
-exports.requestCode = requestCode;
+exports.getConfirmationCode = getConfirmationCode;
 const userLogin = async (req, res) => {
   const {
     login,

@@ -232,7 +232,7 @@ export const userRegister = async (req: Request, res: Response) => {
   }
 }
 
-export const requestCode = async (req: Request, res: Response) => {
+export const getConfirmationCode = async (req: Request, res: Response) => {
   const { login } = req.body
 
   try {
