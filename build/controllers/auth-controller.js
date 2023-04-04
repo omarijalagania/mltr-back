@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.loginWithoutCodeGoogle = exports.loginWithoutCodeApple = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.requestCode = exports.loginWithoutCodeGoogle = exports.loginWithoutCodeApple = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -249,6 +249,67 @@ const userRegister = async (req, res) => {
   }
 };
 exports.userRegister = userRegister;
+const requestCode = async (req, res) => {
+  const {
+    login
+  } = req.body;
+  try {
+    let code = (0, _helpers.generateCode)();
+    let user;
+    user = await _models.User.findOne({
+      email: login
+    });
+    /* Delete verification code, 1 hour after user registered or updated */
+    setInterval(async () => {
+      // Execute the update operation
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        code: ""
+      });
+    }, 600000);
+
+    /* Delete user after one day after inactive status */
+    setInterval(async () => {
+      var query = {
+        status: {
+          $eq: "inactive"
+        }
+      };
+      user = await _models.User.deleteMany(query);
+    }, 86400000);
+    const salt = await _bcryptjs.default.genSalt(10);
+    // generate hashed password with salt (password = entered password, from request body)
+    const hashedCode = await _bcryptjs.default.hash(code, salt);
+    if (user) {
+      // User already exists, update user with new data
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        email: login,
+        code: hashedCode,
+        status: "inactive"
+      }, {
+        new: true
+      });
+      (0, _mail.sendCodeConfirmation)(code, user.email);
+      return res.status(201).json({
+        message: "Confirmation code sent to email.",
+        user: user.email
+      });
+    } else {
+      // User does not exist, send message
+      return res.status(200).json({
+        message: "No user found, please register."
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.requestCode = requestCode;
 const userLogin = async (req, res) => {
   const {
     login,

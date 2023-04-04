@@ -36,12 +36,12 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
 
       return res
@@ -61,7 +61,7 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res
         .status(201)
@@ -105,12 +105,12 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
 
       return res
@@ -131,7 +131,7 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res
         .status(201)
@@ -166,7 +166,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -197,7 +197,7 @@ export const userRegister = async (req: Request, res: Response) => {
           is_ft_weight,
           status: "inactive",
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
@@ -232,6 +232,62 @@ export const userRegister = async (req: Request, res: Response) => {
   }
 }
 
+export const requestCode = async (req: Request, res: Response) => {
+  const { login } = req.body
+
+  try {
+    let code = generateCode()
+    let user: any
+    user = await User.findOne({ email: login })
+    /* Delete verification code, 1 hour after user registered or updated */
+    setInterval(async () => {
+      // Execute the update operation
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          code: "",
+        }
+      )
+    }, 600000)
+
+    /* Delete user after one day after inactive status */
+    setInterval(async () => {
+      var query = { status: { $eq: "inactive" } }
+      user = await User.deleteMany(query)
+    }, 86400000)
+
+    const salt = await bcrypt.genSalt(10)
+    // generate hashed password with salt (password = entered password, from request body)
+    const hashedCode = await bcrypt.hash(code, salt)
+
+    if (user) {
+      // User already exists, update user with new data
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          email: login,
+          code: hashedCode,
+          status: "inactive",
+        },
+        { new: true }
+      )
+
+      sendCodeConfirmation(code, user.email)
+      return res.status(201).json({
+        message: "Confirmation code sent to email.",
+        user: user.email,
+      })
+    } else {
+      // User does not exist, send message
+      return res.status(200).json({
+        message: "No user found, please register.",
+      })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
 export const userLogin = async (req: Request, res: Response) => {
   const { login, code } = req.body
 
@@ -253,11 +309,11 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      },
+      }
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     )
     return res.status(201).json({ message: "User Logged in", token })
   } catch (err) {
@@ -287,7 +343,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        },
+        }
       )
       return res
         .status(200)
