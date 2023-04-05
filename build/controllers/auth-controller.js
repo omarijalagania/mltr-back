@@ -71,7 +71,17 @@ const loginWithoutCodeGoogle = async (req, res) => {
       }, process.env.JWT_SECRET);
       return res.status(201).json({
         message: "User Registered and logged in.",
-        token
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight
       });
     }
   } catch (error) {
@@ -147,7 +157,17 @@ const loginWithoutCodeApple = async (req, res) => {
       }, process.env.JWT_SECRET);
       return res.status(201).json({
         message: "User Registered and logged in.",
-        token
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight
       });
     }
   } catch (error) {
@@ -343,7 +363,17 @@ const userLogin = async (req, res) => {
     }, process.env.JWT_SECRET);
     return res.status(201).json({
       message: "User Logged in",
-      token
+      token,
+      _id: user._id,
+      email: user.email,
+      sex: user.sex,
+      birth: user.birth,
+      height: user.height,
+      is_ft_heigth: user.is_ft_heigth,
+      body_type: user.body_type,
+      physical_activities: user.physical_activities,
+      weight: user.weight,
+      is_ft_weight: user.is_ft_weight
     });
   } catch (err) {
     res.status(500).json({

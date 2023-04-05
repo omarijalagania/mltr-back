@@ -63,9 +63,20 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email },
         process.env.JWT_SECRET
       )
-      return res
-        .status(201)
-        .json({ message: "User Registered and logged in.", token })
+      return res.status(201).json({
+        message: "User Registered and logged in.",
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight,
+      })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -133,9 +144,20 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
         process.env.JWT_SECRET
       )
-      return res
-        .status(201)
-        .json({ message: "User Registered and logged in.", token })
+      return res.status(201).json({
+        message: "User Registered and logged in.",
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight,
+      })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -315,7 +337,21 @@ export const userLogin = async (req: Request, res: Response) => {
       { _id: user?._id, name: user?.email },
       process.env.JWT_SECRET
     )
-    return res.status(201).json({ message: "User Logged in", token })
+
+    return res.status(201).json({
+      message: "User Logged in",
+      token,
+      _id: user._id,
+      email: user.email,
+      sex: user.sex,
+      birth: user.birth,
+      height: user.height,
+      is_ft_heigth: user.is_ft_heigth,
+      body_type: user.body_type,
+      physical_activities: user.physical_activities,
+      weight: user.weight,
+      is_ft_weight: user.is_ft_weight,
+    })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })
   }
