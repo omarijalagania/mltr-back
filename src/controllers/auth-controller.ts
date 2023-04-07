@@ -301,7 +301,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
       })
     } else {
       // User does not exist, send message
-      return res.status(200).json({
+      return res.status(404).json({
         message: "No user found, please register.",
       })
     }
@@ -365,7 +365,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (!user) {
-      return res.status(422).json({ message: "User not found" })
+      return res.status(404).json({ message: "User not found" })
     }
 
     if (user) {
@@ -397,7 +397,7 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (!user) {
-      return res.status(422).json({ message: "User not found" })
+      return res.status(404).json({ message: "User not found" })
     }
 
     if (user) {

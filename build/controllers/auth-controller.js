@@ -319,7 +319,7 @@ const getConfirmationCode = async (req, res) => {
       });
     } else {
       // User does not exist, send message
-      return res.status(200).json({
+      return res.status(404).json({
         message: "No user found, please register."
       });
     }
@@ -392,7 +392,7 @@ const deactivateAccount = async (req, res) => {
       email: login
     });
     if (!user) {
-      return res.status(422).json({
+      return res.status(404).json({
         message: "User not found"
       });
     }
@@ -426,7 +426,7 @@ const confirmDeactivationCode = async (req, res) => {
       email: login
     });
     if (!user) {
-      return res.status(422).json({
+      return res.status(404).json({
         message: "User not found"
       });
     }
