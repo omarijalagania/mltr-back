@@ -219,27 +219,11 @@ const userRegister = async (req, res) => {
     const hashedCode = await _bcryptjs.default.hash(code, salt);
     if (user) {
       // User already exists, update user with new data
-      user = await _models.User.findOneAndUpdate({
+      user = await _models.User.findOne({
         email: login
-      }, {
-        email: login,
-        code: hashedCode,
-        sex,
-        birth,
-        height,
-        is_ft_heigth,
-        body_type,
-        physical_activities,
-        weight,
-        is_ft_weight,
-        status: "inactive"
-      }, {
-        new: true
       });
-      (0, _mail.sendCodeConfirmation)(code, user.email);
-      return res.status(201).json({
-        message: "User Updated, confirmation code sent to email",
-        user: user.email
+      return res.status(422).json({
+        message: "User with this email already exists"
       });
     } else {
       // User does not exist, create new user with provided data
