@@ -5,7 +5,7 @@ import { sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
-export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
+export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
     sex,
@@ -23,30 +23,9 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
 
     if (user) {
       // User already exists, update user with new data
-      user = await User.findOneAndUpdate(
-        { email: login },
-        {
-          email: login,
-          sex,
-          birth,
-          height,
-          is_ft_heigth,
-          body_type,
-          physical_activities,
-          weight,
-          is_ft_weight,
-        },
-        { new: true },
-      )
-
-      const token = jwt.sign(
-        { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
-      )
-
-      return res
-        .status(201)
-        .json({ message: "User Updated and logged in.", token })
+      return res.status(422).json({
+        message: "User with this email already exists",
+      })
     } else {
       user = await User.create({
         email: login,
@@ -59,13 +38,13 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
         weight,
         is_ft_weight,
       })
-      const token = jwt.sign(
+      /*     const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
-      )
+        process.env.JWT_SECRET
+      ) */
       return res.status(201).json({
-        message: "User Registered and logged in.",
-        token,
+        message: "User Registered.",
+        /*   token,
         _id: user._id,
         email: user.email,
         sex: user.sex,
@@ -75,7 +54,7 @@ export const loginWithoutCodeGoogle = async (req: Request, res: Response) => {
         body_type: user.body_type,
         physical_activities: user.physical_activities,
         weight: user.weight,
-        is_ft_weight: user.is_ft_weight,
+        is_ft_weight: user.is_ft_weight, */
       })
     }
   } catch (error) {
@@ -116,12 +95,12 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
 
       return res
@@ -142,7 +121,7 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res.status(201).json({
         message: "User Registered and logged in.",
@@ -188,7 +167,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -249,7 +228,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -272,7 +251,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
           code: hashedCode,
           status: "inactive",
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
@@ -312,11 +291,11 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      },
+      }
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     )
 
     return res.status(201).json({
@@ -360,7 +339,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        },
+        }
       )
       return res
         .status(200)

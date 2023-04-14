@@ -3,17 +3,17 @@ import {
   confirmDeactivationCode,
   deactivateAccount,
   loginWithoutCodeApple,
-  loginWithoutCodeGoogle,
   getConfirmationCode,
   userLogin,
   userRegister,
+  registerWithGoogle,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
 const router = express.Router()
 
 //Google - auth route
-router.post("/google-login", loginWithoutCodeGoogle)
+router.post("/google-register", registerWithGoogle)
 
 //Apple - auth route
 

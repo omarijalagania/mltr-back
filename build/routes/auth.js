@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const router = _express.default.Router();
 
 //Google - auth route
-router.post("/google-login", _controllers.loginWithoutCodeGoogle);
+router.post("/google-register", _controllers.registerWithGoogle);
 
 //Apple - auth route
 
