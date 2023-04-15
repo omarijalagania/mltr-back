@@ -38,13 +38,13 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         weight,
         is_ft_weight,
       })
-      /*     const token = jwt.sign(
+      const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET
-      ) */
+        process.env.JWT_SECRET,
+      )
       return res.status(201).json({
         message: "User Registered.",
-        /*   token,
+        token,
         _id: user._id,
         email: user.email,
         sex: user.sex,
@@ -54,7 +54,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         body_type: user.body_type,
         physical_activities: user.physical_activities,
         weight: user.weight,
-        is_ft_weight: user.is_ft_weight, */
+        is_ft_weight: user.is_ft_weight,
       })
     }
   } catch (error) {
