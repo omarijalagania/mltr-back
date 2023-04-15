@@ -62,7 +62,42 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
   }
 }
 
-export const loginWithoutCodeApple = async (req: Request, res: Response) => {
+export const loginWithGoogle = async (req: Request, res: Response) => {
+  const { login } = req.body
+
+  try {
+    let user = await User.findOne({ email: login })
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      })
+    }
+
+    const token = jwt.sign(
+      { _id: user?._id, name: user?.email },
+      process.env.JWT_SECRET,
+    )
+
+    return res.status(200).json({
+      token,
+      _id: user._id,
+      email: user.email,
+      sex: user.sex,
+      birth: user.birth,
+      height: user.height,
+      is_ft_heigth: user.is_ft_heigth,
+      body_type: user.body_type,
+      physical_activities: user.physical_activities,
+      weight: user.weight,
+      is_ft_weight: user.is_ft_weight,
+    })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const registerWithApple = async (req: Request, res: Response) => {
   const {
     login,
     appleToken,
@@ -95,12 +130,12 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true }
+        { new: true },
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
 
       return res
@@ -121,7 +156,7 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
       return res.status(201).json({
         message: "User Registered and logged in.",
@@ -137,6 +172,39 @@ export const loginWithoutCodeApple = async (req: Request, res: Response) => {
         weight: user.weight,
         is_ft_weight: user.is_ft_weight,
       })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const loginWithApple = async (req: Request, res: Response) => {
+  const { appleToken } = req.body
+
+  try {
+    let user = await User.findOne({ appleToken })
+
+    if (user) {
+      const token = jwt.sign(
+        { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
+        process.env.JWT_SECRET,
+      )
+      return res
+        .status(201)
+        .json({
+          message: "User logged in.",
+          token,
+          _id: user._id,
+          email: user.email,
+          sex: user.sex,
+          birth: user.birth,
+          height: user.height,
+          is_ft_heigth: user.is_ft_heigth,
+          body_type: user.body_type,
+          physical_activities: user.physical_activities,
+          weight: user.weight,
+          is_ft_weight: user.is_ft_weight,
+        })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -167,7 +235,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -228,7 +296,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -251,7 +319,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
           code: hashedCode,
           status: "inactive",
         },
-        { new: true }
+        { new: true },
       )
 
       sendCodeConfirmation(code, user.email)
@@ -291,11 +359,11 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      }
+      },
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
     )
 
     return res.status(201).json({
@@ -339,7 +407,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        }
+        },
       )
       return res
         .status(200)

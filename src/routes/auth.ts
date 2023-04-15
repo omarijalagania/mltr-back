@@ -2,11 +2,13 @@ import express from "express"
 import {
   confirmDeactivationCode,
   deactivateAccount,
-  loginWithoutCodeApple,
+  registerWithApple,
   getConfirmationCode,
   userLogin,
   userRegister,
   registerWithGoogle,
+  loginWithGoogle,
+  loginWithApple,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -14,10 +16,12 @@ const router = express.Router()
 
 //Google - auth route
 router.post("/google-register", registerWithGoogle)
+router.post("/google-login", loginWithGoogle)
 
 //Apple - auth route
 
-router.post("/apple-login", loginWithoutCodeApple)
+router.post("/apple-register", registerWithApple)
+router.post("/apple-login", loginWithApple)
 
 //Email & Password
 
@@ -28,7 +32,7 @@ router.post("/deactivate-account", authMiddleware, deactivateAccount)
 router.post(
   "/confirm-deactivate-account",
   authMiddleware,
-  confirmDeactivationCode
+  confirmDeactivationCode,
 )
 
 export default router

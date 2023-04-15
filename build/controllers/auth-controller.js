@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.registerWithGoogle = exports.loginWithoutCodeApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -69,7 +69,44 @@ const registerWithGoogle = async (req, res) => {
   }
 };
 exports.registerWithGoogle = registerWithGoogle;
-const loginWithoutCodeApple = async (req, res) => {
+const loginWithGoogle = async (req, res) => {
+  const {
+    login
+  } = req.body;
+  try {
+    let user = await _models.User.findOne({
+      email: login
+    });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+    const token = _jsonwebtoken.default.sign({
+      _id: user === null || user === void 0 ? void 0 : user._id,
+      name: user === null || user === void 0 ? void 0 : user.email
+    }, process.env.JWT_SECRET);
+    return res.status(200).json({
+      token,
+      _id: user._id,
+      email: user.email,
+      sex: user.sex,
+      birth: user.birth,
+      height: user.height,
+      is_ft_heigth: user.is_ft_heigth,
+      body_type: user.body_type,
+      physical_activities: user.physical_activities,
+      weight: user.weight,
+      is_ft_weight: user.is_ft_weight
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.loginWithGoogle = loginWithGoogle;
+const registerWithApple = async (req, res) => {
   const {
     login,
     appleToken,
@@ -154,7 +191,43 @@ const loginWithoutCodeApple = async (req, res) => {
     });
   }
 };
-exports.loginWithoutCodeApple = loginWithoutCodeApple;
+exports.registerWithApple = registerWithApple;
+const loginWithApple = async (req, res) => {
+  const {
+    appleToken
+  } = req.body;
+  try {
+    let user = await _models.User.findOne({
+      appleToken
+    });
+    if (user) {
+      const token = _jsonwebtoken.default.sign({
+        _id: user === null || user === void 0 ? void 0 : user._id,
+        name: user === null || user === void 0 ? void 0 : user.email,
+        appleToken: user === null || user === void 0 ? void 0 : user.appleToken
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User logged in.",
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.loginWithApple = loginWithApple;
 const userRegister = async (req, res) => {
   const {
     login,

@@ -12,10 +12,12 @@ const router = _express.default.Router();
 
 //Google - auth route
 router.post("/google-register", _controllers.registerWithGoogle);
+router.post("/google-login", _controllers.loginWithGoogle);
 
 //Apple - auth route
 
-router.post("/apple-login", _controllers.loginWithoutCodeApple);
+router.post("/apple-register", _controllers.registerWithApple);
+router.post("/apple-login", _controllers.loginWithApple);
 
 //Email & Password
 
