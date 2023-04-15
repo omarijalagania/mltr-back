@@ -189,22 +189,23 @@ export const loginWithApple = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
         process.env.JWT_SECRET,
       )
-      return res
-        .status(201)
-        .json({
-          message: "User logged in.",
-          token,
-          _id: user._id,
-          email: user.email,
-          sex: user.sex,
-          birth: user.birth,
-          height: user.height,
-          is_ft_heigth: user.is_ft_heigth,
-          body_type: user.body_type,
-          physical_activities: user.physical_activities,
-          weight: user.weight,
-          is_ft_weight: user.is_ft_weight,
-        })
+      return res.status(201).json({
+        message: "User logged in.",
+        token,
+        _id: user._id,
+        email: user.email,
+        sex: user.sex,
+        birth: user.birth,
+        height: user.height,
+        is_ft_heigth: user.is_ft_heigth,
+        body_type: user.body_type,
+        physical_activities: user.physical_activities,
+        weight: user.weight,
+        is_ft_weight: user.is_ft_weight,
+      })
+    }
+    if (!user) {
+      res.status(404).json({ message: "User not found" })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
