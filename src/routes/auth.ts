@@ -9,6 +9,7 @@ import {
   registerWithGoogle,
   loginWithGoogle,
   loginWithApple,
+  updateUser,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -32,7 +33,8 @@ router.post("/deactivate-account", authMiddleware, deactivateAccount)
 router.post(
   "/confirm-deactivate-account",
   authMiddleware,
-  confirmDeactivationCode,
+  confirmDeactivationCode
 )
+router.post("/update-user", authMiddleware, updateUser)
 
 export default router

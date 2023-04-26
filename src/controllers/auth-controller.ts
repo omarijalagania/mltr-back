@@ -40,7 +40,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res.status(201).json({
         message: "User Registered.",
@@ -76,7 +76,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     )
 
     return res.status(200).json({
@@ -130,12 +130,12 @@ export const registerWithApple = async (req: Request, res: Response) => {
           weight,
           is_ft_weight,
         },
-        { new: true },
+        { new: true }
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
 
       return res
@@ -156,7 +156,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res.status(201).json({
         message: "User Registered and logged in.",
@@ -187,7 +187,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
     if (user) {
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       )
       return res.status(201).json({
         message: "User logged in.",
@@ -236,7 +236,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -297,7 +297,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        },
+        }
       )
     }, 600000)
 
@@ -320,7 +320,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
           code: hashedCode,
           status: "inactive",
         },
-        { new: true },
+        { new: true }
       )
 
       sendCodeConfirmation(code, user.email)
@@ -360,11 +360,11 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      },
+      }
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET
     )
 
     return res.status(201).json({
@@ -408,7 +408,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        },
+        }
       )
       return res
         .status(200)
@@ -434,6 +434,61 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
         user = await User.findOneAndDelete({ email: login })
         return res.status(200).json({ message: "Account deactivated" })
       }
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const updateUser = async (req: Request, res: Response) => {
+  const {
+    login,
+    sex,
+    birth,
+    height,
+    is_ft_heigth,
+    body_type,
+    physical_activities,
+    weight,
+    is_ft_weight,
+  } = req.body
+
+  try {
+    let user = await User.findOne({ email: login })
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." })
+    } else {
+      // If User already exists, update user with new data
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          email: login,
+          sex,
+          birth,
+          height,
+          is_ft_heigth,
+          body_type,
+          physical_activities,
+          weight,
+          is_ft_weight,
+        },
+        { new: true }
+      )
+
+      return res
+        .status(201)
+        .json({
+          message: "User Updated.",
+          sex,
+          birth,
+          height,
+          is_ft_heigth,
+          body_type,
+          physical_activities,
+          weight,
+          is_ft_weight,
+        })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })

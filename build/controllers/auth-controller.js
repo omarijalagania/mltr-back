@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.updateUser = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -488,3 +488,59 @@ const confirmDeactivationCode = async (req, res) => {
   }
 };
 exports.confirmDeactivationCode = confirmDeactivationCode;
+const updateUser = async (req, res) => {
+  const {
+    login,
+    sex,
+    birth,
+    height,
+    is_ft_heigth,
+    body_type,
+    physical_activities,
+    weight,
+    is_ft_weight
+  } = req.body;
+  try {
+    let user = await _models.User.findOne({
+      email: login
+    });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found."
+      });
+    } else {
+      // If User already exists, update user with new data
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        email: login,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      }, {
+        new: true
+      });
+      return res.status(201).json({
+        message: "User Updated.",
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.updateUser = updateUser;
