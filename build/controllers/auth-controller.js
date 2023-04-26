@@ -527,6 +527,7 @@ const updateUser = async (req, res) => {
       });
       return res.status(201).json({
         message: "User Updated.",
+        email: login,
         sex,
         birth,
         height,

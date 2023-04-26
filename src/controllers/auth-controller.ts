@@ -476,19 +476,18 @@ export const updateUser = async (req: Request, res: Response) => {
         { new: true }
       )
 
-      return res
-        .status(201)
-        .json({
-          message: "User Updated.",
-          sex,
-          birth,
-          height,
-          is_ft_heigth,
-          body_type,
-          physical_activities,
-          weight,
-          is_ft_weight,
-        })
+      return res.status(201).json({
+        message: "User Updated.",
+        email: login,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight,
+      })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
