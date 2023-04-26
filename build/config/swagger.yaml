@@ -107,8 +107,11 @@ paths:
                 properties:
                   message:
                     type: string
+                  user:
+                    type: string
                 example:
                   message: "Confirmation code sent to email"
+                  user: "john@gmail.com"
   /auth/login:
     post:
       summary: Login user with code confirmation
@@ -131,7 +134,7 @@ paths:
               code: "asda1231xs534"
       responses:
         "200":
-          description: Returns user token
+          description: Returns message and user information
           content:
             application/json:
               schema:
@@ -141,9 +144,39 @@ paths:
                     type: string
                   token:
                     type: string
+                  _id:
+                    type: string  
+                  email:
+                    type: string  
+                  sex:
+                    type: string
+                  birth:
+                    type: string                  
+                  height:
+                    type: number                    
+                  is_ft_heigth:
+                    type: boolean                    
+                  body_type:
+                    type: string                    
+                  physical_activities:
+                    type: string                    
+                  weight:
+                    type: number                    
+                  is_ft_weight:
+                    type: boolean                    
                 example:
                   message: "User Logged in"
                   token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
+                  _id: "644902722f47001d32e7f02v"
+                  email: "john@gmail.com"
+                  sex: "male"
+                  birth: "1990/01/01"
+                  height: 183
+                  is_ft_heigth: true
+                  body_type: "Athletic"
+                  physical_activities: "Swimming"
+                  weight: 95
+                  is_ft_weight: true 
   /auth/google-login:
     post:
       summary: Login with Google
