@@ -35,6 +35,6 @@ router.post(
   authMiddleware,
   confirmDeactivationCode
 )
-router.post("/update-user", authMiddleware, updateUser)
+router.patch("/update-user", authMiddleware, updateUser)
 
 export default router

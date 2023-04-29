@@ -399,7 +399,7 @@ paths:
                   message: "User Registered and logged in."
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
   /auth/update-user:
-    post:
+    patch:
       summary: Update user information
       tags:
         - User
