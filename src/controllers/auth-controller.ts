@@ -384,6 +384,7 @@ export const userLogin = async (req: Request, res: Response) => {
       token,
       _id: user._id,
       email: user.email,
+      username: user.username,
       sex: user.sex,
       birth: user.birth,
       height: user.height,
@@ -392,6 +393,11 @@ export const userLogin = async (req: Request, res: Response) => {
       physical_activities: user.physical_activities,
       weight: user.weight,
       is_ft_weight: user.is_ft_weight,
+      protein: user.protein,
+      calories: user.calories,
+      carbs: user.carbs,
+      fat: user.fat,
+      customGoal: user.customGoal,
     })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })

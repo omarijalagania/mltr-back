@@ -137,6 +137,7 @@ paths:
                 example:
                   message: "Confirmation code sent to email"
                   user: "john@gmail.com"
+  # User login
   /auth/login:
     post:
       summary: Login user with code confirmation
@@ -173,6 +174,8 @@ paths:
                     type: string  
                   email:
                     type: string  
+                  username:
+                    type: string  
                   sex:
                     type: string
                   birth:
@@ -188,12 +191,28 @@ paths:
                   weight:
                     type: number                    
                   is_ft_weight:
-                    type: boolean                    
+                    type: boolean   
+                  protein:
+                    type: number
+                    required: true
+                  calories:
+                    type: number
+                    required: true
+                  carbs:
+                    type: number
+                    required: true
+                  fat:
+                    type: number
+                    required: true
+                  customGoal:
+                    type: boolean
+                    required: true                   
                 example:
                   message: "User Logged in"
                   token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
                   _id: "644902722f47001d32e7f02v"
                   email: "john@gmail.com"
+                  username: "John"
                   sex: "male"
                   birth: "1990/01/01"
                   height: 183
@@ -201,7 +220,12 @@ paths:
                   body_type: "Athletic"
                   physical_activities: "Swimming"
                   weight: 95
-                  is_ft_weight: true 
+                  is_ft_weight: true
+                  protein: 200
+                  calories: 2000
+                  carbs: 800
+                  customGoal: true
+                  
   /auth/google-login:
     post:
       summary: Login with Google
