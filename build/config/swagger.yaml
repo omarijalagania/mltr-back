@@ -18,6 +18,7 @@ components:
       bearerFormat: JWT
 paths:
   # User routes
+  # Register user
   /auth/register:
     post:
       summary: Create new user
@@ -30,6 +31,9 @@ paths:
               type: object
               properties:
                 login:
+                  type: string
+                  required: true
+                username:
                   type: string
                   required: true
                 sex:
@@ -56,8 +60,24 @@ paths:
                 is_ft_weight:
                   type: boolean
                   required: true
+                protein:
+                  type: number
+                  required: true
+                calories:
+                  type: number
+                  required: true
+                carbs:
+                  type: number
+                  required: true
+                fat:
+                  type: number
+                  required: true
+                customGoal:
+                  type: boolean
+                  required: true
             example:
               login: "john@gmail.com"
+              username: "john"              
               sex: "male"
               birth: "1990/01/01"
               height: 183
@@ -66,6 +86,10 @@ paths:
               physical_activities: "Swimming"
               weight: 95
               is_ft_weight: true
+              protein: 200
+              calories: 2000
+              carbs: 800
+              customGoal: true
       responses:
         "200":
           description: Returns registered user and sends confirmation code to email
@@ -81,6 +105,7 @@ paths:
                 example:
                   message: "User Registered, confirmation code sent to email"
                   user: "john@gmail.com"
+  # Get Confirmation code                
   /auth/get-code:
     post:
       summary: Get confirmation code

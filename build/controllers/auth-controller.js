@@ -237,6 +237,7 @@ exports.loginWithApple = loginWithApple;
 const userRegister = async (req, res) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -244,7 +245,12 @@ const userRegister = async (req, res) => {
     body_type,
     physical_activities,
     weight,
-    is_ft_weight
+    is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal
   } = req.body;
   try {
     let code = (0, _helpers.generateCode)();
@@ -287,6 +293,7 @@ const userRegister = async (req, res) => {
       user = await _models.User.create({
         email: login,
         code: hashedCode,
+        username,
         sex,
         birth,
         height,
@@ -295,6 +302,11 @@ const userRegister = async (req, res) => {
         physical_activities,
         weight,
         is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
         status: "inactive"
       });
       (0, _mail.sendCodeConfirmation)(code, login);

@@ -16,6 +16,9 @@ const userSchema = new _mongoose.default.Schema({
   googleId: {
     type: String
   },
+  username: {
+    type: String
+  },
   sex: {
     type: String
   },
@@ -38,6 +41,21 @@ const userSchema = new _mongoose.default.Schema({
     type: Number
   },
   is_ft_weight: {
+    type: Boolean
+  },
+  protein: {
+    type: Number
+  },
+  calories: {
+    type: Number
+  },
+  carbs: {
+    type: Number
+  },
+  fat: {
+    type: Number
+  },
+  customGoal: {
     type: Boolean
   },
   code: {

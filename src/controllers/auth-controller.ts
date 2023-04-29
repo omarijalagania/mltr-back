@@ -215,6 +215,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
 export const userRegister = async (req: Request, res: Response) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -223,6 +224,11 @@ export const userRegister = async (req: Request, res: Response) => {
     physical_activities,
     weight,
     is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal,
   } = req.body
 
   try {
@@ -261,6 +267,7 @@ export const userRegister = async (req: Request, res: Response) => {
       user = await User.create({
         email: login,
         code: hashedCode,
+        username,
         sex,
         birth,
         height,
@@ -269,6 +276,11 @@ export const userRegister = async (req: Request, res: Response) => {
         physical_activities,
         weight,
         is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
         status: "inactive",
       })
 
