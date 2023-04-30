@@ -225,7 +225,7 @@ paths:
                   calories: 2000
                   carbs: 800
                   customGoal: true
-                  
+  # Login with google          
   /auth/google-login:
     post:
       summary: Login with Google
@@ -254,10 +254,49 @@ paths:
                     type: string
                   token:
                     type: string
+                  _id:
+                    type: string  
+                  email:
+                    type: string  
+                  username:
+                    type: string  
+                  sex:
+                    type: string
+                  birth:
+                    type: string                  
+                  height:
+                    type: number                    
+                  is_ft_heigth:
+                    type: boolean                    
+                  body_type:
+                    type: string                    
+                  physical_activities:
+                    type: string                    
+                  weight:
+                    type: number                    
+                  is_ft_weight:
+                    type: boolean   
+                  protein:
+                    type: number
+                    required: true
+                  calories:
+                    type: number
+                    required: true
+                  carbs:
+                    type: number
+                    required: true
+                  fat:
+                    type: number
+                    required: true
+                  customGoal:
+                    type: boolean
+                    required: true
                 example:
-                  message: "User Registered and logged in."
+                  message: "User logged in."
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
-                  login: "john@gmail.com"
+                  _id: "754d3a829c3f78035f4b23ds"
+                  email: "john@gmail.com"
+                  username: "john"
                   sex: "male"
                   birth: "1990/01/01"
                   height: 183
@@ -265,7 +304,12 @@ paths:
                   body_type: "Athletic"
                   physical_activities: "Swimming"
                   weight: 95
-                  is_ft_weight: true
+                  is_ft_weight: true                  
+                  protein: 200
+                  calories: 2000
+                  carbs: 800
+                  customGoal: true
+  # Register user with google                
   /auth/google-register:
     post:
       summary: Register with Google

@@ -107,6 +107,7 @@ const loginWithGoogle = async (req, res) => {
       name: user === null || user === void 0 ? void 0 : user.email
     }, process.env.JWT_SECRET);
     return res.status(200).json({
+      message: "User logged in.",
       token,
       _id: user._id,
       email: user.email,
