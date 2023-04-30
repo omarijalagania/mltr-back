@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken"
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -16,19 +17,26 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     physical_activities,
     weight,
     is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal,
   } = req.body
 
   try {
     let user = await User.findOne({ email: login })
 
     if (user) {
-      // User already exists, update user with new data
+      // If User already exists
       return res.status(422).json({
         message: "User with this email already exists",
       })
     } else {
+      // Create new user
       user = await User.create({
         email: login,
+        username,
         sex,
         birth,
         height,
@@ -37,6 +45,11 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         physical_activities,
         weight,
         is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
@@ -47,6 +60,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -55,6 +69,11 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         physical_activities: user.physical_activities,
         weight: user.weight,
         is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal,
       })
     }
   } catch (error) {
@@ -83,6 +102,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       token,
       _id: user._id,
       email: user.email,
+      username: user.username,
       sex: user.sex,
       birth: user.birth,
       height: user.height,
@@ -91,6 +111,11 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       physical_activities: user.physical_activities,
       weight: user.weight,
       is_ft_weight: user.is_ft_weight,
+      protein: user.protein,
+      calories: user.calories,
+      carbs: user.carbs,
+      fat: user.fat,
+      customGoal: user.customGoal,
     })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -101,6 +126,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
   const {
     login,
     appleToken,
+    username,
     sex,
     birth,
     height,
@@ -109,6 +135,11 @@ export const registerWithApple = async (req: Request, res: Response) => {
     physical_activities,
     weight,
     is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal,
   } = req.body
 
   try {
@@ -121,6 +152,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         {
           email: login,
           appleToken,
+          username,
           sex,
           birth,
           height,
@@ -129,6 +161,11 @@ export const registerWithApple = async (req: Request, res: Response) => {
           physical_activities,
           weight,
           is_ft_weight,
+          protein,
+          calories,
+          carbs,
+          fat,
+          customGoal,
         },
         { new: true }
       )
@@ -142,10 +179,11 @@ export const registerWithApple = async (req: Request, res: Response) => {
         .status(201)
         .json({ message: "User Updated and logged in.", token })
     } else {
+      // Create new user
       user = await User.create({
         email: login,
         appleToken,
-        sex,
+        username: sex,
         birth,
         height,
         is_ft_heigth,
@@ -153,6 +191,11 @@ export const registerWithApple = async (req: Request, res: Response) => {
         physical_activities,
         weight,
         is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
@@ -163,6 +206,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -171,6 +215,11 @@ export const registerWithApple = async (req: Request, res: Response) => {
         physical_activities: user.physical_activities,
         weight: user.weight,
         is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal,
       })
     }
   } catch (error) {
@@ -194,6 +243,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -202,6 +252,11 @@ export const loginWithApple = async (req: Request, res: Response) => {
         physical_activities: user.physical_activities,
         weight: user.weight,
         is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal,
       })
     }
     if (!user) {
@@ -257,7 +312,7 @@ export const userRegister = async (req: Request, res: Response) => {
     const hashedCode = await bcrypt.hash(code, salt)
 
     if (user) {
-      // User already exists, update user with new data
+      // User already exists, send message on response
       user = await User.findOne({ email: login })
       return res.status(422).json({
         message: "User with this email already exists",
@@ -461,6 +516,7 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -469,6 +525,11 @@ export const updateUser = async (req: Request, res: Response) => {
     physical_activities,
     weight,
     is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal,
   } = req.body
 
   try {
@@ -482,6 +543,7 @@ export const updateUser = async (req: Request, res: Response) => {
         { email: login },
         {
           email: login,
+          username,
           sex,
           birth,
           height,
@@ -490,13 +552,19 @@ export const updateUser = async (req: Request, res: Response) => {
           physical_activities,
           weight,
           is_ft_weight,
+          protein,
+          calories,
+          carbs,
+          fat,
+          customGoal,
         },
         { new: true }
       )
-
+      // Return updated user on response
       return res.status(201).json({
         message: "User Updated.",
         email: login,
+        username,
         sex,
         birth,
         height,
@@ -505,6 +573,11 @@ export const updateUser = async (req: Request, res: Response) => {
         physical_activities,
         weight,
         is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
       })
     }
   } catch (error) {

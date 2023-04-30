@@ -13,6 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const registerWithGoogle = async (req, res) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -20,21 +21,28 @@ const registerWithGoogle = async (req, res) => {
     body_type,
     physical_activities,
     weight,
-    is_ft_weight
+    is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal
   } = req.body;
   try {
     let user = await _models.User.findOne({
       email: login
     });
     if (user) {
-      // User already exists, update user with new data
+      // If User already exists
       return res.status(422).json({
         message: "User with this email already exists"
       });
     } else {
       var _user, _user2;
+      // Create new user
       user = await _models.User.create({
         email: login,
+        username,
         sex,
         birth,
         height,
@@ -42,7 +50,12 @@ const registerWithGoogle = async (req, res) => {
         body_type,
         physical_activities,
         weight,
-        is_ft_weight
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
       });
       const token = _jsonwebtoken.default.sign({
         _id: (_user = user) === null || _user === void 0 ? void 0 : _user._id,
@@ -53,6 +66,7 @@ const registerWithGoogle = async (req, res) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -60,7 +74,12 @@ const registerWithGoogle = async (req, res) => {
         body_type: user.body_type,
         physical_activities: user.physical_activities,
         weight: user.weight,
-        is_ft_weight: user.is_ft_weight
+        is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal
       });
     }
   } catch (error) {
@@ -91,6 +110,7 @@ const loginWithGoogle = async (req, res) => {
       token,
       _id: user._id,
       email: user.email,
+      username: user.username,
       sex: user.sex,
       birth: user.birth,
       height: user.height,
@@ -98,7 +118,12 @@ const loginWithGoogle = async (req, res) => {
       body_type: user.body_type,
       physical_activities: user.physical_activities,
       weight: user.weight,
-      is_ft_weight: user.is_ft_weight
+      is_ft_weight: user.is_ft_weight,
+      protein: user.protein,
+      calories: user.calories,
+      carbs: user.carbs,
+      fat: user.fat,
+      customGoal: user.customGoal
     });
   } catch (error) {
     res.status(500).json({
@@ -111,6 +136,7 @@ const registerWithApple = async (req, res) => {
   const {
     login,
     appleToken,
+    username,
     sex,
     birth,
     height,
@@ -118,7 +144,12 @@ const registerWithApple = async (req, res) => {
     body_type,
     physical_activities,
     weight,
-    is_ft_weight
+    is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal
   } = req.body;
   try {
     let user = await _models.User.findOne({
@@ -132,6 +163,7 @@ const registerWithApple = async (req, res) => {
       }, {
         email: login,
         appleToken,
+        username,
         sex,
         birth,
         height,
@@ -139,7 +171,12 @@ const registerWithApple = async (req, res) => {
         body_type,
         physical_activities,
         weight,
-        is_ft_weight
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
       }, {
         new: true
       });
@@ -154,17 +191,23 @@ const registerWithApple = async (req, res) => {
       });
     } else {
       var _user6, _user7, _user8;
+      // Create new user
       user = await _models.User.create({
         email: login,
         appleToken,
-        sex,
+        username: sex,
         birth,
         height,
         is_ft_heigth,
         body_type,
         physical_activities,
         weight,
-        is_ft_weight
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
       });
       const token = _jsonwebtoken.default.sign({
         _id: (_user6 = user) === null || _user6 === void 0 ? void 0 : _user6._id,
@@ -176,6 +219,7 @@ const registerWithApple = async (req, res) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -183,7 +227,12 @@ const registerWithApple = async (req, res) => {
         body_type: user.body_type,
         physical_activities: user.physical_activities,
         weight: user.weight,
-        is_ft_weight: user.is_ft_weight
+        is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal
       });
     }
   } catch (error) {
@@ -212,6 +261,7 @@ const loginWithApple = async (req, res) => {
         token,
         _id: user._id,
         email: user.email,
+        username: user.username,
         sex: user.sex,
         birth: user.birth,
         height: user.height,
@@ -219,7 +269,12 @@ const loginWithApple = async (req, res) => {
         body_type: user.body_type,
         physical_activities: user.physical_activities,
         weight: user.weight,
-        is_ft_weight: user.is_ft_weight
+        is_ft_weight: user.is_ft_weight,
+        protein: user.protein,
+        calories: user.calories,
+        carbs: user.carbs,
+        fat: user.fat,
+        customGoal: user.customGoal
       });
     }
     if (!user) {
@@ -281,7 +336,7 @@ const userRegister = async (req, res) => {
     // generate hashed password with salt (password = entered password, from request body)
     const hashedCode = await _bcryptjs.default.hash(code, salt);
     if (user) {
-      // User already exists, update user with new data
+      // User already exists, send message on response
       user = await _models.User.findOne({
         email: login
       });
@@ -509,6 +564,7 @@ exports.confirmDeactivationCode = confirmDeactivationCode;
 const updateUser = async (req, res) => {
   const {
     login,
+    username,
     sex,
     birth,
     height,
@@ -516,7 +572,12 @@ const updateUser = async (req, res) => {
     body_type,
     physical_activities,
     weight,
-    is_ft_weight
+    is_ft_weight,
+    protein,
+    calories,
+    carbs,
+    fat,
+    customGoal
   } = req.body;
   try {
     let user = await _models.User.findOne({
@@ -532,6 +593,7 @@ const updateUser = async (req, res) => {
         email: login
       }, {
         email: login,
+        username,
         sex,
         birth,
         height,
@@ -539,13 +601,20 @@ const updateUser = async (req, res) => {
         body_type,
         physical_activities,
         weight,
-        is_ft_weight
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
       }, {
         new: true
       });
+      // Return updated user on response
       return res.status(201).json({
         message: "User Updated.",
         email: login,
+        username,
         sex,
         birth,
         height,
@@ -553,7 +622,12 @@ const updateUser = async (req, res) => {
         body_type,
         physical_activities,
         weight,
-        is_ft_weight
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
       });
     }
   } catch (error) {
