@@ -411,6 +411,7 @@ paths:
                   calories: 2000
                   carbs: 800
                   customGoal: true
+# Login with apple
   /auth/apple-login:
     post:
       summary: Create new user and login with Apple
@@ -428,7 +429,7 @@ paths:
             example:
               appleToken: "dsjkfhskjhfljkhwhSDFSDFsdfsd"
       responses:
-        "200":
+        "201":
           description: Returns message and token
           content:
             application/json:
@@ -440,10 +441,11 @@ paths:
                   token:
                     type: string
                 example:
-                  message: "User Registered"
+                  message: "User logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
-                  login: "john@gmail.com"
-                  appleToken: "dsjkfhskjhfljkhwhSDFSDFsdfsd"
+                  _id: "644902722f47001d32e7f02v"
+                  email: "john@gmail.com"
+                  username: "john"
                   sex: "male"
                   birth: "1990/01/01"
                   height: 183
@@ -452,7 +454,11 @@ paths:
                   physical_activities: "Swimming"
                   weight: 95
                   is_ft_weight: true
-
+                  protein: 200
+                  calories: 2000
+                  carbs: 800
+                  customGoal: true
+# Register user with apple
   /auth/apple-register:
     post:
       summary: Create new user and login with Apple
@@ -468,6 +474,9 @@ paths:
                   type: string
                   required: true
                 appleToken:
+                  type: string
+                  required: false
+                username:
                   type: string
                   required: false
                 sex:
@@ -494,9 +503,25 @@ paths:
                 is_ft_weight:
                   type: boolean
                   required: true
+                protein:
+                  type: number
+                  required: true
+                calories:
+                  type: number
+                  required: true
+                carbs:
+                  type: number
+                  required: true
+                fat:
+                  type: number
+                  required: true
+                customGoal:
+                  type: boolean
+                  required: true  
             example:
               login: "john@gmail.com"
               appleToken: "dsjkfhskjhfljkhwhSDFSDFsdfsd"
+              username: "john"
               sex: "male"
               birth: "1990/01/01"
               height: 183
@@ -505,8 +530,12 @@ paths:
               physical_activities: "Swimming"
               weight: 95
               is_ft_weight: true
+              protein: 200
+              calories: 2000
+              carbs: 800
+              customGoal: true
       responses:
-        "200":
+        "201":
           description: Returns message and token
           content:
             application/json:
@@ -520,6 +549,21 @@ paths:
                 example:
                   message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
+                  id: "644902722f47001d32e7f02v"
+                  email: "john@gmail.com"
+                  username: "john"
+                  sex: "male"
+                  birth: "1990/01/01"
+                  height: 183
+                  is_ft_heigth: true
+                  body_type: "Athletic"
+                  physical_activities: "Swimming"
+                  weight: 95
+                  is_ft_weight: true
+                  protein: 200
+                  calories: 2000
+                  carbs: 800
+                  customGoal: true
   /auth/update-user:
     patch:
       summary: Update user information
