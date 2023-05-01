@@ -56,7 +56,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         process.env.JWT_SECRET
       )
       return res.status(201).json({
-        message: "User Registered",
+        message: "User Registered and logged in",
         token,
         _id: user._id,
         email: user.email,
@@ -99,7 +99,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
     )
 
     return res.status(200).json({
-      message: "User logged in.",
+      message: "User logged in",
       token,
       _id: user._id,
       email: user.email,
