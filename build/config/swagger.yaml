@@ -194,19 +194,14 @@ paths:
                     type: boolean   
                   protein:
                     type: number
-                    required: true
                   calories:
                     type: number
-                    required: true
                   carbs:
                     type: number
-                    required: true
                   fat:
                     type: number
-                    required: true
                   customGoal:
-                    type: boolean
-                    required: true                   
+                    type: boolean                   
                 example:
                   message: "User Logged in"
                   token: "eyJhbGciOiJIU1NzA0MzQyOCwiZX-E7VSXu7C2ZcT-uyCyjzXp2FiNrs_xCKwV8"
@@ -564,6 +559,7 @@ paths:
                   calories: 2000
                   carbs: 800
                   customGoal: true
+  # Update user information
   /auth/update-user:
     patch:
       summary: Update user information
@@ -578,6 +574,9 @@ paths:
               type: object
               properties:
                 login:
+                  type: string
+                  required: true
+                username:
                   type: string
                   required: true
                 sex:
@@ -604,8 +603,24 @@ paths:
                 is_ft_weight:
                   type: boolean
                   required: true
+                protein:
+                  type: number
+                  required: true
+                calories:
+                  type: number
+                  required: true
+                carbs:
+                  type: number
+                  required: true
+                fat:
+                  type: number
+                  required: true
+                customGoal:
+                  type: boolean
+                  required: true  
             example:
               login: "john@gmail.com"
+              username: "john"
               sex: "male"
               birth: "1990/01/01"
               height: 183
@@ -614,6 +629,10 @@ paths:
               physical_activities: "Swimming"
               weight: 95
               is_ft_weight: true
+              protein: 200
+              calories: 2000
+              carbs: 800
+              customGoal: true
       responses:
         "200":
           description: Returns message and updated user information
@@ -625,6 +644,8 @@ paths:
                   message:
                     type: string                   
                   email:
+                    type: string
+                  username:
                     type: string
                   sex:
                     type: string
@@ -642,9 +663,20 @@ paths:
                     type: number
                   is_ft_weight:
                     type: boolean
+                  protein:
+                    type: number
+                  calories:
+                    type: number
+                  carbs:
+                    type: number
+                  fat:
+                    type: number
+                  customGoal:
+                    type: boolean  
                 example:
-                  message: "User updated."
+                  message: "User updated"
                   email: "john@gmail.com"
+                  username: "john"
                   sex: "male"
                   birth: "1990/01/01"
                   height: 183
@@ -652,7 +684,11 @@ paths:
                   body_type: "Athletic"
                   physical_activities: "Swimming"
                   weight: 95
-                  is_ft_weight: true               
+                  is_ft_weight: true
+                  protein: 200
+                  calories: 2000
+                  carbs: 800
+                  customGoal: true               
   /auth/deactivate-account:
     post:
       summary: Delete account
