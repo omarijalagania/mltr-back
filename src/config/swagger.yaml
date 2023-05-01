@@ -388,6 +388,43 @@ paths:
                     type: string
                   token:
                     type: string
+                  _id:
+                    type: string  
+                  email:
+                    type: string  
+                  username:
+                    type: string  
+                  sex:
+                    type: string
+                  birth:
+                    type: string                  
+                  height:
+                    type: number                    
+                  is_ft_heigth:
+                    type: boolean                    
+                  body_type:
+                    type: string                    
+                  physical_activities:
+                    type: string                    
+                  weight:
+                    type: number                    
+                  is_ft_weight:
+                    type: boolean   
+                  protein:
+                    type: number
+                    required: true
+                  calories:
+                    type: number
+                    required: true
+                  carbs:
+                    type: number
+                    required: true
+                  fat:
+                    type: number
+                    required: true
+                  customGoal:
+                    type: boolean
+                    required: true
                 example:
                   message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
@@ -435,6 +472,43 @@ paths:
                     type: string
                   token:
                     type: string
+                  _id:
+                    type: string  
+                  email:
+                    type: string  
+                  username:
+                    type: string  
+                  sex:
+                    type: string
+                  birth:
+                    type: string                  
+                  height:
+                    type: number                    
+                  is_ft_heigth:
+                    type: boolean                    
+                  body_type:
+                    type: string                    
+                  physical_activities:
+                    type: string                    
+                  weight:
+                    type: number                    
+                  is_ft_weight:
+                    type: boolean   
+                  protein:
+                    type: number
+                    required: true
+                  calories:
+                    type: number
+                    required: true
+                  carbs:
+                    type: number
+                    required: true
+                  fat:
+                    type: number
+                    required: true
+                  customGoal:
+                    type: boolean
+                    required: true  
                 example:
                   message: "User logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
@@ -541,6 +615,43 @@ paths:
                     type: string
                   token:
                     type: string
+                  _id:
+                    type: string  
+                  email:
+                    type: string  
+                  username:
+                    type: string  
+                  sex:
+                    type: string
+                  birth:
+                    type: string                  
+                  height:
+                    type: number                    
+                  is_ft_heigth:
+                    type: boolean                    
+                  body_type:
+                    type: string                    
+                  physical_activities:
+                    type: string                    
+                  weight:
+                    type: number                    
+                  is_ft_weight:
+                    type: boolean   
+                  protein:
+                    type: number
+                    required: true
+                  calories:
+                    type: number
+                    required: true
+                  carbs:
+                    type: number
+                    required: true
+                  fat:
+                    type: number
+                    required: true
+                  customGoal:
+                    type: boolean
+                    required: true
                 example:
                   message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
