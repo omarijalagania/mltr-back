@@ -62,7 +62,7 @@ const registerWithGoogle = async (req, res) => {
         name: (_user2 = user) === null || _user2 === void 0 ? void 0 : _user2.email
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User Registered.",
+        message: "User Registered",
         token,
         _id: user._id,
         email: user.email,
@@ -187,7 +187,7 @@ const registerWithApple = async (req, res) => {
         appleToken: (_user5 = user) === null || _user5 === void 0 ? void 0 : _user5.appleToken
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User Updated and logged in.",
+        message: "User Updated and logged in",
         token
       });
     } else {
@@ -216,7 +216,7 @@ const registerWithApple = async (req, res) => {
         appleToken: (_user8 = user) === null || _user8 === void 0 ? void 0 : _user8.appleToken
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User Registered and logged in.",
+        message: "User Registered and logged in",
         token,
         _id: user._id,
         email: user.email,
@@ -258,7 +258,7 @@ const loginWithApple = async (req, res) => {
         appleToken: user === null || user === void 0 ? void 0 : user.appleToken
       }, process.env.JWT_SECRET);
       return res.status(201).json({
-        message: "User logged in.",
+        message: "User logged in",
         token,
         _id: user._id,
         email: user.email,
@@ -423,13 +423,13 @@ const getConfirmationCode = async (req, res) => {
       });
       (0, _mail.sendCodeConfirmation)(code, user.email);
       return res.status(201).json({
-        message: "Confirmation code sent to email.",
+        message: "Confirmation code sent to email",
         user: user.email
       });
     } else {
       // User does not exist, send message
       return res.status(404).json({
-        message: "No user found, please register."
+        message: "User not found, please register first"
       });
     }
   } catch (error) {
@@ -586,7 +586,7 @@ const updateUser = async (req, res) => {
     });
     if (!user) {
       return res.status(404).json({
-        message: "User not found."
+        message: "User not found"
       });
     } else {
       // If User already exists, update user with new data
@@ -613,7 +613,7 @@ const updateUser = async (req, res) => {
       });
       // Return updated user on response
       return res.status(201).json({
-        message: "User Updated.",
+        message: "User Updated",
         email: login,
         username,
         sex,

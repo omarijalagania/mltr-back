@@ -292,7 +292,7 @@ paths:
                     type: boolean
                     required: true
                 example:
-                  message: "User logged in."
+                  message: "User logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
                   _id: "754d3a829c3f78035f4b23ds"
                   email: "john@gmail.com"
@@ -371,7 +371,7 @@ paths:
                   token:
                     type: string
                 example:
-                  message: "User Registered and logged in."
+                  message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
                   login: "john@gmail.com"
                   sex: "male"
@@ -489,7 +489,7 @@ paths:
                   token:
                     type: string
                 example:
-                  message: "User Registered and logged in."
+                  message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
   /auth/update-user:
     patch:

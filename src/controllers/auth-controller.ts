@@ -56,7 +56,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         process.env.JWT_SECRET
       )
       return res.status(201).json({
-        message: "User Registered.",
+        message: "User Registered",
         token,
         _id: user._id,
         email: user.email,
@@ -178,7 +178,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
 
       return res
         .status(201)
-        .json({ message: "User Updated and logged in.", token })
+        .json({ message: "User Updated and logged in", token })
     } else {
       // Create new user
       user = await User.create({
@@ -203,7 +203,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         process.env.JWT_SECRET
       )
       return res.status(201).json({
-        message: "User Registered and logged in.",
+        message: "User Registered and logged in",
         token,
         _id: user._id,
         email: user.email,
@@ -240,7 +240,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
         process.env.JWT_SECRET
       )
       return res.status(201).json({
-        message: "User logged in.",
+        message: "User logged in",
         token,
         _id: user._id,
         email: user.email,
@@ -393,13 +393,13 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
 
       sendCodeConfirmation(code, user.email)
       return res.status(201).json({
-        message: "Confirmation code sent to email.",
+        message: "Confirmation code sent to email",
         user: user.email,
       })
     } else {
       // User does not exist, send message
       return res.status(404).json({
-        message: "No user found, please register.",
+        message: "User not found, please register first",
       })
     }
   } catch (error) {
@@ -537,7 +537,7 @@ export const updateUser = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (!user) {
-      return res.status(404).json({ message: "User not found." })
+      return res.status(404).json({ message: "User not found" })
     } else {
       // If User already exists, update user with new data
       user = await User.findOneAndUpdate(
@@ -563,7 +563,7 @@ export const updateUser = async (req: Request, res: Response) => {
       )
       // Return updated user on response
       return res.status(201).json({
-        message: "User Updated.",
+        message: "User Updated",
         email: login,
         username,
         sex,
