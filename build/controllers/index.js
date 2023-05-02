@@ -25,3 +25,14 @@ Object.keys(_tagController).forEach(function (key) {
     }
   });
 });
+var _historyController = require("./history-controller");
+Object.keys(_historyController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _historyController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _historyController[key];
+    }
+  });
+});

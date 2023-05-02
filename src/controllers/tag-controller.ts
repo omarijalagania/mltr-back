@@ -54,7 +54,7 @@ export const editTag = async (req: Request, res: Response) => {
   const isValidTagId = isValidId(tagId)
   try {
     if (!isValid || !isValidTagId) {
-      return res.status(422).json({ message: "Invalid userId" })
+      return res.status(422).json({ message: "Invalid Id" })
     }
 
     if (
@@ -84,9 +84,10 @@ export const editTag = async (req: Request, res: Response) => {
 export const deleteTags = async (req: Request, res: Response) => {
   const { userId, tagId } = req.body
   const isValid = isValidId(userId)
+  const isValidTagId = isValidId(tagId)
   try {
-    if (!isValid) {
-      return res.status(422).json({ message: "Invalid userId" })
+    if (!isValid || !isValidTagId) {
+      return res.status(422).json({ message: "Invalid Id" })
     }
 
     const tags = await Tag.deleteOne({ _id: tagId, userId })
