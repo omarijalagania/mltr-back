@@ -83,7 +83,7 @@ const editTag = async (req, res) => {
   try {
     if (!isValid || !isValidTagId) {
       return res.status(422).json({
-        message: "Invalid userId"
+        message: "Invalid Id"
       });
     }
     if (identifire === "" || tagName === "" || isSetTag === "" || userId === "" || identifire === undefined || tagName === undefined || isSetTag === undefined || userId === undefined) {
@@ -119,10 +119,11 @@ const deleteTags = async (req, res) => {
     tagId
   } = req.body;
   const isValid = (0, _helpers.isValidId)(userId);
+  const isValidTagId = (0, _helpers.isValidId)(tagId);
   try {
-    if (!isValid) {
+    if (!isValid || !isValidTagId) {
       return res.status(422).json({
-        message: "Invalid userId"
+        message: "Invalid Id"
       });
     }
     const tags = await _models.Tag.deleteOne({
