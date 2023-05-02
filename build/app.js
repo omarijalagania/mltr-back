@@ -32,6 +32,7 @@ app.use("/api-docs", _swaggerUiExpress.default.serve, _swaggerUiExpress.default.
   app.use(_bodyParser.default.json());
   app.use((0, _cors.default)({}));
   app.use("/auth", _routes.default);
+  app.use("/tag", _routes.default);
   app.get("/", async (_, res) => {
     res.status(200).send("Welcome to Node.js Server");
   });

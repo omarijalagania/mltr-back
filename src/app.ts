@@ -5,6 +5,7 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import { connectDB } from "config"
 import authRoute from "./routes"
+import tagRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
 
@@ -26,6 +27,7 @@ connectDB(false)
     app.use(cors({}))
 
     app.use("/auth", authRoute)
+    app.use("/tag", tagRoute)
 
     app.get("/", async (_, res) => {
       res.status(200).send("Welcome to Node.js Server")
@@ -33,8 +35,8 @@ connectDB(false)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
-        `Server is listening at http://localhost:${process.env.SERVER_PORT}`
-      )
+        `Server is listening at http://localhost:${process.env.SERVER_PORT}`,
+      ),
     )
   })
   .catch((error) => {

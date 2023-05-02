@@ -9,7 +9,9 @@ var _index = require("./index");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const sendCodeConfirmation = async (code, email) => {
   const transporter = _nodemailer.default.createTransport({
-    service: "gmail",
+    host: "smtp.onyxlabs.tech",
+    port: 25,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD
