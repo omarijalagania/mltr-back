@@ -27,5 +27,9 @@ router.post("/get-code", _controllers.getConfirmationCode);
 router.post("/deactivate-account", _middlewares.authMiddleware, _controllers.deactivateAccount);
 router.post("/confirm-deactivate-account", _middlewares.authMiddleware, _controllers.confirmDeactivationCode);
 router.patch("/update-user", _middlewares.authMiddleware, _controllers.updateUser);
+
+//Token verify
+
+router.get("/verify", _controllers.tokenVerify);
 var _default = router;
 exports.default = _default;

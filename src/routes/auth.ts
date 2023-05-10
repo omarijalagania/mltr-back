@@ -10,6 +10,7 @@ import {
   loginWithGoogle,
   loginWithApple,
   updateUser,
+  tokenVerify,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -33,8 +34,12 @@ router.post("/deactivate-account", authMiddleware, deactivateAccount)
 router.post(
   "/confirm-deactivate-account",
   authMiddleware,
-  confirmDeactivationCode
+  confirmDeactivationCode,
 )
 router.patch("/update-user", authMiddleware, updateUser)
+
+//Token verify
+
+router.get("/verify", tokenVerify)
 
 export default router

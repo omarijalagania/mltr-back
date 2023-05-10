@@ -53,7 +53,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -95,7 +95,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
     )
 
     return res.status(200).json({
@@ -168,12 +168,12 @@ export const registerWithApple = async (req: Request, res: Response) => {
           fat,
           customGoal,
         },
-        { new: true }
+        { new: true },
       )
 
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
 
       return res
@@ -200,7 +200,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -237,7 +237,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
     if (user) {
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       )
       return res.status(201).json({
         message: "User logged in",
@@ -298,7 +298,7 @@ export const userRegister = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -365,7 +365,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { email: login },
         {
           code: "",
-        }
+        },
       )
     }, 600000)
 
@@ -388,7 +388,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
           code: hashedCode,
           status: "inactive",
         },
-        { new: true }
+        { new: true },
       )
 
       sendCodeConfirmation(code, user.email)
@@ -428,11 +428,11 @@ export const userLogin = async (req: Request, res: Response) => {
       { email: login },
       {
         status: "active",
-      }
+      },
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
     )
 
     return res.status(201).json({
@@ -482,7 +482,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         },
         {
           new: true,
-        }
+        },
       )
       return res
         .status(200)
@@ -559,7 +559,7 @@ export const updateUser = async (req: Request, res: Response) => {
           fat,
           customGoal,
         },
-        { new: true }
+        { new: true },
       )
       // Return updated user on response
       return res.status(201).json({
@@ -583,5 +583,22 @@ export const updateUser = async (req: Request, res: Response) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const tokenVerify = async (req: Request, res: Response) => {
+  try {
+    const authHeader: string | undefined = req.headers.authorization
+    if (!authHeader) {
+      return res
+        .status(422)
+        .json({ message: "Authorization header not present" })
+    }
+
+    const token: string = authHeader.split(" ")[1]
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET)
+    return res.status(200).json({ user: decoded })
+  } catch (error) {
+    return res.status(422).json({ message: "invalid token" })
   }
 }

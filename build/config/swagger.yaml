@@ -864,6 +864,24 @@ paths:
                     type: string
                 example:
                   message: "Account deactivated"
+  
+  /auth/verify:
+    get:
+      summary: Verify JWT token
+      tags: 
+        - Auth
+      security:
+        - bearerAuth: []
+      description: |
+        Verifies a JWT token sent in the `Authorization` header, and returns the decoded user object if the token is valid.
+        This endpoint requires the token to be sent using the Bearer scheme in the Authorization header.
+      responses:
+        '200':
+          description: Token is valid and user is authorized
+        '422':
+          description: Unauthorized - invalid or expired token
+        '422':
+          description: Invalid token - token format is invalid
 
   /tag/create:
     post:
@@ -1083,47 +1101,6 @@ paths:
         "404":
           description: Tag not found
 
-  /tag/delete:
-    delete:
-      summary: Delete a tag
-      tags:
-        - Tag
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-                  example: "64509b14478f54561502b3a7"
-                tagId:
-                  type: string
-                  example: "6450aa7caf0f84eeed688ad2"
-              required:
-                - userId
-                - tagId
-      responses:
-        "200":
-          description: A success message with deleted tag object
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Tag deleted"
-        "400":
-          description: Invalid input parameter
-        "401":
-          description: Unauthorized access
-        "500":
-          description: Internal server error
-
   /history/add:
     post:
       summary: Create a new history
@@ -1310,41 +1287,3 @@ paths:
         "404":
           description: History not found
 
-  /history/remove:
-    delete:
-      summary: Remove history
-      tags:
-        - History
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-                  description: The ID of the user who owns the history record to be deleted.
-                  example: "64509b14478f54561502b3a7"
-                historyId:
-                  type: string
-                  description: The ID of the history record to be deleted.
-                  example: "6451367312782126c95a6e62"
-              required:
-                - userId
-                - historyId
-      responses:
-        "200":
-          description: History deleted
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: A message confirming the deletion of the history record.
-                example:
-                  message: "History deleted"

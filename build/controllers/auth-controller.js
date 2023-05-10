@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.updateUser = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.updateUser = exports.tokenVerify = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -638,3 +638,23 @@ const updateUser = async (req, res) => {
   }
 };
 exports.updateUser = updateUser;
+const tokenVerify = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(422).json({
+        message: "Authorization header not present"
+      });
+    }
+    const token = authHeader.split(" ")[1];
+    const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
+    return res.status(200).json({
+      user: decoded
+    });
+  } catch (error) {
+    return res.status(422).json({
+      message: "invalid token"
+    });
+  }
+};
+exports.tokenVerify = tokenVerify;
