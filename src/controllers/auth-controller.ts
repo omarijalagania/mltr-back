@@ -314,9 +314,36 @@ export const userRegister = async (req: Request, res: Response) => {
 
     if (user) {
       // User already exists, send message on response
-      user = await User.findOne({ email: login })
-      return res.status(422).json({
-        message: "User with this email already exists",
+      user = await User.findOneAndUpdate(
+        {
+          email: login,
+        },
+        {
+          code: hashedCode,
+          username,
+          sex,
+          birth,
+          height,
+          is_ft_heigth,
+          body_type,
+          physical_activities,
+          weight,
+          is_ft_weight,
+          protein,
+          calories,
+          carbs,
+          fat,
+          customGoal,
+          status: "inactive",
+        },
+        {
+          new: true,
+        },
+      )
+      sendCodeConfirmation(code, login)
+      return res.status(200).json({
+        message: "User updated, confirmation code sent to email",
+        user: user.email,
       })
     } else {
       // User does not exist, create new user with provided data
