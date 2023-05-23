@@ -28,9 +28,37 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     let user = await User.findOne({ email: login })
 
     if (user) {
-      // If User already exists
-      return res.status(422).json({
-        message: "User with this email already exists",
+      user = await User.findOneAndUpdate(
+        { email: login },
+        {
+          email: login,
+          username,
+          sex,
+          birth,
+          height,
+          is_ft_heigth,
+          body_type,
+          physical_activities,
+          weight,
+          is_ft_weight,
+          protein,
+          calories,
+          carbs,
+          fat,
+          customGoal,
+        },
+        {
+          new: true,
+        },
+      )
+      const token = jwt.sign(
+        { _id: user?._id, name: user?.email },
+        process.env.JWT_SECRET,
+      )
+
+      return res.status(201).json({
+        message: "User updated and logged in",
+        token,
       })
     } else {
       // Create new user
