@@ -21,9 +21,9 @@ paths:
   # Register user
   /auth/register:
     post:
-      summary: Create new user
       tags:
         - Auth
+      summary: User Register
       requestBody:
         content:
           application/json:
@@ -89,22 +89,51 @@ paths:
               protein: 200
               calories: 2000
               carbs: 800
+              fat: 250
               customGoal: true
       responses:
-        "200":
-          description: Returns registered user and sends confirmation code to email
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '93'
+            ETag:
+              schema:
+                type: string
+                example: W/"5d-aD8WyJaYFxTxuDJl+MvRYlkdoqU"
+            Date:
+              schema:
+                type: string
+                example: Sun, 28 May 2023 07:45:37 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                  user:
-                    type: string
-                example:
-                  message: "User Registered, confirmation code sent to email"
-                  user: "john@gmail.com"
+              example:
+                message: User updated, confirmation code sent to email
+                user: omar.jalagania@gmail.com
   # Get Confirmation code
   /auth/get-code:
     post:
@@ -219,6 +248,7 @@ paths:
                   protein: 200
                   calories: 2000
                   carbs: 800
+                  fat: 250
                   customGoal: true
   # Login with google
   /auth/google-login:
@@ -273,19 +303,14 @@ paths:
                     type: boolean
                   protein:
                     type: number
-                    required: true
                   calories:
                     type: number
-                    required: true
                   carbs:
                     type: number
-                    required: true
                   fat:
                     type: number
-                    required: true
                   customGoal:
                     type: boolean
-                    required: true
                 example:
                   message: "User logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
@@ -303,13 +328,14 @@ paths:
                   protein: 200
                   calories: 2000
                   carbs: 800
+                  fat: 250
                   customGoal: true
   # Register user with google
   /auth/google-register:
     post:
-      summary: Register with Google
       tags:
         - Auth
+      summary: Register with google
       requestBody:
         content:
           application/json:
@@ -375,74 +401,52 @@ paths:
               protein: 200
               calories: 2000
               carbs: 800
+              fat: 250
               customGoal: true
       responses:
-        "201":
-          description: Returns message and token
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '247'
+            ETag:
+              schema:
+                type: string
+                example: W/"f7-kMNRp6Ju0mReu/8CYyrMbCXijzI"
+            Date:
+              schema:
+                type: string
+                example: Sun, 28 May 2023 07:46:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                  token:
-                    type: string
-                  _id:
-                    type: string
-                  email:
-                    type: string
-                  username:
-                    type: string
-                  sex:
-                    type: string
-                  birth:
-                    type: string
-                  height:
-                    type: number
-                  is_ft_heigth:
-                    type: boolean
-                  body_type:
-                    type: string
-                  physical_activities:
-                    type: string
-                  weight:
-                    type: number
-                  is_ft_weight:
-                    type: boolean
-                  protein:
-                    type: number
-                    required: true
-                  calories:
-                    type: number
-                    required: true
-                  carbs:
-                    type: number
-                    required: true
-                  fat:
-                    type: number
-                    required: true
-                  customGoal:
-                    type: boolean
-                    required: true
-                example:
-                  message: "User Registered and logged in"
-                  token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
-                  _id: "644902722f47001d32e7f02v"
-                  email: "john@gmail.com"
-                  username: "john"
-                  sex: "male"
-                  birth: "1990/01/01"
-                  height: 183
-                  is_ft_heigth: true
-                  body_type: "Athletic"
-                  physical_activities: "Swimming"
-                  weight: 95
-                  is_ft_weight: true
-                  protein: 200
-                  calories: 2000
-                  carbs: 800
-                  customGoal: true
+              example:
+                message: User updated and logged in
+                token: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDczMDVlZGMyM2M3Y2E3NGFlNTY2ZmEiLCJuYW1lIjoib21hcmkuamFsYWdhbmlhQGdtYWlsLmNvbSIsImlhdCI6MTY4NTI1OTk2MH0.sUEcCCQXEixiH2oGJIIfTqszItA6A4h0phvOCcABygs
   # Login with apple
   /auth/apple-login:
     post:
@@ -457,7 +461,7 @@ paths:
               properties:
                 appleToken:
                   type: string
-                  required: false
+                  required: true
             example:
               appleToken: "dsjkfhskjhfljkhwhSDFSDFsdfsd"
       responses:
@@ -496,19 +500,14 @@ paths:
                     type: boolean
                   protein:
                     type: number
-                    required: true
                   calories:
                     type: number
-                    required: true
                   carbs:
                     type: number
-                    required: true
                   fat:
                     type: number
-                    required: true
                   customGoal:
                     type: boolean
-                    required: true
                 example:
                   message: "User logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
@@ -526,6 +525,7 @@ paths:
                   protein: 200
                   calories: 2000
                   carbs: 800
+                  fat: 250
                   customGoal: true
   # Register user with apple
   /auth/apple-register:
@@ -544,10 +544,10 @@ paths:
                   required: true
                 appleToken:
                   type: string
-                  required: false
+                  required: true
                 username:
                   type: string
-                  required: false
+                  required: true
                 sex:
                   type: string
                   required: true
@@ -602,6 +602,7 @@ paths:
               protein: 200
               calories: 2000
               carbs: 800
+              fat: 250
               customGoal: true
       responses:
         "201":
@@ -639,19 +640,14 @@ paths:
                     type: boolean
                   protein:
                     type: number
-                    required: true
                   calories:
                     type: number
-                    required: true
                   carbs:
                     type: number
-                    required: true
                   fat:
                     type: number
-                    required: true
                   customGoal:
                     type: boolean
-                    required: true
                 example:
                   message: "User Registered and logged in"
                   token: "mMwZDMwZWYzZDkzOGVlNmEiLCJuYW1lIj"
@@ -669,6 +665,7 @@ paths:
                   protein: 200
                   calories: 2000
                   carbs: 800
+                  fat: 250
                   customGoal: true
   # Update user information
   /auth/update-user:
@@ -743,6 +740,7 @@ paths:
               protein: 200
               calories: 2000
               carbs: 800
+              fat: 250
               customGoal: true
       responses:
         "200":
@@ -799,6 +797,7 @@ paths:
                   protein: 200
                   calories: 2000
                   carbs: 800
+                  fat: 250
                   customGoal: true
   /auth/deactivate-account:
     post:

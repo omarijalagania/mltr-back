@@ -33,12 +33,38 @@ const registerWithGoogle = async (req, res) => {
       email: login
     });
     if (user) {
-      // If User already exists
-      return res.status(422).json({
-        message: "User with this email already exists"
+      var _user, _user2;
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        email: login,
+        username,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal
+      }, {
+        new: true
+      });
+      const token = _jsonwebtoken.default.sign({
+        _id: (_user = user) === null || _user === void 0 ? void 0 : _user._id,
+        name: (_user2 = user) === null || _user2 === void 0 ? void 0 : _user2.email
+      }, process.env.JWT_SECRET);
+      return res.status(201).json({
+        message: "User updated and logged in",
+        token
       });
     } else {
-      var _user, _user2;
+      var _user3, _user4;
       // Create new user
       user = await _models.User.create({
         email: login,
@@ -58,8 +84,8 @@ const registerWithGoogle = async (req, res) => {
         customGoal
       });
       const token = _jsonwebtoken.default.sign({
-        _id: (_user = user) === null || _user === void 0 ? void 0 : _user._id,
-        name: (_user2 = user) === null || _user2 === void 0 ? void 0 : _user2.email
+        _id: (_user3 = user) === null || _user3 === void 0 ? void 0 : _user3._id,
+        name: (_user4 = user) === null || _user4 === void 0 ? void 0 : _user4.email
       }, process.env.JWT_SECRET);
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -157,7 +183,7 @@ const registerWithApple = async (req, res) => {
       appleToken
     });
     if (user) {
-      var _user3, _user4, _user5;
+      var _user5, _user6, _user7;
       // User already exists, update user with new data
       user = await _models.User.findOneAndUpdate({
         appleToken
@@ -182,16 +208,16 @@ const registerWithApple = async (req, res) => {
         new: true
       });
       const token = _jsonwebtoken.default.sign({
-        _id: (_user3 = user) === null || _user3 === void 0 ? void 0 : _user3._id,
-        name: (_user4 = user) === null || _user4 === void 0 ? void 0 : _user4.email,
-        appleToken: (_user5 = user) === null || _user5 === void 0 ? void 0 : _user5.appleToken
+        _id: (_user5 = user) === null || _user5 === void 0 ? void 0 : _user5._id,
+        name: (_user6 = user) === null || _user6 === void 0 ? void 0 : _user6.email,
+        appleToken: (_user7 = user) === null || _user7 === void 0 ? void 0 : _user7.appleToken
       }, process.env.JWT_SECRET);
       return res.status(201).json({
         message: "User Updated and logged in",
         token
       });
     } else {
-      var _user6, _user7, _user8;
+      var _user8, _user9, _user10;
       // Create new user
       user = await _models.User.create({
         email: login,
@@ -211,9 +237,9 @@ const registerWithApple = async (req, res) => {
         customGoal
       });
       const token = _jsonwebtoken.default.sign({
-        _id: (_user6 = user) === null || _user6 === void 0 ? void 0 : _user6._id,
-        name: (_user7 = user) === null || _user7 === void 0 ? void 0 : _user7.email,
-        appleToken: (_user8 = user) === null || _user8 === void 0 ? void 0 : _user8.appleToken
+        _id: (_user8 = user) === null || _user8 === void 0 ? void 0 : _user8._id,
+        name: (_user9 = user) === null || _user9 === void 0 ? void 0 : _user9.email,
+        appleToken: (_user10 = user) === null || _user10 === void 0 ? void 0 : _user10.appleToken
       }, process.env.JWT_SECRET);
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -338,11 +364,32 @@ const userRegister = async (req, res) => {
     const hashedCode = await _bcryptjs.default.hash(code, salt);
     if (user) {
       // User already exists, send message on response
-      user = await _models.User.findOne({
+      user = await _models.User.findOneAndUpdate({
         email: login
+      }, {
+        code: hashedCode,
+        username,
+        sex,
+        birth,
+        height,
+        is_ft_heigth,
+        body_type,
+        physical_activities,
+        weight,
+        is_ft_weight,
+        protein,
+        calories,
+        carbs,
+        fat,
+        customGoal,
+        status: "inactive"
+      }, {
+        new: true
       });
-      return res.status(422).json({
-        message: "User with this email already exists"
+      (0, _mail.sendCodeConfirmation)(code, login);
+      return res.status(200).json({
+        message: "User updated, confirmation code sent to email",
+        user: user.email
       });
     } else {
       // User does not exist, create new user with provided data
