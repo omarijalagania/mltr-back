@@ -36,6 +36,7 @@ app.use(_express.default.static(_path.default.resolve("./public")));
   app.get("/", async (_, res) => {
     res.status(200).send("Welcome to Node.js Server");
   });
+  app.use("/docs", _routes.default);
   app.use("/history", _routes.default);
   app.use("/auth", _routes.default);
   app.use("/tag", _routes.default);

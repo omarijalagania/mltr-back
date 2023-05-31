@@ -36,3 +36,14 @@ Object.keys(_historyController).forEach(function (key) {
     }
   });
 });
+var _privacyController = require("./privacy-controller");
+Object.keys(_privacyController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _privacyController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _privacyController[key];
+    }
+  });
+});

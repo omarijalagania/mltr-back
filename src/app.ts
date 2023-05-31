@@ -8,6 +8,7 @@ import { connectDB } from "config"
 import authRoute from "./routes"
 import tagRoute from "./routes"
 import historyRoute from "./routes"
+import privacyRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
 
@@ -32,6 +33,7 @@ connectDB(false)
       res.status(200).send("Welcome to Node.js Server")
     })
 
+    app.use("/docs", privacyRoute)
     app.use("/history", historyRoute)
     app.use("/auth", authRoute)
     app.use("/tag", tagRoute)
