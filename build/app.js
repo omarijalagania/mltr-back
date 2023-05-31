@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.app = void 0;
 var _dotenv = _interopRequireDefault(require("dotenv"));
 var _express = _interopRequireDefault(require("express"));
+var _path = _interopRequireDefault(require("path"));
 var _cors = _interopRequireDefault(require("cors"));
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 var _config = require("./config");
@@ -25,6 +26,7 @@ const swaggerDocument = _yamljs.default.load("./src/config/swagger.yaml");
  * Setting up swagger middleware.
  */
 app.use("/api-docs", _swaggerUiExpress.default.serve, _swaggerUiExpress.default.setup(swaggerDocument));
+app.use(_express.default.static(_path.default.resolve("./public")));
 (0, _config.connectDB)(false).then(() => {
   app.use(_express.default.urlencoded({
     extended: true

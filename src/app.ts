@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import express from "express"
+import path from "path"
 import cors from "cors"
 import bodyParser from "body-parser"
 import { connectDB } from "config"
@@ -20,7 +21,7 @@ const swaggerDocument = YAML.load("./src/config/swagger.yaml")
  * Setting up swagger middleware.
  */
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-
+app.use(express.static(path.resolve("./public")))
 connectDB(false)
   .then(() => {
     app.use(express.urlencoded({ extended: true }))
