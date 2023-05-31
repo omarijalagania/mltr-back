@@ -24,7 +24,7 @@ export const codeConfirmationTemplate = (code: string) => {
   >
     <div
       style="background-color: #000000;
-      background-image: url(src="${process.env.BACKEND_URL}images/outlines.png");
+      background-image: url(${process.env.BACKEND_URL}images/outlines.png);
       padding: 10px 20px; border-radius: 15px"
     >
     <table style="margin: 0 auto;">
