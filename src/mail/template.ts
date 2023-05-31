@@ -24,13 +24,13 @@ export const codeConfirmationTemplate = (code: string) => {
   >
     <div
       style="background-color: #000000;
-      background-image: url(https://beeimg.com/images/p88503913343.png);
+      background-image: url(src="${process.env.BACKEND_URL}images/outlines.png");
       padding: 10px 20px; border-radius: 15px"
     >
     <table style="margin: 0 auto;">
       <tr>
       <img
-        src="https://beeimg.com/images/q42140907392.png"
+        src="src="${process.env.BACKEND_URL}images/mltr-logo.png""
       />
       </tr>
     </table>
