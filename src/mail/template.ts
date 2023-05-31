@@ -30,10 +30,10 @@ export const codeConfirmationTemplate = (code: string) => {
     <table style="margin: 0 auto;">
       <tr>
       <img
-        src="src="${process.env.BACKEND_URL}images/mltr-logo.png""
+        src="src="${process.env.BACKEND_URL}images/mltr-logo.png"
       />
       </tr>
-    </table>
+    </table
 
       <p style="color: white; font-size: 14px">
         Hello there, Thank you for registering to MLTR! We're so happy you're
