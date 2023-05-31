@@ -36,7 +36,7 @@ const codeConfirmationTemplate = code => {
     <table style="margin: 0 auto;">
       <tr>
       <img
-        src="src="${process.env.BACKEND_URL}images/mltr-logo.png"
+        src="${process.env.BACKEND_URL}images/mltr-logo.png"
       />
       </tr>
     </table
