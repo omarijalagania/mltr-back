@@ -16,16 +16,16 @@ import { authMiddleware } from "middlewares"
 
 const router = express.Router()
 
-//Google - auth route
+// Google - auth route
 router.post("/google-register", registerWithGoogle)
 router.post("/google-login", loginWithGoogle)
 
-//Apple - auth route
+// Apple - auth route
 
 router.post("/apple-register", registerWithApple)
 router.post("/apple-login", loginWithApple)
 
-//Email & Password
+// Email & Password
 
 router.post("/login", userLogin)
 router.post("/register", userRegister)

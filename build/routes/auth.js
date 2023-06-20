@@ -10,16 +10,16 @@ var _middlewares = require("../middlewares");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const router = _express.default.Router();
 
-//Google - auth route
+// Google - auth route
 router.post("/google-register", _controllers.registerWithGoogle);
 router.post("/google-login", _controllers.loginWithGoogle);
 
-//Apple - auth route
+// Apple - auth route
 
 router.post("/apple-register", _controllers.registerWithApple);
 router.post("/apple-login", _controllers.loginWithApple);
 
-//Email & Password
+// Email & Password
 
 router.post("/login", _controllers.userLogin);
 router.post("/register", _controllers.userRegister);
