@@ -9,6 +9,7 @@ import authRoute from "./routes"
 import tagRoute from "./routes"
 import historyRoute from "./routes"
 import privacyRoute from "./routes"
+import termsRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
 
@@ -29,11 +30,12 @@ connectDB(false)
     app.use(bodyParser.json())
     app.use(cors({}))
 
-    app.get("/", async (_, res) => {
-      res.status(200).send("Welcome to Node.js Server")
-    })
+    // app.get("/", async (_, res) => {
+    //   res.status(200).send("Welcome to Node.js Server")
+    // })
 
-    app.use("/docs", privacyRoute)
+    app.use("/", privacyRoute)
+    app.use("/", termsRoute)
     app.use("/history", historyRoute)
     app.use("/auth", authRoute)
     app.use("/tag", tagRoute)

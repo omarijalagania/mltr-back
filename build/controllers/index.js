@@ -47,3 +47,14 @@ Object.keys(_privacyController).forEach(function (key) {
     }
   });
 });
+var _termsController = require("./terms-controller");
+Object.keys(_termsController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _termsController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _termsController[key];
+    }
+  });
+});

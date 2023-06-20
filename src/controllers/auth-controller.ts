@@ -517,6 +517,7 @@ export const userLogin = async (req: Request, res: Response) => {
 
 export const deactivateAccount = async (req: Request, res: Response) => {
   const { login } = req.body
+
   let code = generateCode()
 
   try {

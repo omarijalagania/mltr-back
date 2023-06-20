@@ -31,9 +31,9 @@ const codeConfirmationTemplate = code => {
     <div
       style="background-color: #000000;
       background-image: url(${process.env.BACKEND_URL}images/outlines.png);
-      padding: 10px 20px; border-radius: 15px"
+      padding: 10px 20px"
     >
-    <table style="margin: 0 auto;">
+    <table style="margin: 0 auto">
       <tr>
       <img
         src="${process.env.BACKEND_URL}images/mltr-logo.png"
