@@ -10,10 +10,13 @@ export const codeConfirmationTemplate = (code: string) => {
   <style>
     body {
       background-color: #000000;
+      background-image: url(${process.env.BACKEND_URL}images/outline.svg);
       color: #FFFFFF;
       font-size: 16px;
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
       font-weight: 400;
     }
 
