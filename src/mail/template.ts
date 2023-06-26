@@ -59,11 +59,11 @@ export const codeConfirmationTemplate = (code: string) => {
 </head>
 <body>
   <div class="container">
-    <img class="logo" src="${process.env.BACKEND_URL}images/mltr-logo.png" alt="MLTR Logo" />
+    <img class="logo" src="${process.env.BACKEND_URL}images/mltr-logo.svg" alt="MLTR Logo" />
 
-    <p>
-      Hello there, Thank you for registering to MLTR! We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:
-    </p>
+    <p>Hello there, Thank you for registering with MLTR!</p> 
+    <p>We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:</p>
+    
 
     <h1>${code}</h1>
 
@@ -73,11 +73,11 @@ export const codeConfirmationTemplate = (code: string) => {
     </p>
 
     <p>
-      If you have any questions or concerns about the verification process, please don't hesitate to contact our support team. We're always here to help. Thanks for choosing our app to help you reach your nutrition goals! Warm regards, The MLTR Team
+      If you have any questions or concerns about the verification process, please don't hesitate to contact our support team. We're always here to help. Thanks for choosing our app to help you reach your nutrition goals!<p> Warm regards, The MLTR Team</p>
     </p>
 
     <div class="footer">
-      <img src="${process.env.BACKEND_URL}images/onyx-logo.png" alt="ONYX Labs Logo" style="width: 36px; height: 36px" />
+      <img src="${process.env.BACKEND_URL}images/onyx-logo.svg" alt="ONYX Labs Logo" style="width: 36px; height: 36px" />
       <p style="font-size: 14px;">Product of ONYX Labs</p>
       <div>
         <a href="https://onyxlabs.tech/terms.html" style="font-size: 14px; color: #c4ff46">Terms and Conditions</a>
