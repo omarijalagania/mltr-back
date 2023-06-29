@@ -11,7 +11,7 @@ export const codeConfirmationTemplate = (code: string) => {
 <body style="margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%; padding: 0;">
   <div style="background-image: url('https://mltr.ibotchori.space/images/outline-black.gif'); color: #FFFFFF; font-size: 16px; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
     <div style="padding: 10px 20px;">
-      <img src="https://mltr.ibotchori.space/images/mltr-logo.png" alt="MLTR Logo" style="max-width: 100%; height: auto;">
+      <img src="https://mltr.ibotchori.space/images/mltr-logo.png" alt="MLTR Logo" style="max-width: 100%; width: 100px; height: 100px;">
       
       <p style="color: #FFFFFF;">Hello there, Thank you for registering with MLTR!</p> 
       <p style="color: #FFFFFF;">We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:</p>
@@ -32,7 +32,7 @@ export const codeConfirmationTemplate = (code: string) => {
       
       <hr style="width: 100%; height: 1px; background-color: #797979; margin: 10px 0; border: none;">
       <div style="display: flex; align-items: center; justify-content: center;">
-        <img src="https://mltr.ibotchori.space/images/onyx-logo.png" alt="ONYX Labs Logo" style="width: 36px; height: 36px; display: block;">
+        <img src="https://mltr.ibotchori.space/images/onyx-logo.png" alt="ONYX Labs Logo" style="width: 100px; height: 100px; display: block;">
         <div style="font-size: 14px; text-align: center; margin-left: 5px; color: #FFFFFF;">ONYX Labs</div>
         <a href="https://onyxlabs.tech/terms.html" style="font-size: 14px;  color: #C4FF46; margin-left: 5px; text-decoration: none;">Terms and Conditions</a>
         <a href="https://onyxlabs.tech/privacy.html" style="font-size: 14px; color: #C4FF46; margin-left: 5px; text-decoration: none; margin-left: 10px;">Privacy Policy</a>
