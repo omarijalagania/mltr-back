@@ -8,8 +8,8 @@ export const codeConfirmationTemplate = (code: string) => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Email</title>
 </head>
-<body style="background-color: #000000; margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%; padding: 0;">
-  <div style="background-image: url('https://mltr.ibotchori.space/images/outlines.png'); color: #FFFFFF; font-size: 16px; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
+<body style="margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%; padding: 0;">
+  <div style="background-image: url('https://mltr.ibotchori.space/images/outline-black.gif'); color: #FFFFFF; font-size: 16px; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
     <div style="padding: 10px 20px;">
       <img src="https://mltr.ibotchori.space/images/mltr-logo.png" alt="MLTR Logo" style="max-width: 100%; height: auto;">
       
