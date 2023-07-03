@@ -15,11 +15,11 @@ export const codeConfirmationTemplate = (code: string) => {
       <p style="">Hello there, Thank you for registering with MLTR!</p> 
       <p style="">We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:</p>
       
-      <h1 style="color: #c4ff46; font-size: 34px; margin: 10px 0;">${code}</h1>
+      <h1 style="color: #A8E717; font-size: 34px; margin: 10px 0;">${code}</h1>
       
       <p style="">
         This will verify your email and allow you to fully access all the features of the app. If you did not request this verification code, please disregard this email. If you have any questions or concerns, please contact our support team at
-        <a href="mailto:mltr.support@onyxlabs.tech" style="color: #c4ff46; text-decoration: none;">mltr.support@onyxlabs.tech</a>.
+        <a href="mailto:mltr.support@onyxlabs.tech" style="color: #A8E717; text-decoration: none;">mltr.support@onyxlabs.tech</a>.
       </p>
       
       <p style="">
@@ -32,8 +32,8 @@ export const codeConfirmationTemplate = (code: string) => {
       <hr style="width: 100%; height: 1px; background-color: #797979; margin: 10px 0; border: none;">
       <div style="display: flex; align-items: center; justify-content: center;">
         <div style="font-size: 14px; text-align: center; margin-left: 5px; ">ONYX Labs</div>
-        <a href="https://onyxlabs.tech/terms.html" style="font-size: 14px;  color: #C4FF46; margin-left: 5px; text-decoration: none;">Terms and Conditions</a>
-        <a href="https://onyxlabs.tech/privacy.html" style="font-size: 14px; color: #C4FF46; margin-left: 5px; text-decoration: none; margin-left: 10px;">Privacy Policy</a>
+        <a href="https://onyxlabs.tech/terms.html" style="font-size: 14px;  color: #A8E717; margin-left: 5px; text-decoration: none;">Terms and Conditions</a>
+        <a href="https://onyxlabs.tech/privacy.html" style="font-size: 14px; color: #A8E717; margin-left: 5px; text-decoration: none; margin-left: 10px;">Privacy Policy</a>
       </div>
     </div>
     
