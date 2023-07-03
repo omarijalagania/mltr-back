@@ -10,7 +10,7 @@ export const codeConfirmationTemplate = (code: string) => {
 </head>
 
 <body style="margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%; padding: 0;">
-  <div style=" color: #FFFFFF; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
+  <div style="font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
     <div style="padding: 10px 20px;">
       <p style="">Hello there, Thank you for registering with MLTR!</p> 
       <p style="">We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:</p>
