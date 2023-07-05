@@ -18,7 +18,7 @@ const sendCodeConfirmation = async (code, email) => {
   const mailOptions = {
     from: `<${process.env.EMAIL_FROM}>`,
     to: email,
-    subject: "Confirm your code",
+    subject: "MLTR Verification Code",
     html: (0, _index.codeConfirmationTemplate)(code)
   };
   transporter.sendMail(mailOptions, (err, info) => {
