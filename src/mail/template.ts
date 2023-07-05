@@ -10,9 +10,9 @@ export const codeConfirmationTemplate = (code: string) => {
 </head>
 
 <body style="margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%; padding: 0;">
-  <div style="background-image: url('https://mltr.ibotchori.space/images/tile.png');  font-size: 16px; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
+  <div style="background-image: url('${process.env.BACKEND_URL}/images/tile.png');  font-size: 16px; font-weight: 400; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center;">
     <div style="padding: 10px 20px;">
-      <img src="https://mltr.ibotchori.space/images/mltr-logo.png" alt="MLTR Logo" style="max-width: 100%; width: 85px; height: 85px;">
+      <img src="${process.env.BACKEND_URL}/images/mltr-logo.png" alt="MLTR Logo" style="max-width: 100%; width: 85px; height: 85px;">
       
       <p>Hello there, Thank you for registering with MLTR!</p> 
       <p>We're so happy you're here and can't wait for you to start using our app to track your nutrition. To complete the registration process, please enter the following verification code in the app:</p>
@@ -33,8 +33,8 @@ export const codeConfirmationTemplate = (code: string) => {
       
       <hr style="width: 100%; height: 1px; background-color: #797979; margin: 10px 0; border: none;">
       <div style="display: flex; align-items: center; justify-content: center;">
-        <img src="https://mltr.ibotchori.space/images/onyx-logo.png" alt="ONYX Labs Logo" style="width: 36px; height: 36px; display: block;">
-        <div style="font-size: 14px; text-align: center; margin-left: 5px; ">ONYX Labs</div>
+        <img src="${process.env.BACKEND_URL}/images/onyx-logo.png" alt="ONYX Labs Logo" style="width: 36px; height: 36px; display: block;">
+        <div style="font-size: 14px; text-align: center; margin-left: 5px;">ONYX Labs</div>
         <a href="https://onyxlabs.tech/terms.html" style="font-size: 14px;  color: #c4ff46; margin-left: 5px; text-decoration: none;">Terms and Conditions</a>
         <a href="https://onyxlabs.tech/privacy.html" style="font-size: 14px; color: #c4ff46; margin-left: 5px; text-decoration: none; margin-left: 10px;">Privacy Policy</a>
       </div>
