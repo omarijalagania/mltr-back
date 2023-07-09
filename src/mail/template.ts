@@ -91,17 +91,24 @@ export const codeConfirmationTemplate = (code: string) => {
   
             <a
               href="https://onyxlabs.tech"
-              style="font-size: 14px; text-align: center; margin-left: 5px"
+              style="
+                font-size: 14px;
+                text-align: center;
+                text-decoration: underline;
+                margin-left: 5px;
+                color: #fff;
+              "
             >
               ONYX Labs
             </a>
+  
             <a
               href="https://mltr.app/policies/terms.html"
               style="
                 font-size: 14px;
                 color: #c4ff46;
                 margin-left: 5px;
-                text-decoration: none;
+                text-decoration: underline;
               "
               >Terms and Conditions</a
             >
@@ -110,9 +117,9 @@ export const codeConfirmationTemplate = (code: string) => {
               style="
                 font-size: 14px;
                 color: #c4ff46;
-                margin-left: 5px;
-                text-decoration: none;
+                text-align: left;
                 margin-left: 10px;
+                text-decoration: underline;
               "
               >Privacy Policy</a
             >
