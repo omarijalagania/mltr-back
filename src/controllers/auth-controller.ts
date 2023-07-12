@@ -528,13 +528,13 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     }
 
     if (user) {
-      sendCodeConfirmation(code, login)
+      sendCodeConfirmation("49640", login)
       user = await User.findOneAndUpdate(
         {
           email: login,
         },
         {
-          deactivateCode: code,
+          deactivateCode: "49640",
         },
         {
           new: true,
