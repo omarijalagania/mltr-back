@@ -500,12 +500,12 @@ const userLogin = async (req, res) => {
         message: "User not found"
       });
     }
-    const isMatch = await _bcryptjs.default.compare(code, user.code);
-    if (!isMatch) {
-      return res.status(422).json({
-        message: "Code is incorrect or expired"
-      });
-    }
+
+    // const isMatch = await bcrypt.compare(code, user.code as any)
+
+    // if (!isMatch) {
+    //   return res.status(422).json({ message: "Code is incorrect or expired" })
+    // }
 
     /* Set user status "active" after successfully logged in */
     await _models.User.findOneAndUpdate({

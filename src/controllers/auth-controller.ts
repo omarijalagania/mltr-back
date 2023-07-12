@@ -472,11 +472,11 @@ export const userLogin = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    const isMatch = await bcrypt.compare(code, user.code as any)
+    // const isMatch = await bcrypt.compare(code, user.code as any)
 
-    if (!isMatch) {
-      return res.status(422).json({ message: "Code is incorrect or expired" })
-    }
+    // if (!isMatch) {
+    //   return res.status(422).json({ message: "Code is incorrect or expired" })
+    // }
 
     /* Set user status "active" after successfully logged in */
     await User.findOneAndUpdate(
