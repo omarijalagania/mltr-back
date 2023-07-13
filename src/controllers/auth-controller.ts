@@ -472,11 +472,29 @@ export const userLogin = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    const isMatch = await bcrypt.compare(code, user.code as any)
+    // FOR TESTING
 
-    if (!isMatch) {
-      return res.status(422).json({ message: "Code is incorrect or expired" })
+    let testCode = false
+
+    if (code === "49640" && login === "test@gmail.com") {
+      testCode = true
     }
+
+    if (!testCode) {
+      const isMatch = await bcrypt.compare(code, user.code as any)
+
+      if (!isMatch) {
+        return res.status(422).json({ message: "Code is incorrect or expired" })
+      }
+    }
+
+    // FOR TESTING END
+
+    // const isMatch = await bcrypt.compare(code, user.code as any)
+
+    // if (!isMatch) {
+    //   return res.status(422).json({ message: "Code is incorrect or expired" })
+    // }
 
     /* Set user status "active" after successfully logged in */
     await User.findOneAndUpdate(
@@ -527,8 +545,30 @@ export const deactivateAccount = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    if (user) {
+    //FOR TEST
+
+    if (login == "test@gmail.com") {
       sendCodeConfirmation("49640", login)
+      user = await User.findOneAndUpdate(
+        {
+          email: login,
+        },
+        {
+          deactivateCode: "49640",
+        },
+        {
+          new: true,
+        },
+      )
+      return res
+        .status(200)
+        .json({ message: "Deactivation code sent to test email" })
+    }
+
+    // FOR TEST END
+    else {
+      sendCodeConfirmation(code, login)
+
       user = await User.findOneAndUpdate(
         {
           email: login,
@@ -563,6 +603,8 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
       if (user.deactivateCode === code) {
         user = await User.findOneAndDelete({ email: login })
         return res.status(200).json({ message: "Account deactivated" })
+      } else {
+        return res.status(422).json({ message: "Wrong code" })
       }
     }
   } catch (error) {

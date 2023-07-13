@@ -501,6 +501,23 @@ const userLogin = async (req, res) => {
       });
     }
 
+    // FOR TESTING
+
+    let testCode = false;
+    if (code === "49640" && login === "test@gmail.com") {
+      testCode = true;
+    }
+    if (!testCode) {
+      const isMatch = await _bcryptjs.default.compare(code, user.code);
+      if (!isMatch) {
+        return res.status(422).json({
+          message: "Code is incorrect or expired"
+        });
+      }
+    }
+
+    // FOR TESTING END
+
     // const isMatch = await bcrypt.compare(code, user.code as any)
 
     // if (!isMatch) {
@@ -558,7 +575,25 @@ const deactivateAccount = async (req, res) => {
         message: "User not found"
       });
     }
-    if (user) {
+
+    //FOR TEST
+
+    if (login == "test@gmail.com") {
+      (0, _mail.sendCodeConfirmation)("49640", login);
+      user = await _models.User.findOneAndUpdate({
+        email: login
+      }, {
+        deactivateCode: "49640"
+      }, {
+        new: true
+      });
+      return res.status(200).json({
+        message: "Deactivation code sent to test email"
+      });
+    }
+
+    // FOR TEST END
+    else {
       (0, _mail.sendCodeConfirmation)(code, login);
       user = await _models.User.findOneAndUpdate({
         email: login
@@ -599,6 +634,10 @@ const confirmDeactivationCode = async (req, res) => {
         });
         return res.status(200).json({
           message: "Account deactivated"
+        });
+      } else {
+        return res.status(422).json({
+          message: "Wrong code"
         });
       }
     }
