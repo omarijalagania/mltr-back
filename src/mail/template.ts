@@ -23,7 +23,6 @@ export const codeConfirmationTemplate = (code: string) => {
     >
       <div
         style="
-          background-image: url('${process.env.BACKEND_URL}/images/tile.png');
           font-size: 16px;
           font-weight: 400;
           text-align: center;
