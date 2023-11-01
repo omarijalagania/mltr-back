@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.updateUser = exports.tokenVerify = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.updateUser = exports.tokenVerify = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getUser = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
@@ -744,3 +744,22 @@ const tokenVerify = async (req, res) => {
   }
 };
 exports.tokenVerify = tokenVerify;
+const getUser = async (req, res) => {
+  const {
+    userId
+  } = req.query;
+  try {
+    const user = await _models.User.findById(userId);
+    if (!user) {
+      return res.status(4040).json({
+        message: "user not found"
+      });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.getUser = getUser;

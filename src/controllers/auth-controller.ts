@@ -700,3 +700,19 @@ export const tokenVerify = async (req: Request, res: Response) => {
     return res.status(422).json({ message: "invalid token" })
   }
 }
+
+export const getUser = async (req: Request, res: Response) => {
+  const { userId } = req.query
+
+  try {
+    const user = await User.findById(userId)
+
+    if (!user) {
+      return res.status(4040).json({ message: "user not found" })
+    }
+
+    res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}

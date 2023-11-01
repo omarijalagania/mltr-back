@@ -11,6 +11,7 @@ import {
   loginWithApple,
   updateUser,
   tokenVerify,
+  getUser,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -37,6 +38,7 @@ router.post(
   confirmDeactivationCode,
 )
 router.patch("/update-user", authMiddleware, updateUser)
+router.get("/get-user", authMiddleware, getUser)
 
 //Token verify
 
