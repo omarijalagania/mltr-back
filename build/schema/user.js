@@ -17,6 +17,7 @@ const userSchema = _joi.default.object({
   body_type: _joi.default.string().optional(),
   physical_activities: _joi.default.string().optional(),
   weight: _joi.default.number().min(1).max(1000).optional(),
-  is_ft_weight: _joi.default.boolean().optional()
+  is_ft_weight: _joi.default.boolean().optional(),
+  water: _joi.default.number().min(0).max(10000).optional()
 });
 exports.userSchema = userSchema;

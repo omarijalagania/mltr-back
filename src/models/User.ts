@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema({
   deactivateCode: {
     type: String,
   },
+  water: {
+    type: Number,
+    default: 0,
+  },
 
   joined: { type: Date, default: Date.now },
 })

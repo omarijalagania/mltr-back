@@ -22,6 +22,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     carbs,
     fat,
     customGoal,
+    water,
   } = req.body
 
   try {
@@ -46,6 +47,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
           carbs,
           fat,
           customGoal,
+          water,
         },
         {
           new: true,
@@ -78,6 +80,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         carbs,
         fat,
         customGoal,
+        water,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email },
@@ -102,6 +105,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         carbs: user.carbs,
         fat: user.fat,
         customGoal: user.customGoal,
+        water: user.water,
       })
     }
   } catch (error) {
@@ -145,6 +149,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       carbs: user.carbs,
       fat: user.fat,
       customGoal: user.customGoal,
+      water: user.water,
     })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -169,6 +174,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
     carbs,
     fat,
     customGoal,
+    water,
   } = req.body
 
   try {
@@ -195,6 +201,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
           carbs,
           fat,
           customGoal,
+          water,
         },
         { new: true },
       )
@@ -225,6 +232,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         carbs,
         fat,
         customGoal,
+        water,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
@@ -249,6 +257,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         carbs: user.carbs,
         fat: user.fat,
         customGoal: user.customGoal,
+        water: user.water,
       })
     }
   } catch (error) {
@@ -286,6 +295,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
         carbs: user.carbs,
         fat: user.fat,
         customGoal: user.customGoal,
+        water: user.water,
       })
     }
     if (!user) {
@@ -313,6 +323,7 @@ export const userRegister = async (req: Request, res: Response) => {
     carbs,
     fat,
     customGoal,
+    water,
   } = req.body
 
   try {
@@ -362,6 +373,7 @@ export const userRegister = async (req: Request, res: Response) => {
           carbs,
           fat,
           customGoal,
+          water,
           status: "inactive",
         },
         {
@@ -392,6 +404,7 @@ export const userRegister = async (req: Request, res: Response) => {
         carbs,
         fat,
         customGoal,
+        water,
         status: "inactive",
       })
 
@@ -527,6 +540,7 @@ export const userLogin = async (req: Request, res: Response) => {
       carbs: user.carbs,
       fat: user.fat,
       customGoal: user.customGoal,
+      water: user.water,
     })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -629,6 +643,7 @@ export const updateUser = async (req: Request, res: Response) => {
     carbs,
     fat,
     customGoal,
+    water,
   } = req.body
 
   try {
@@ -656,6 +671,7 @@ export const updateUser = async (req: Request, res: Response) => {
           carbs,
           fat,
           customGoal,
+          water,
         },
         { new: true },
       )
@@ -677,6 +693,7 @@ export const updateUser = async (req: Request, res: Response) => {
         carbs,
         fat,
         customGoal,
+        water,
       })
     }
   } catch (error) {

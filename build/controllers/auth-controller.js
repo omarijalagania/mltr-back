@@ -26,7 +26,8 @@ const registerWithGoogle = async (req, res) => {
     calories,
     carbs,
     fat,
-    customGoal
+    customGoal,
+    water
   } = req.body;
   try {
     let user = await _models.User.findOne({
@@ -51,7 +52,8 @@ const registerWithGoogle = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       }, {
         new: true
       });
@@ -81,7 +83,8 @@ const registerWithGoogle = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       });
       const token = _jsonwebtoken.default.sign({
         _id: (_user3 = user) === null || _user3 === void 0 ? void 0 : _user3._id,
@@ -105,7 +108,8 @@ const registerWithGoogle = async (req, res) => {
         calories: user.calories,
         carbs: user.carbs,
         fat: user.fat,
-        customGoal: user.customGoal
+        customGoal: user.customGoal,
+        water: user.water
       });
     }
   } catch (error) {
@@ -150,7 +154,8 @@ const loginWithGoogle = async (req, res) => {
       calories: user.calories,
       carbs: user.carbs,
       fat: user.fat,
-      customGoal: user.customGoal
+      customGoal: user.customGoal,
+      water: user.water
     });
   } catch (error) {
     res.status(500).json({
@@ -176,7 +181,8 @@ const registerWithApple = async (req, res) => {
     calories,
     carbs,
     fat,
-    customGoal
+    customGoal,
+    water
   } = req.body;
   try {
     let user = await _models.User.findOne({
@@ -203,7 +209,8 @@ const registerWithApple = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       }, {
         new: true
       });
@@ -234,7 +241,8 @@ const registerWithApple = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       });
       const token = _jsonwebtoken.default.sign({
         _id: (_user8 = user) === null || _user8 === void 0 ? void 0 : _user8._id,
@@ -259,7 +267,8 @@ const registerWithApple = async (req, res) => {
         calories: user.calories,
         carbs: user.carbs,
         fat: user.fat,
-        customGoal: user.customGoal
+        customGoal: user.customGoal,
+        water: user.water
       });
     }
   } catch (error) {
@@ -301,7 +310,8 @@ const loginWithApple = async (req, res) => {
         calories: user.calories,
         carbs: user.carbs,
         fat: user.fat,
-        customGoal: user.customGoal
+        customGoal: user.customGoal,
+        water: user.water
       });
     }
     if (!user) {
@@ -332,7 +342,8 @@ const userRegister = async (req, res) => {
     calories,
     carbs,
     fat,
-    customGoal
+    customGoal,
+    water
   } = req.body;
   try {
     let code = (0, _helpers.generateCode)();
@@ -382,6 +393,7 @@ const userRegister = async (req, res) => {
         carbs,
         fat,
         customGoal,
+        water,
         status: "inactive"
       }, {
         new: true
@@ -410,6 +422,7 @@ const userRegister = async (req, res) => {
         carbs,
         fat,
         customGoal,
+        water,
         status: "inactive"
       });
       (0, _mail.sendCodeConfirmation)(code, login);
@@ -552,7 +565,8 @@ const userLogin = async (req, res) => {
       calories: user.calories,
       carbs: user.carbs,
       fat: user.fat,
-      customGoal: user.customGoal
+      customGoal: user.customGoal,
+      water: user.water
     });
   } catch (err) {
     res.status(500).json({
@@ -664,7 +678,8 @@ const updateUser = async (req, res) => {
     calories,
     carbs,
     fat,
-    customGoal
+    customGoal,
+    water
   } = req.body;
   try {
     let user = await _models.User.findOne({
@@ -693,7 +708,8 @@ const updateUser = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       }, {
         new: true
       });
@@ -714,7 +730,8 @@ const updateUser = async (req, res) => {
         calories,
         carbs,
         fat,
-        customGoal
+        customGoal,
+        water
       });
     }
   } catch (error) {
