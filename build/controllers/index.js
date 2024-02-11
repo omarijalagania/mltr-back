@@ -58,3 +58,14 @@ Object.keys(_termsController).forEach(function (key) {
     }
   });
 });
+var _foodController = require("./food-controller");
+Object.keys(_foodController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _foodController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _foodController[key];
+    }
+  });
+});

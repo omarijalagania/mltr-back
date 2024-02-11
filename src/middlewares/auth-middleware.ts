@@ -13,6 +13,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const verified = jwt.verify(token, process.env.JWT_SECRET)
+
     if (verified) {
       next()
     } else {

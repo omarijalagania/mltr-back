@@ -9,6 +9,7 @@ import authRoute from "./routes"
 import tagRoute from "./routes"
 import historyRoute from "./routes"
 import privacyRoute from "./routes"
+import foodRoute from "./routes"
 import termsRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
@@ -39,6 +40,7 @@ connectDB(false)
     app.use("/history", historyRoute)
     app.use("/auth", authRoute)
     app.use("/tag", tagRoute)
+    app.use("/food", foodRoute)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
