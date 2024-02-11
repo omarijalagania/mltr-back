@@ -109,28 +109,34 @@ const updateFood = async (req, res) => {
   const {
     userId,
     foodId,
-    food
+    food,
+    foodList
   } = req.body;
   const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
+  const updatedProperties = {};
+  for (const key in food) {
+    if (food.hasOwnProperty(key)) {
+      updatedProperties[`userFoodList.$.${key}`] = food[key];
+    }
+  }
   try {
     if (!isUserIdValid) {
       return res.status(403).json({
         message: "Not authorized"
       });
     }
-    await _models.UserFoodList.updateOne({
+    await _models.UserFoodList.findOneAndUpdate({
       userId,
       "userFoodList._id": foodId
-    },
-    // find a document with userId and foodId
-    {
-      $set: {
-        "userFoodList.$": food
+    }, {
+      $set: updatedProperties,
+      $push: {
+        "userFoodList.$.foodList": foodList
       }
-    } // set the whole food object to the new one
-    );
-
-    res.status(200).json({
+    }, {
+      new: true
+    });
+    return res.status(200).json({
       message: "Food updated"
     });
   } catch (error) {

@@ -78,21 +78,35 @@ export const removeFood = async (req: Request, res: Response) => {
 }
 
 export const updateFood = async (req: Request, res: Response) => {
-  const { userId, foodId, food } = req.body
+  const { userId, foodId, food, foodList } = req.body
 
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  const updatedProperties = {} as { [key: string]: any }
+  for (const key in food) {
+    if (food.hasOwnProperty(key)) {
+      updatedProperties[`userFoodList.$.${key}`] = food[key]
+    }
+  }
 
   try {
     if (!isUserIdValid) {
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    await UserFoodList.updateOne(
-      { userId, "userFoodList._id": foodId }, // find a document with userId and foodId
-      { $set: { "userFoodList.$": food } }, // set the whole food object to the new one
+    await UserFoodList.findOneAndUpdate(
+      { userId, "userFoodList._id": foodId },
+      {
+        $set: updatedProperties,
+        $push: {
+          "userFoodList.$.foodList": foodList,
+        },
+      },
+
+      { new: true },
     )
 
-    res.status(200).json({ message: "Food updated" })
+    return res.status(200).json({ message: "Food updated" })
   } catch (error) {
     res.status(500).json({ message: "Internal server error" })
   }

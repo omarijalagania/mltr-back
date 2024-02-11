@@ -53,7 +53,7 @@ const userFoodListSchema = new _mongoose.default.Schema({
       type: Number
     },
     foodList: [{
-      foodId: {
+      myFoodId: {
         type: String
       },
       pceCount: {

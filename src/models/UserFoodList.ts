@@ -23,7 +23,7 @@ const userFoodListSchema = new mongoose.Schema({
       weight: { type: Number },
       foodList: [
         {
-          foodId: {
+          myFoodId: {
             type: String,
           },
           pceCount: {
