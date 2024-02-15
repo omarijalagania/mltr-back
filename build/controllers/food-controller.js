@@ -76,13 +76,29 @@ exports.addFood = addFood;
 const removeFood = async (req, res) => {
   const {
     userId,
-    foodId
+    foodId,
+    recipeId
   } = req.body;
   const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
   try {
     if (!isUserIdValid) {
       return res.status(403).json({
         message: "Not authorized"
+      });
+    }
+    if (recipeId) {
+      await _models.UserFoodList.updateOne({
+        userId,
+        "userFoodList._id": foodId
+      }, {
+        $pull: {
+          "userFoodList.$.foodList": {
+            _id: recipeId
+          }
+        }
+      });
+      return res.status(200).json({
+        message: "Recipe removed"
       });
     }
     await _models.UserFoodList.updateOne({
