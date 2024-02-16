@@ -145,8 +145,8 @@ const updateFood = async (req, res) => {
       userId,
       "userFoodList._id": foodId
     }, {
-      $set: updatedProperties,
-      $push: {
+      $set: {
+        ...updatedProperties,
         "userFoodList.$.foodList": foodList
       }
     }, {

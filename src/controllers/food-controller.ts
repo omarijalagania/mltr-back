@@ -106,12 +106,11 @@ export const updateFood = async (req: Request, res: Response) => {
     await UserFoodList.findOneAndUpdate(
       { userId, "userFoodList._id": foodId },
       {
-        $set: updatedProperties,
-        $push: {
+        $set: {
+          ...updatedProperties,
           "userFoodList.$.foodList": foodList,
         },
       },
-
       { new: true },
     )
 
