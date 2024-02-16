@@ -1286,3 +1286,262 @@ paths:
         "404":
           description: History not found
 
+  /food/post-food:
+    post:
+      tags:
+        - Food
+      summary: Add new Food
+      description: Add new Food
+      operationId: addNewFood
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                food:
+                  type: object
+                  properties:
+                    calories:
+                      type: number
+                      example: 950
+                    carbs:
+                      type: number
+                      example: 500
+                    createdDate:
+                      type: string
+                      example: '2024-02-19'
+                    eatsTimes:
+                      type: number
+                      example: 3
+                    fat:
+                      type: number
+                      example: 49
+                    foodList:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          myFoodId:
+                            type: number
+                            example: 3453543
+                          pceCount:
+                            type: number
+                            example: 33
+                      example:
+                        - myFoodId: 3453543
+                          pceCount: 33
+                    isInFridge:
+                      type: boolean
+                      example: true
+                    isLiquid:
+                      type: boolean
+                      example: false
+                    isRemoved:
+                      type: boolean
+                      example: false
+                    isSet:
+                      type: boolean
+                      example: true
+                    protein:
+                      type: number
+                      example: 20
+                    tag:
+                      type: string
+                      example: Lunch
+                    water:
+                      type: number
+                      example: 100
+                    weight:
+                      type: number
+                      example: 150
+                userId:
+                  type: string
+                  example: 65c8bdff40bc6daf810dfb47
+            examples:
+              Add new Food:
+                value:
+                  food:
+                    calories: 950
+                    carbs: 500
+                    createdDate: '2024-02-19'
+                    eatsTimes: 3
+                    fat: 49
+                    foodList:
+                      - myFoodId: 3453543
+                        pceCount: 33
+                    isInFridge: true
+                    isLiquid: false
+                    isRemoved: false
+                    isSet: true
+                    protein: 20
+                    tag: Lunch
+                    water: 100
+                    weight: 150
+                  userId: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /food/delete-food:
+    post:
+      tags:
+        - Food
+      summary: Remove Food
+      description: Remove Food
+      operationId: removeFood
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                foodId:
+                  type: string
+                  example: 65cdf9a4d023b59c05886c70
+                recipeId:
+                  type: string
+                  example: 65cdf9a4d023b59c05886c71
+                userId:
+                  type: string
+                  example: 65c8bdff40bc6daf810dfb47
+            examples:
+              Remove Food:
+                value:
+                  foodId: 65cdf9a4d023b59c05886c70
+                  recipeId: 65cdf9a4d023b59c05886c71
+                  userId: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /food/get-food:
+    get:
+      tags:
+        - Food
+      summary: Get All Food
+      description: Get All Food
+      operationId: getAllFood
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: string
+            example: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: ''
+      security:
+        - bearerAuth: []
+  /food/update-food:
+    patch:
+      tags:
+        - Food
+      summary: Update Food
+      description: Update Food
+      operationId: updateFood
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                food:
+                  type: object
+                  properties:
+                    calories:
+                      type: number
+                      example: 777734343
+                    fat:
+                      type: number
+                      example: 773344
+                foodId:
+                  type: string
+                  example: 65cdf9a4d023b59c05886c70
+                foodList:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      myFoodId:
+                        type: string
+                        example: duu222
+                      pceCount:
+                        type: number
+                        example: 333333
+                  example:
+                    - myFoodId: duu222
+                      pceCount: 333333
+                    - myFoodId: duu777777
+                      pceCount: 44444
+                userId:
+                  type: string
+                  example: 65c8bdff40bc6daf810dfb47
+            examples:
+              Update Food:
+                value:
+                  food:
+                    calories: 777734343
+                    fat: 773344
+                  foodId: 65cdf9a4d023b59c05886c70
+                  foodList:
+                    - myFoodId: duu222
+                      pceCount: 333333
+                    - myFoodId: duu777777
+                      pceCount: 44444
+                  userId: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: Update Food
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '26'
+            Date:
+              schema:
+                type: string
+                example: Fri, 16 Feb 2024 08:50:50 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-kWhyJ0ZGbU22X0fjJKBJuo/MQAY"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Food updated
+              examples:
+                Update Food:
+                  value:
+                    message: Food updated
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Food
