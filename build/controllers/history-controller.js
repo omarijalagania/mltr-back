@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getHistory = exports.editHistory = exports.deleteHistory = exports.createHistory = void 0;
+exports.getHistory = exports.getAllHistory = exports.editNewHistory = exports.editHistory = exports.deleteNewHistory = exports.deleteHistory = exports.createHistory = exports.addNewHistory = void 0;
 var _helpers = require("../helpers");
 var _models = require("../models");
 const createHistory = async (req, res) => {
@@ -135,4 +135,119 @@ const deleteHistory = async (req, res) => {
     });
   }
 };
+
+// new HistoryController().router
 exports.deleteHistory = deleteHistory;
+const getAllHistory = async (req, res) => {
+  const {
+    userId
+  } = req.params;
+  const isValid = (0, _helpers.isValidId)(userId);
+  const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({
+        message: "Not authorized"
+      });
+    }
+    if (!isValid) {
+      return res.status(422).json({
+        message: "Invalid userId"
+      });
+    }
+    const history = await _models.UserFoodHistory.find({
+      userId
+    });
+    return res.status(200).json({
+      history
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.getAllHistory = getAllHistory;
+const addNewHistory = async (req, res) => {
+  const {
+    userId,
+    userFoodHistoryList
+  } = req.body;
+  const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({
+        message: "Not authorized"
+      });
+    }
+    const newHistory = await _models.UserFoodHistory.create({
+      userId,
+      userFoodHistoryList
+    });
+    return res.status(201).json({
+      message: "History added",
+      history: newHistory
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.addNewHistory = addNewHistory;
+const editNewHistory = async (req, res) => {
+  const {
+    userId,
+    userFoodHistoryList
+  } = req.body;
+  const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({
+        message: "Not authorized"
+      });
+    }
+    const newHistory = await _models.UserFoodHistory.findOneAndUpdate({
+      userId
+    }, {
+      userFoodHistoryList
+    }, {
+      new: true
+    });
+    return res.status(201).json({
+      message: "History edited",
+      history: newHistory
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.editNewHistory = editNewHistory;
+const deleteNewHistory = async (req, res) => {
+  const {
+    userId,
+    historyId
+  } = req.body;
+  const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({
+        message: "Not authorized"
+      });
+    }
+    await _models.UserFoodHistory.deleteOne({
+      userId,
+      _id: historyId
+    });
+    return res.status(200).json({
+      message: "History deleted"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.deleteNewHistory = deleteNewHistory;

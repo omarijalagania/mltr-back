@@ -71,6 +71,9 @@ const userSchema = new _mongoose.default.Schema({
     type: Number,
     default: 0
   },
+  userLocation: {
+    type: String
+  },
   joined: {
     type: Date,
     default: Date.now

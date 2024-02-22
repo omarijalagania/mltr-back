@@ -15,6 +15,12 @@ Object.defineProperty(exports, "History", {
     return _History.default;
   }
 });
+Object.defineProperty(exports, "NewTag", {
+  enumerable: true,
+  get: function () {
+    return _NewTag.default;
+  }
+});
 Object.defineProperty(exports, "Tag", {
   enumerable: true,
   get: function () {
@@ -25,6 +31,12 @@ Object.defineProperty(exports, "User", {
   enumerable: true,
   get: function () {
     return _User.default;
+  }
+});
+Object.defineProperty(exports, "UserFoodHistory", {
+  enumerable: true,
+  get: function () {
+    return _FoodHistory.default;
   }
 });
 Object.defineProperty(exports, "UserFoodList", {
@@ -38,4 +50,6 @@ var _Tag = _interopRequireDefault(require("./Tag"));
 var _History = _interopRequireDefault(require("./History"));
 var _Food = _interopRequireDefault(require("./Food"));
 var _UserFoodList = _interopRequireDefault(require("./UserFoodList"));
+var _FoodHistory = _interopRequireDefault(require("./FoodHistory"));
+var _NewTag = _interopRequireDefault(require("./NewTag"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

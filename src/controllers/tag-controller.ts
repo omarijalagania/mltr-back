@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import { isValidId } from "helpers"
-import { Tag } from "models"
+import { decodeTokenAndGetUserId, isValidId } from "helpers"
+import { NewTag, Tag } from "models"
 
 export const createTag = async (req: Request, res: Response) => {
   const { identifire, tagName, isSetTag, userId } = req.body
@@ -96,6 +96,115 @@ export const deleteTags = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "No tags" })
     }
     return res.status(200).json({ message: "Tag deleted" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+//New Tags Controller
+
+export const getAllNewTags = async (req: Request, res: Response) => {
+  const { userId } = req.params
+
+  const isValid = isValidId(userId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const tags = await NewTag.find({ userId })
+
+    return res.status(200).json(tags)
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const createNewTag = async (req: Request, res: Response) => {
+  const { userId, tagsArray } = req.body
+
+  const isValid = isValidId(userId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+    await NewTag.create({ userId, tagsArray })
+    return res.status(201).json({ message: "Tags added" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const editNewTag = async (req: Request, res: Response) => {
+  const { userId, tagId, tagName } = req.body
+  const isValid = isValidId(userId)
+  const isValidTagId = isValidId(tagId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid || !isValidTagId) {
+      return res.status(422).json({ message: "Invalid Id" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const tags = await NewTag.findOneAndUpdate(
+      { userId, "tagsArray._id": tagId },
+      { "tagsArray.$.tagName": tagName },
+      { new: true },
+    )
+
+    if (!tags) {
+      return res.status(404).json({ message: "No tags" })
+    }
+    return res.status(200).json({ message: "Tag Name updated" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const hideNewTag = async (req: Request, res: Response) => {
+  const { userId, tagId } = req.body
+  const isValid = isValidId(userId)
+  const isValidTagId = isValidId(tagId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid || !isValidTagId) {
+      return res.status(422).json({ message: "Invalid Id" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const tags = await NewTag.findOneAndUpdate(
+      { userId, "tagsArray._id": tagId },
+      { "tagsArray.$.isHide": true },
+      { new: true },
+    )
+
+    if (!tags) {
+      return res.status(404).json({ message: "No tags" })
+    }
+    return res.status(200).json({ message: "Tag hidden" })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
