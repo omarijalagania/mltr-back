@@ -179,6 +179,7 @@ export const editNewTag = async (req: Request, res: Response) => {
   }
 }
 
+//Make switch to new tag
 export const hideNewTag = async (req: Request, res: Response) => {
   const { userId, tagId } = req.body
   const isValid = isValidId(userId)

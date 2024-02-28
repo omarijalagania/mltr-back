@@ -249,6 +249,8 @@ const editNewTag = async (req, res) => {
     });
   }
 };
+
+//Make switch to new tag
 exports.editNewTag = editNewTag;
 const hideNewTag = async (req, res) => {
   const {

@@ -146,7 +146,9 @@ export const addNewHistory = async (req: Request, res: Response) => {
 }
 
 export const editNewHistory = async (req: Request, res: Response) => {
-  const { userId, userFoodHistoryList } = req.body
+  const { userId, userFoodHistoryList, selectedDate } = req.body
+
+  console.log("userFoodHistoryList", selectedDate)
 
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
 
@@ -156,7 +158,7 @@ export const editNewHistory = async (req: Request, res: Response) => {
     }
 
     const newHistory = await UserFoodHistory.findOneAndUpdate(
-      { userId },
+      { userId, "userFoodHistoryList.selectedDate": selectedDate },
       { userFoodHistoryList },
       { new: true },
     )

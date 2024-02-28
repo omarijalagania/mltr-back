@@ -198,8 +198,10 @@ exports.addNewHistory = addNewHistory;
 const editNewHistory = async (req, res) => {
   const {
     userId,
-    userFoodHistoryList
+    userFoodHistoryList,
+    selectedDate
   } = req.body;
+  console.log("userFoodHistoryList", selectedDate);
   const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
   try {
     if (!isUserIdValid) {
@@ -208,7 +210,8 @@ const editNewHistory = async (req, res) => {
       });
     }
     const newHistory = await _models.UserFoodHistory.findOneAndUpdate({
-      userId
+      userId,
+      "userFoodHistoryList.selectedDate": selectedDate
     }, {
       userFoodHistoryList
     }, {
