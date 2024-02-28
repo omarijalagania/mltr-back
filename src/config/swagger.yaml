@@ -2274,7 +2274,7 @@ paths:
                     message: History deleted
       security:
         - bearerAuth: []
-  /tag/all-new-tags/65c8bdff40bc6daf810dfb47:
+  /tag/all-new-tags/{id}:
     get:
       tags:
         - New Tags
@@ -2403,6 +2403,13 @@ paths:
                       userId: 65c8bdff40bc6daf810dfb47
       security:
         - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 65c8bdff40bc6daf810dfb47
   /tag/add-new-tag:
     post:
       tags:
