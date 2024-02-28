@@ -1538,7 +1538,7 @@ paths:
                     message: Food updated
       security:
         - bearerAuth: []
-  /history/all/65c8bdff40bc6daf810dfb47:
+  /history/all/{id}:
     get:
       tags:
         - New History
@@ -1713,6 +1713,13 @@ paths:
                         userId: 65c8bdff40bc6daf810dfb47
       security:
         - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 65c8bdff40bc6daf810dfb47
   /history/add-new-history:
     post:
       tags:
