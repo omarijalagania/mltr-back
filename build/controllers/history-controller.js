@@ -180,6 +180,21 @@ const addNewHistory = async (req, res) => {
         message: "Not authorized"
       });
     }
+    const history = await _models.UserFoodHistory.findOne({
+      userId
+    });
+    if (history) {
+      const userFoodHistory = await _models.UserFoodHistory.findOneAndUpdate({
+        userId: userId
+      }, {
+        $push: {
+          userFoodHistoryList: userFoodHistoryList
+        }
+      }, {
+        new: true
+      });
+      return res.status(200).json(userFoodHistory);
+    }
     const newHistory = await _models.UserFoodHistory.create({
       userId,
       userFoodHistoryList
@@ -201,7 +216,6 @@ const editNewHistory = async (req, res) => {
     userFoodHistoryList,
     selectedDate
   } = req.body;
-  console.log("userFoodHistoryList", selectedDate);
   const isUserIdValid = (0, _helpers.decodeTokenAndGetUserId)(req, userId);
   try {
     if (!isUserIdValid) {
@@ -213,7 +227,9 @@ const editNewHistory = async (req, res) => {
       userId,
       "userFoodHistoryList.selectedDate": selectedDate
     }, {
-      userFoodHistoryList
+      $set: {
+        "userFoodHistoryList.$": userFoodHistoryList
+      }
     }, {
       new: true
     });

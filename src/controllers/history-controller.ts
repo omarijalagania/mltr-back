@@ -132,6 +132,17 @@ export const addNewHistory = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
+    const history = await UserFoodHistory.findOne({ userId })
+
+    if (history) {
+      const userFoodHistory = await UserFoodHistory.findOneAndUpdate(
+        { userId: userId },
+        { $push: { userFoodHistoryList: userFoodHistoryList } },
+        { new: true },
+      )
+      return res.status(200).json(userFoodHistory)
+    }
+
     const newHistory = await UserFoodHistory.create({
       userId,
       userFoodHistoryList,
@@ -148,8 +159,6 @@ export const addNewHistory = async (req: Request, res: Response) => {
 export const editNewHistory = async (req: Request, res: Response) => {
   const { userId, userFoodHistoryList, selectedDate } = req.body
 
-  console.log("userFoodHistoryList", selectedDate)
-
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
 
   try {
@@ -159,7 +168,7 @@ export const editNewHistory = async (req: Request, res: Response) => {
 
     const newHistory = await UserFoodHistory.findOneAndUpdate(
       { userId, "userFoodHistoryList.selectedDate": selectedDate },
-      { userFoodHistoryList },
+      { $set: { "userFoodHistoryList.$": userFoodHistoryList } },
       { new: true },
     )
 

@@ -179,7 +179,6 @@ export const editNewTag = async (req: Request, res: Response) => {
   }
 }
 
-//Make switch to new tag
 export const hideNewTag = async (req: Request, res: Response) => {
   const { userId, tagId } = req.body
   const isValid = isValidId(userId)
@@ -196,16 +195,23 @@ export const hideNewTag = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    const tags = await NewTag.findOneAndUpdate(
+    const tag = await NewTag.findOne({ userId, "tagsArray._id": tagId })
+    if (!tag) {
+      return res.status(404).json({ message: "No tags" })
+    }
+
+    //@ts-ignore
+    const isHide = tag.tagsArray.id(tagId).isHide
+    const updatedTag = await NewTag.findOneAndUpdate(
       { userId, "tagsArray._id": tagId },
-      { "tagsArray.$.isHide": true },
+      { "tagsArray.$.isHide": !isHide },
       { new: true },
     )
 
-    if (!tags) {
+    if (!updatedTag) {
       return res.status(404).json({ message: "No tags" })
     }
-    return res.status(200).json({ message: "Tag hidden" })
+    return res.status(200).json({ message: "Tag visibility toggled" })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }

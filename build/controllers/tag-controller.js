@@ -249,8 +249,6 @@ const editNewTag = async (req, res) => {
     });
   }
 };
-
-//Make switch to new tag
 exports.editNewTag = editNewTag;
 const hideNewTag = async (req, res) => {
   const {
@@ -271,21 +269,33 @@ const hideNewTag = async (req, res) => {
         message: "Not authorized"
       });
     }
-    const tags = await _models.NewTag.findOneAndUpdate({
+    const tag = await _models.NewTag.findOne({
+      userId,
+      "tagsArray._id": tagId
+    });
+    if (!tag) {
+      return res.status(404).json({
+        message: "No tags"
+      });
+    }
+
+    //@ts-ignore
+    const isHide = tag.tagsArray.id(tagId).isHide;
+    const updatedTag = await _models.NewTag.findOneAndUpdate({
       userId,
       "tagsArray._id": tagId
     }, {
-      "tagsArray.$.isHide": true
+      "tagsArray.$.isHide": !isHide
     }, {
       new: true
     });
-    if (!tags) {
+    if (!updatedTag) {
       return res.status(404).json({
         message: "No tags"
       });
     }
     return res.status(200).json({
-      message: "Tag hidden"
+      message: "Tag visibility toggled"
     });
   } catch (error) {
     res.status(500).json({
