@@ -193,6 +193,21 @@ const createNewTag = async (req, res) => {
         message: "Not authorized"
       });
     }
+    const user = await _models.NewTag.findOne({
+      userId
+    });
+    if (user) {
+      const userFoodList = await _models.NewTag.findOneAndUpdate({
+        userId
+      }, {
+        $push: {
+          tagsArray: tagsArray
+        }
+      }, {
+        new: true
+      });
+      return res.status(200).json(userFoodList);
+    }
     await _models.NewTag.create({
       userId,
       tagsArray

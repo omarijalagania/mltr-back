@@ -141,6 +141,18 @@ export const createNewTag = async (req: Request, res: Response) => {
     if (!isUserIdValid) {
       return res.status(403).json({ message: "Not authorized" })
     }
+
+    const user = await NewTag.findOne({ userId })
+
+    if (user) {
+      const userFoodList = await NewTag.findOneAndUpdate(
+        { userId },
+        { $push: { tagsArray: tagsArray } },
+        { new: true },
+      )
+      return res.status(200).json(userFoodList)
+    }
+
     await NewTag.create({ userId, tagsArray })
     return res.status(201).json({ message: "Tags added" })
   } catch (error) {
