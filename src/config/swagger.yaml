@@ -2489,6 +2489,7 @@ paths:
                       water: 500
                       weight: 200
                   userId: 65c8bdff40bc6daf810dfb47
+                  selectedDate: "2024-03-23"
       responses:
         '201':
           description: New Request
