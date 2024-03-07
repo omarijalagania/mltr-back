@@ -69,3 +69,14 @@ Object.keys(_foodController).forEach(function (key) {
     }
   });
 });
+var _statisticsController = require("./statistics-controller");
+Object.keys(_statisticsController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _statisticsController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _statisticsController[key];
+    }
+  });
+});

@@ -9,6 +9,7 @@ import authRoute from "./routes"
 import tagRoute from "./routes"
 import historyRoute from "./routes"
 import privacyRoute from "./routes"
+import statisticsRoute from "./routes"
 import foodRoute from "./routes"
 import termsRoute from "./routes"
 import YAML from "yamljs"
@@ -41,6 +42,7 @@ connectDB(false)
     app.use("/auth", authRoute)
     app.use("/tag", tagRoute)
     app.use("/food", foodRoute)
+    app.use("/statistics", statisticsRoute)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(

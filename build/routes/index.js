@@ -11,6 +11,7 @@ var _history = _interopRequireDefault(require("./history"));
 var _privacy = _interopRequireDefault(require("./privacy"));
 var _terms = _interopRequireDefault(require("./terms"));
 var _food = _interopRequireDefault(require("./food"));
+var _statistics = _interopRequireDefault(require("./statistics"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const router = _express.default.Router();
 router.use(_auth.default);
@@ -19,5 +20,6 @@ router.use(_history.default);
 router.use(_privacy.default);
 router.use(_terms.default);
 router.use(_food.default);
+router.use(_statistics.default);
 var _default = router;
 exports.default = _default;

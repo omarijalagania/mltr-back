@@ -1291,1893 +1291,813 @@ paths:
       tags:
         - Food
       summary: Add new Food
-      description: Add new Food
-      operationId: addNewFood
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
                 food:
-                  type: object
-                  properties:
-                    calories:
-                      type: number
-                      example: 950
-                    carbs:
-                      type: number
-                      example: 500
-                    createdDate:
-                      type: string
-                      example: '2024-02-19'
-                    eatsTimes:
-                      type: number
-                      example: 3
-                    fat:
-                      type: number
-                      example: 49
-                    foodList:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          myFoodId:
-                            type: number
-                            example: 3453543
-                          pceCount:
-                            type: number
-                            example: 33
-                      example:
-                        - myFoodId: 3453543
-                          pceCount: 33
-                    isInFridge:
-                      type: boolean
-                      example: true
-                    isLiquid:
-                      type: boolean
-                      example: false
-                    isRemoved:
-                      type: boolean
-                      example: false
-                    isSet:
-                      type: boolean
-                      example: true
-                    protein:
-                      type: number
-                      example: 20
-                    tag:
-                      type: string
-                      example: Lunch
-                    water:
-                      type: number
-                      example: 100
-                    weight:
-                      type: number
-                      example: 150
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Add new Food:
-                value:
-                  food:
-                    calories: 950
-                    carbs: 500
-                    createdDate: '2024-02-19'
-                    eatsTimes: 3
-                    fat: 49
-                    foodList:
-                      - myFoodId: 3453543
-                        pceCount: 33
-                    isInFridge: true
-                    isLiquid: false
-                    isRemoved: false
-                    isSet: true
-                    protein: 20
-                    tag: Lunch
-                    water: 100
-                    weight: 150
-                  userId: 65c8bdff40bc6daf810dfb47
-      responses:
-        '200':
-          description: ''
+                  calories: 950
+                  carbs: 500
+                  createdDate: '2024-02-19'
+                  eatsTimes: 3
+                  fat: 49
+                  isInFridge: true
+                  isLiquid: false
+                  isRemoved: false
+                  isSet: true
+                  protein: 20
+                  tag: Lunch
+                  water: 100
+                  weight: 150
+                  foodList:
+                    - myFoodId: 3453543
+                      pceCount: 33
       security:
         - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /food/delete-food:
     post:
       tags:
         - Food
       summary: Remove Food
-      description: Remove Food
-      operationId: removeFood
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
-                foodId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c70
-                recipeId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c71
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Remove Food:
-                value:
-                  foodId: 65cdf9a4d023b59c05886c70
-                  recipeId: 65cdf9a4d023b59c05886c71
-                  userId: 65c8bdff40bc6daf810dfb47
-      responses:
-        '200':
-          description: ''
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                foodId: 65cdf9a4d023b59c05886c70
+                recipeId: 65cdf9a4d023b59c05886c71
       security:
         - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /food/get-food:
     get:
       tags:
         - Food
       summary: Get All Food
-      description: Get All Food
-      operationId: getAllFood
+      security:
+        - bearerAuth: []
       parameters:
         - name: userId
           in: query
           schema:
             type: string
-            example: 65c8bdff40bc6daf810dfb47
+          example: 65c8bdff40bc6daf810dfb47
       responses:
         '200':
-          description: ''
-      security:
-        - bearerAuth: []
+          description: Successful response
+          content:
+            application/json: {}
   /food/update-food:
     patch:
       tags:
         - Food
       summary: Update Food
-      description: Update Food
-      operationId: updateFood
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                foodId: 65cdf9a4d023b59c05886c70
+                recipeId: 65cdca7c79029046b3e7af4e
                 food:
-                  type: object
-                  properties:
-                    calories:
-                      type: number
-                      example: 777734343
-                    fat:
-                      type: number
-                      example: 773344
-                foodId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c70
+                  calories: 777734343
+                  fat: 773344
                 foodList:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      myFoodId:
-                        type: string
-                        example: duu222
-                      pceCount:
-                        type: number
-                        example: 333333
-                  example:
-                    - myFoodId: duu222
-                      pceCount: 333333
-                    - myFoodId: duu777777
-                      pceCount: 44444
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Update Food:
-                value:
-                  food:
-                    calories: 777734343
-                    fat: 773344
-                  foodId: 65cdf9a4d023b59c05886c70
-                  foodList:
-                    - myFoodId: duu222
-                      pceCount: 333333
-                    - myFoodId: duu777777
-                      pceCount: 44444
-                  userId: 65c8bdff40bc6daf810dfb47
+                  - myFoodId: duu222
+                    pceCount: 333333
+                  - myFoodId: duu777777
+                    pceCount: 44444
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Update Food
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '26'
-            Date:
-              schema:
-                type: string
-                example: Fri, 16 Feb 2024 08:50:50 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1a-kWhyJ0ZGbU22X0fjJKBJuo/MQAY"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-kWhyJ0ZGbU22X0fjJKBJuo/MQAY"
+            Date:
+              schema:
+                type: string
+                example: Fri, 16 Feb 2024 08:50:50 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: Food updated
-              examples:
-                Update Food:
-                  value:
-                    message: Food updated
-      security:
-        - bearerAuth: []
+              example:
+                message: Food updated
   /history/all/{id}:
     get:
       tags:
         - New History
       summary: get All history
-      description: get All history
-      operationId: getAllHistory
-      responses:
-        '200':
-          description: New Request
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '408'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 10:52:41 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"198-/+/5WrSfvu2iT3Sa213Gjn7zOZA"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  history:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        __v:
-                          type: number
-                          example: 0
-                        _id:
-                          type: string
-                          example: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _id:
-                                type: string
-                                example: 65d7275d99ed239da6e4f9df
-                              calories:
-                                type: number
-                                example: 300
-                              carbs:
-                                type: number
-                                example: 40
-                              fat:
-                                type: number
-                                example: 15
-                              foodList:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _id:
-                                      type: string
-                                      example: 65d7275d99ed239da6e4f9e0
-                                    myFoodId:
-                                      type: string
-                                      example: food1
-                                    pceCount:
-                                      type: number
-                                      example: 2
-                                example:
-                                  - _id: 65d7275d99ed239da6e4f9e0
-                                    myFoodId: food1
-                                    pceCount: 2
-                                  - _id: 65d7275d99ed239da6e4f9e1
-                                    myFoodId: food2
-                                    pceCount: 1
-                              id:
-                                type: string
-                                example: '2'
-                              protein:
-                                type: number
-                                example: 20
-                              selectedDate:
-                                type: string
-                                example: '2024-02-22'
-                              water:
-                                type: number
-                                example: 500
-                              weight:
-                                type: number
-                                example: 200
-                          example:
-                            - _id: 65d7275d99ed239da6e4f9df
-                              calories: 300
-                              carbs: 40
-                              fat: 15
-                              foodList:
-                                - _id: 65d7275d99ed239da6e4f9e0
-                                  myFoodId: food1
-                                  pceCount: 2
-                                - _id: 65d7275d99ed239da6e4f9e1
-                                  myFoodId: food2
-                                  pceCount: 1
-                              id: '2'
-                              protein: 20
-                              selectedDate: '2024-02-22'
-                              water: 500
-                              weight: 200
-                        userId:
-                          type: string
-                          example: 65c8bdff40bc6daf810dfb47
-                    example:
-                      - __v: 0
-                        _id: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          - _id: 65d7275d99ed239da6e4f9df
-                            calories: 300
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d7275d99ed239da6e4f9e0
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d7275d99ed239da6e4f9e1
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                        userId: 65c8bdff40bc6daf810dfb47
-              examples:
-                New Request:
-                  value:
-                    history:
-                      - __v: 0
-                        _id: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          - _id: 65d7275d99ed239da6e4f9df
-                            calories: 300
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d7275d99ed239da6e4f9e0
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d7275d99ed239da6e4f9e1
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                        userId: 65c8bdff40bc6daf810dfb47
       security:
         - bearerAuth: []
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          example: 65c8bdff40bc6daf810dfb47
-  /food/post-food:
-    post:
-      tags:
-        - Food
-      summary: Add new Food
-      description: Add new Food
-      operationId: addNewFood
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                food:
-                  type: object
-                  properties:
-                    calories:
-                      type: number
-                      example: 950
-                    carbs:
-                      type: number
-                      example: 500
-                    createdDate:
-                      type: string
-                      example: '2024-02-19'
-                    eatsTimes:
-                      type: number
-                      example: 3
-                    fat:
-                      type: number
-                      example: 49
-                    foodList:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          myFoodId:
-                            type: number
-                            example: 3453543
-                          pceCount:
-                            type: number
-                            example: 33
-                      example:
-                        - myFoodId: 3453543
-                          pceCount: 33
-                    isInFridge:
-                      type: boolean
-                      example: true
-                    isLiquid:
-                      type: boolean
-                      example: false
-                    isRemoved:
-                      type: boolean
-                      example: false
-                    isSet:
-                      type: boolean
-                      example: true
-                    protein:
-                      type: number
-                      example: 20
-                    tag:
-                      type: string
-                      example: Lunch
-                    water:
-                      type: number
-                      example: 100
-                    weight:
-                      type: number
-                      example: 150
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Add new Food:
-                value:
-                  food:
-                    calories: 950
-                    carbs: 500
-                    createdDate: '2024-02-19'
-                    eatsTimes: 3
-                    fat: 49
-                    foodList:
-                      - myFoodId: 3453543
-                        pceCount: 33
-                    isInFridge: true
-                    isLiquid: false
-                    isRemoved: false
-                    isSet: true
-                    protein: 20
-                    tag: Lunch
-                    water: 100
-                    weight: 150
-                  userId: 65c8bdff40bc6daf810dfb47
-      responses:
-        '200':
-          description: ''
-      security:
-        - bearerAuth: []
-  /food/delete-food:
-    post:
-      tags:
-        - Food
-      summary: Remove Food
-      description: Remove Food
-      operationId: removeFood
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                foodId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c70
-                recipeId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c71
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Remove Food:
-                value:
-                  foodId: 65cdf9a4d023b59c05886c70
-                  recipeId: 65cdf9a4d023b59c05886c71
-                  userId: 65c8bdff40bc6daf810dfb47
-      responses:
-        '200':
-          description: ''
-      security:
-        - bearerAuth: []
-  /food/get-food:
-    get:
-      tags:
-        - Food
-      summary: Get All Food
-      description: Get All Food
-      operationId: getAllFood
       parameters:
-        - name: userId
-          in: query
+        - name: id
+          in: path
           schema:
             type: string
-            example: 65c8bdff40bc6daf810dfb47
+          required: true
+          example: 65c8bdff40bc6daf810dfb47
       responses:
         '200':
-          description: ''
-      security:
-        - bearerAuth: []
-  /food/update-food:
-    patch:
-      tags:
-        - Food
-      summary: Update Food
-      description: Update Food
-      operationId: updateFood
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                food:
-                  type: object
-                  properties:
-                    calories:
-                      type: number
-                      example: 777734343
-                    fat:
-                      type: number
-                      example: 773344
-                foodId:
-                  type: string
-                  example: 65cdf9a4d023b59c05886c70
-                foodList:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      myFoodId:
-                        type: string
-                        example: duu222
-                      pceCount:
-                        type: number
-                        example: 333333
-                  example:
-                    - myFoodId: duu222
-                      pceCount: 333333
-                    - myFoodId: duu777777
-                      pceCount: 44444
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Update Food:
-                value:
-                  food:
-                    calories: 777734343
-                    fat: 773344
-                  foodId: 65cdf9a4d023b59c05886c70
-                  foodList:
-                    - myFoodId: duu222
-                      pceCount: 333333
-                    - myFoodId: duu777777
-                      pceCount: 44444
-                  userId: 65c8bdff40bc6daf810dfb47
-      responses:
-        '200':
-          description: Update Food
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '26'
-            Date:
-              schema:
-                type: string
-                example: Fri, 16 Feb 2024 08:50:50 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1a-kWhyJ0ZGbU22X0fjJKBJuo/MQAY"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Food updated
-              examples:
-                Update Food:
-                  value:
-                    message: Food updated
-      security:
-        - bearerAuth: []
-  /history/all/{id}:
-    get:
-      tags:
-        - New History
-      summary: get All history
-      description: get All history
-      operationId: getAllHistory
-      responses:
-        '200':
-          description: New Request
-          headers:
             Access-Control-Allow-Origin:
               schema:
                 type: string
                 example: '*'
-            Connection:
+            Content-Type:
               schema:
                 type: string
-                example: keep-alive
+                example: application/json; charset=utf-8
             Content-Length:
               schema:
-                type: string
+                type: integer
                 example: '408'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 10:52:41 GMT
             ETag:
               schema:
                 type: string
                 example: W/"198-/+/5WrSfvu2iT3Sa213Gjn7zOZA"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 10:52:41 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
             Keep-Alive:
               schema:
                 type: string
                 example: timeout=5
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  history:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        __v:
-                          type: number
-                          example: 0
-                        _id:
-                          type: string
-                          example: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _id:
-                                type: string
-                                example: 65d7275d99ed239da6e4f9df
-                              calories:
-                                type: number
-                                example: 300
-                              carbs:
-                                type: number
-                                example: 40
-                              fat:
-                                type: number
-                                example: 15
-                              foodList:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _id:
-                                      type: string
-                                      example: 65d7275d99ed239da6e4f9e0
-                                    myFoodId:
-                                      type: string
-                                      example: food1
-                                    pceCount:
-                                      type: number
-                                      example: 2
-                                example:
-                                  - _id: 65d7275d99ed239da6e4f9e0
-                                    myFoodId: food1
-                                    pceCount: 2
-                                  - _id: 65d7275d99ed239da6e4f9e1
-                                    myFoodId: food2
-                                    pceCount: 1
-                              id:
-                                type: string
-                                example: '2'
-                              protein:
-                                type: number
-                                example: 20
-                              selectedDate:
-                                type: string
-                                example: '2024-02-22'
-                              water:
-                                type: number
-                                example: 500
-                              weight:
-                                type: number
-                                example: 200
-                          example:
-                            - _id: 65d7275d99ed239da6e4f9df
-                              calories: 300
-                              carbs: 40
-                              fat: 15
-                              foodList:
-                                - _id: 65d7275d99ed239da6e4f9e0
-                                  myFoodId: food1
-                                  pceCount: 2
-                                - _id: 65d7275d99ed239da6e4f9e1
-                                  myFoodId: food2
-                                  pceCount: 1
-                              id: '2'
-                              protein: 20
-                              selectedDate: '2024-02-22'
-                              water: 500
-                              weight: 200
-                        userId:
-                          type: string
-                          example: 65c8bdff40bc6daf810dfb47
-                    example:
-                      - __v: 0
-                        _id: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          - _id: 65d7275d99ed239da6e4f9df
-                            calories: 300
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d7275d99ed239da6e4f9e0
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d7275d99ed239da6e4f9e1
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                        userId: 65c8bdff40bc6daf810dfb47
-              examples:
-                New Request:
-                  value:
-                    history:
-                      - __v: 0
-                        _id: 65d7275d99ed239da6e4f9de
-                        userFoodHistoryList:
-                          - _id: 65d7275d99ed239da6e4f9df
-                            calories: 300
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d7275d99ed239da6e4f9e0
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d7275d99ed239da6e4f9e1
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                        userId: 65c8bdff40bc6daf810dfb47
-      security:
-        - bearerAuth: []
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          example: 65c8bdff40bc6daf810dfb47
+              example:
+                history:
+                  - _id: 65d7275d99ed239da6e4f9de
+                    userId: 65c8bdff40bc6daf810dfb47
+                    userFoodHistoryList:
+                      - calories: 300
+                        carbs: 40
+                        fat: 15
+                        protein: 20
+                        water: 500
+                        weight: 200
+                        selectedDate: '2024-02-22'
+                        id: '2'
+                        foodList:
+                          - myFoodId: food1
+                            pceCount: 2
+                            _id: 65d7275d99ed239da6e4f9e0
+                          - myFoodId: food2
+                            pceCount: 1
+                            _id: 65d7275d99ed239da6e4f9e1
+                        _id: 65d7275d99ed239da6e4f9df
+                    __v: 0
   /history/add-new-history:
     post:
       tags:
         - New History
       summary: Add new history
-      description: Add new history
-      operationId: addNewHistory
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
                 userFoodHistoryList:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      calories:
-                        type: number
-                        example: 300
-                      carbs:
-                        type: number
-                        example: 40
-                      fat:
-                        type: number
-                        example: 15
-                      foodList:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            myFoodId:
-                              type: string
-                              example: food1
-                            pceCount:
-                              type: number
-                              example: 2
-                        example:
-                          - myFoodId: food1
-                            pceCount: 2
-                          - myFoodId: food2
-                            pceCount: 1
-                      id:
-                        type: string
-                        example: '2'
-                      protein:
-                        type: number
-                        example: 20
-                      selectedDate:
-                        type: string
-                        example: '2024-02-22'
-                      water:
-                        type: number
-                        example: 500
-                      weight:
-                        type: number
-                        example: 200
-                  example:
-                    - calories: 300
-                      carbs: 40
-                      fat: 15
-                      foodList:
-                        - myFoodId: food1
-                          pceCount: 2
-                        - myFoodId: food2
-                          pceCount: 1
-                      id: '2'
-                      protein: 20
-                      selectedDate: '2024-02-22'
-                      water: 500
-                      weight: 200
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Add new history:
-                value:
-                  userFoodHistoryList:
-                    - calories: 300
-                      carbs: 40
-                      fat: 15
-                      foodList:
-                        - myFoodId: food1
-                          pceCount: 2
-                        - myFoodId: food2
-                          pceCount: 1
-                      id: '2'
-                      protein: 20
-                      selectedDate: '2024-02-22'
-                      water: 500
-                      weight: 200
-                  userId: 65c8bdff40bc6daf810dfb47
+                  - calories: 300
+                    carbs: 40
+                    fat: 15
+                    protein: 20
+                    water: 500
+                    weight: 200
+                    selectedDate: '2024-03-23'
+                    id: '2'
+                    foodList:
+                      - myFoodId: food1
+                        pceCount: 2
+                      - myFoodId: food2
+                        pceCount: 1
+      security:
+        - bearerAuth: []
       responses:
         '201':
-          description: New Request
+          description: Created
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '432'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 10:52:13 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1b0-mMW/2KWiEK2CGRjN9vKLMCIn6No"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '432'
+            ETag:
+              schema:
+                type: string
+                example: W/"1b0-mMW/2KWiEK2CGRjN9vKLMCIn6No"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 10:52:13 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  history:
-                    type: object
-                    properties:
-                      __v:
-                        type: number
-                        example: 0
-                      _id:
-                        type: string
-                        example: 65d7275d99ed239da6e4f9de
-                      userFoodHistoryList:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            _id:
-                              type: string
-                              example: 65d7275d99ed239da6e4f9df
-                            calories:
-                              type: number
-                              example: 300
-                            carbs:
-                              type: number
-                              example: 40
-                            fat:
-                              type: number
-                              example: 15
-                            foodList:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  _id:
-                                    type: string
-                                    example: 65d7275d99ed239da6e4f9e0
-                                  myFoodId:
-                                    type: string
-                                    example: food1
-                                  pceCount:
-                                    type: number
-                                    example: 2
-                              example:
-                                - _id: 65d7275d99ed239da6e4f9e0
-                                  myFoodId: food1
-                                  pceCount: 2
-                                - _id: 65d7275d99ed239da6e4f9e1
-                                  myFoodId: food2
-                                  pceCount: 1
-                            id:
-                              type: string
-                              example: '2'
-                            protein:
-                              type: number
-                              example: 20
-                            selectedDate:
-                              type: string
-                              example: '2024-02-22'
-                            water:
-                              type: number
-                              example: 500
-                            weight:
-                              type: number
-                              example: 200
-                        example:
-                          - _id: 65d7275d99ed239da6e4f9df
-                            calories: 300
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d7275d99ed239da6e4f9e0
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d7275d99ed239da6e4f9e1
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                      userId:
-                        type: string
-                        example: 65c8bdff40bc6daf810dfb47
-                  message:
-                    type: string
-                    example: History added
-              examples:
-                New Request:
-                  value:
-                    history:
-                      __v: 0
-                      _id: 65d7275d99ed239da6e4f9de
-                      userFoodHistoryList:
-                        - _id: 65d7275d99ed239da6e4f9df
-                          calories: 300
-                          carbs: 40
-                          fat: 15
-                          foodList:
-                            - _id: 65d7275d99ed239da6e4f9e0
-                              myFoodId: food1
-                              pceCount: 2
-                            - _id: 65d7275d99ed239da6e4f9e1
-                              myFoodId: food2
-                              pceCount: 1
-                          id: '2'
-                          protein: 20
-                          selectedDate: '2024-02-22'
-                          water: 500
-                          weight: 200
-                      userId: 65c8bdff40bc6daf810dfb47
-                    message: History added
-      security:
-        - bearerAuth: []
+              example:
+                message: History added
+                history:
+                  userId: 65c8bdff40bc6daf810dfb47
+                  userFoodHistoryList:
+                    - calories: 300
+                      carbs: 40
+                      fat: 15
+                      protein: 20
+                      water: 500
+                      weight: 200
+                      selectedDate: '2024-02-22'
+                      id: '2'
+                      foodList:
+                        - myFoodId: food1
+                          pceCount: 2
+                          _id: 65d7275d99ed239da6e4f9e0
+                        - myFoodId: food2
+                          pceCount: 1
+                          _id: 65d7275d99ed239da6e4f9e1
+                      _id: 65d7275d99ed239da6e4f9df
+                  _id: 65d7275d99ed239da6e4f9de
+                  __v: 0
   /history/edit-new-history:
     patch:
       tags:
         - New History
       summary: Edit HIstory
-      description: Edit HIstory
-      operationId: editHistory
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                selectedDate: '2024-03-23'
                 userFoodHistoryList:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      calories:
-                        type: number
-                        example: 99900
-                      carbs:
-                        type: number
-                        example: 40
-                      fat:
-                        type: number
-                        example: 15
-                      foodList:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            myFoodId:
-                              type: string
-                              example: food1
-                            pceCount:
-                              type: number
-                              example: 2
-                        example:
-                          - myFoodId: food1
-                            pceCount: 2
-                          - myFoodId: food2
-                            pceCount: 1
-                      id:
-                        type: string
-                        example: '2'
-                      protein:
-                        type: number
-                        example: 20
-                      selectedDate:
-                        type: string
-                        example: '2024-02-22'
-                      water:
-                        type: number
-                        example: 500
-                      weight:
-                        type: number
-                        example: 200
-                  example:
-                    - calories: 99900
-                      carbs: 40
-                      fat: 15
-                      foodList:
-                        - myFoodId: food1
-                          pceCount: 2
-                        - myFoodId: food2
-                          pceCount: 1
-                      id: '2'
-                      protein: 20
-                      selectedDate: '2024-02-22'
-                      water: 500
-                      weight: 200
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Edit HIstory:
-                value:
-                  userFoodHistoryList:
-                    - calories: 99900
-                      carbs: 40
-                      fat: 15
-                      foodList:
-                        - myFoodId: food1
-                          pceCount: 2
-                        - myFoodId: food2
-                          pceCount: 1
-                      id: '2'
-                      protein: 20
-                      selectedDate: '2024-02-22'
-                      water: 500
-                      weight: 200
-                  userId: 65c8bdff40bc6daf810dfb47
-                  selectedDate: "2024-03-23"
+                  - calories: 99900
+                    carbs: 40
+                    fat: 15
+                    protein: 20
+                    water: 500
+                    weight: 200
+                    selectedDate: '2024-03-23'
+                    id: lol_another_uddate_Test
+                    foodList:
+                      - myFoodId: food25
+                        pceCount: 2
+                      - myFoodId: food00000001
+                        pceCount: 1
+      security:
+        - bearerAuth: []
       responses:
         '201':
-          description: New Request
+          description: Created
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '435'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 11:03:14 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1b3-8sQYIRY8Ufl+M5AqX4l0Bejr5LM"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '798'
+            ETag:
+              schema:
+                type: string
+                example: W/"31e-LoRxmIGNtvnC8c7w6wU8hCjaGh4"
+            Date:
+              schema:
+                type: string
+                example: Tue, 05 Mar 2024 15:47:35 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  history:
-                    type: object
-                    properties:
-                      __v:
-                        type: number
-                        example: 0
-                      _id:
-                        type: string
-                        example: 65d7275d99ed239da6e4f9de
-                      userFoodHistoryList:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            _id:
-                              type: string
-                              example: 65d729f200533dc72266b05a
-                            calories:
-                              type: number
-                              example: 99900
-                            carbs:
-                              type: number
-                              example: 40
-                            fat:
-                              type: number
-                              example: 15
-                            foodList:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  _id:
-                                    type: string
-                                    example: 65d729f200533dc72266b05b
-                                  myFoodId:
-                                    type: string
-                                    example: food1
-                                  pceCount:
-                                    type: number
-                                    example: 2
-                              example:
-                                - _id: 65d729f200533dc72266b05b
-                                  myFoodId: food1
-                                  pceCount: 2
-                                - _id: 65d729f200533dc72266b05c
-                                  myFoodId: food2
-                                  pceCount: 1
-                            id:
-                              type: string
-                              example: '2'
-                            protein:
-                              type: number
-                              example: 20
-                            selectedDate:
-                              type: string
-                              example: '2024-02-22'
-                            water:
-                              type: number
-                              example: 500
-                            weight:
-                              type: number
-                              example: 200
-                        example:
-                          - _id: 65d729f200533dc72266b05a
-                            calories: 99900
-                            carbs: 40
-                            fat: 15
-                            foodList:
-                              - _id: 65d729f200533dc72266b05b
-                                myFoodId: food1
-                                pceCount: 2
-                              - _id: 65d729f200533dc72266b05c
-                                myFoodId: food2
-                                pceCount: 1
-                            id: '2'
-                            protein: 20
-                            selectedDate: '2024-02-22'
-                            water: 500
-                            weight: 200
-                      userId:
-                        type: string
-                        example: 65c8bdff40bc6daf810dfb47
-                  message:
-                    type: string
-                    example: History edited
-              examples:
-                New Request:
-                  value:
-                    history:
-                      __v: 0
-                      _id: 65d7275d99ed239da6e4f9de
-                      userFoodHistoryList:
-                        - _id: 65d729f200533dc72266b05a
-                          calories: 99900
-                          carbs: 40
-                          fat: 15
-                          foodList:
-                            - _id: 65d729f200533dc72266b05b
-                              myFoodId: food1
-                              pceCount: 2
-                            - _id: 65d729f200533dc72266b05c
-                              myFoodId: food2
-                              pceCount: 1
-                          id: '2'
-                          protein: 20
-                          selectedDate: '2024-02-22'
-                          water: 500
-                          weight: 200
-                      userId: 65c8bdff40bc6daf810dfb47
-                    message: History edited
-      security:
-        - bearerAuth: []
+              example:
+                message: History edited
+                history:
+                  _id: 65e040e13257d70aded90311
+                  userId: 65c8bdff40bc6daf810dfb47
+                  userFoodHistoryList:
+                    - calories: 99900
+                      carbs: 40
+                      fat: 15
+                      protein: 20
+                      water: 500
+                      weight: 200
+                      selectedDate: '2024-03-23'
+                      id: lol_another_uddate_Test
+                      foodList:
+                        - myFoodId: food25
+                          pceCount: 2
+                          _id: 65e73e97738e6a7cde8ed3d6
+                        - myFoodId: food00000001
+                          pceCount: 1
+                          _id: 65e73e97738e6a7cde8ed3d7
+                      _id: 65e73e97738e6a7cde8ed3d5
+                    - calories: 99900
+                      carbs: 40404040404
+                      fat: 15
+                      protein: 20
+                      water: 500
+                      weight: 200
+                      selectedDate: '2024-03-23'
+                      id: lol_another_uddate_Test
+                      foodList:
+                        - myFoodId: food25
+                          pceCount: 2
+                          _id: 65e73db320ecc920ce6db546
+                        - myFoodId: food00000001
+                          pceCount: 1
+                          _id: 65e73db320ecc920ce6db547
+                      _id: 65e73db320ecc920ce6db545
+                  __v: 0
   /history/delete-new-history:
     delete:
       tags:
         - New History
       summary: Delete History
-      description: Delete History
-      operationId: deleteHistory
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                historyId:
-                  type: string
-                  example: 65d7275d99ed239da6e4f9de
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Delete History:
-                value:
-                  historyId: 65d7275d99ed239da6e4f9de
-                  userId: 65c8bdff40bc6daf810dfb47
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: New Request
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '29'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 13:21:46 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1d-dWR8Y0CDD38ueANeyZb51q3KCrY"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '29'
+            ETag:
+              schema:
+                type: string
+                example: W/"1d-dWR8Y0CDD38ueANeyZb51q3KCrY"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 13:21:46 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: History deleted
-              examples:
-                New Request:
-                  value:
-                    message: History deleted
-      security:
-        - bearerAuth: []
+              example:
+                message: History deleted
   /tag/all-new-tags/{id}:
     get:
       tags:
         - New Tags
       summary: Get all Tags
-      description: Get all Tags
-      operationId: getAllTags
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65c8bdff40bc6daf810dfb47
       responses:
         '200':
-          description: Get all Tags
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '342'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 13:35:39 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"156-dox3hRQtHIsONoyy0eNAmjbDIqs"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '342'
+            ETag:
+              schema:
+                type: string
+                example: W/"156-dox3hRQtHIsONoyy0eNAmjbDIqs"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 13:35:39 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    __v:
-                      type: number
-                      example: 0
-                    _id:
-                      type: string
-                      example: 65d74d51ec80b472fc681f36
-                    tagsArray:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          _id:
-                            type: string
-                            example: 65d74d51ec80b472fc681f37
-                          elementType:
-                            type: string
-                            example: Type1
-                          identifire:
-                            type: string
-                            example: ID1
-                          isHide:
-                            type: boolean
-                            example: false
-                          isSetTag:
-                            type: boolean
-                            example: true
-                          tagName:
-                            type: string
-                            example: Tag1
-                      example:
-                        - _id: 65d74d51ec80b472fc681f37
-                          elementType: Type1
-                          identifire: ID1
-                          isHide: false
-                          isSetTag: true
-                          tagName: Tag1
-                        - _id: 65d74d51ec80b472fc681f38
-                          elementType: Type2
-                          identifire: ID2
-                          isHide: true
-                          isSetTag: false
-                          tagName: Tag2
-                    userId:
-                      type: string
-                      example: 65c8bdff40bc6daf810dfb47
-                example:
-                  - __v: 0
-                    _id: 65d74d51ec80b472fc681f36
-                    tagsArray:
-                      - _id: 65d74d51ec80b472fc681f37
-                        elementType: Type1
-                        identifire: ID1
-                        isHide: false
-                        isSetTag: true
-                        tagName: Tag1
-                      - _id: 65d74d51ec80b472fc681f38
-                        elementType: Type2
-                        identifire: ID2
-                        isHide: true
-                        isSetTag: false
-                        tagName: Tag2
-                    userId: 65c8bdff40bc6daf810dfb47
-              examples:
-                Get all Tags:
-                  value:
-                    - __v: 0
-                      _id: 65d74d51ec80b472fc681f36
-                      tagsArray:
-                        - _id: 65d74d51ec80b472fc681f37
-                          elementType: Type1
-                          identifire: ID1
-                          isHide: false
-                          isSetTag: true
-                          tagName: Tag1
-                        - _id: 65d74d51ec80b472fc681f38
-                          elementType: Type2
-                          identifire: ID2
-                          isHide: true
-                          isSetTag: false
-                          tagName: Tag2
-                      userId: 65c8bdff40bc6daf810dfb47
-      security:
-        - bearerAuth: []
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          example: 65c8bdff40bc6daf810dfb47
+                type: object
+              example:
+                - _id: 65d74d51ec80b472fc681f36
+                  userId: 65c8bdff40bc6daf810dfb47
+                  tagsArray:
+                    - elementType: Type1
+                      identifire: ID1
+                      isHide: false
+                      isSetTag: true
+                      tagName: Tag1
+                      _id: 65d74d51ec80b472fc681f37
+                    - elementType: Type2
+                      identifire: ID2
+                      isHide: true
+                      isSetTag: false
+                      tagName: Tag2
+                      _id: 65d74d51ec80b472fc681f38
+                  __v: 0
   /tag/add-new-tag:
     post:
       tags:
         - New Tags
       summary: Add new Tag
-      description: Add new Tag
-      operationId: addNewTag
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
                 tagsArray:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      elementType:
-                        type: string
-                        example: Type12323
-                      identifire:
-                        type: string
-                        example: ID1232
-                      isHide:
-                        type: boolean
-                        example: false
-                      isSetTag:
-                        type: boolean
-                        example: true
-                      tagName:
-                        type: string
-                        example: Tag2222323
-                  example:
-                    - elementType: Type12323
-                      identifire: ID1232
-                      isHide: false
-                      isSetTag: true
-                      tagName: Tag2222323
-                    - elementType: Type22323
-                      identifire: ID2332
-                      isHide: true
-                      isSetTag: false
-                      tagName: Tag2445445
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Add new Tag:
-                value:
-                  tagsArray:
-                    - elementType: Type12323
-                      identifire: ID1232
-                      isHide: false
-                      isSetTag: true
-                      tagName: Tag2222323
-                    - elementType: Type22323
-                      identifire: ID2332
-                      isHide: true
-                      isSetTag: false
-                      tagName: Tag2445445
-                  userId: 65c8bdff40bc6daf810dfb47
+                  - elementType: Type12323
+                    identifire: ID1232
+                    isHide: false
+                    isSetTag: true
+                    tagName: Tag2222323
+                  - elementType: Type22323
+                    identifire: ID2332
+                    isHide: true
+                    isSetTag: false
+                    tagName: Tag2445445
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Add new Tag
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '626'
-            Date:
-              schema:
-                type: string
-                example: Thu, 29 Feb 2024 09:38:24 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"272-zmY4RUTsSuzGvCMstiR9crRnMCg"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '626'
+            ETag:
+              schema:
+                type: string
+                example: W/"272-zmY4RUTsSuzGvCMstiR9crRnMCg"
+            Date:
+              schema:
+                type: string
+                example: Thu, 29 Feb 2024 09:38:24 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  __v:
-                    type: number
-                    example: 0
-                  _id:
-                    type: string
-                    example: 65d74d51ec80b472fc681f36
-                  tagsArray:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        _id:
-                          type: string
-                          example: 65d74d51ec80b472fc681f37
-                        elementType:
-                          type: string
-                          example: Type1
-                        identifire:
-                          type: string
-                          example: ID1
-                        isHide:
-                          type: boolean
-                          example: true
-                        isSetTag:
-                          type: boolean
-                          example: true
-                        tagName:
-                          type: string
-                          example: Tag1
-                    example:
-                      - _id: 65d74d51ec80b472fc681f37
-                        elementType: Type1
-                        identifire: ID1
-                        isHide: true
-                        isSetTag: true
-                        tagName: Tag1
-                      - _id: 65d74d51ec80b472fc681f38
-                        elementType: Type2
-                        identifire: ID2
-                        isHide: false
-                        isSetTag: false
-                        tagName: Updated Tag name
-                      - _id: 65e050907752f3db05b54eff
-                        elementType: Type12323
-                        identifire: ID1232
-                        isHide: false
-                        isSetTag: true
-                        tagName: Tag2222323
-                      - _id: 65e050907752f3db05b54f00
-                        elementType: Type22323
-                        identifire: ID2332
-                        isHide: true
-                        isSetTag: false
-                        tagName: Tag2445445
-                  userId:
-                    type: string
-                    example: 65c8bdff40bc6daf810dfb47
-              examples:
-                Add new Tag:
-                  value:
-                    __v: 0
-                    _id: 65d74d51ec80b472fc681f36
-                    tagsArray:
-                      - _id: 65d74d51ec80b472fc681f37
-                        elementType: Type1
-                        identifire: ID1
-                        isHide: true
-                        isSetTag: true
-                        tagName: Tag1
-                      - _id: 65d74d51ec80b472fc681f38
-                        elementType: Type2
-                        identifire: ID2
-                        isHide: false
-                        isSetTag: false
-                        tagName: Updated Tag name
-                      - _id: 65e050907752f3db05b54eff
-                        elementType: Type12323
-                        identifire: ID1232
-                        isHide: false
-                        isSetTag: true
-                        tagName: Tag2222323
-                      - _id: 65e050907752f3db05b54f00
-                        elementType: Type22323
-                        identifire: ID2332
-                        isHide: true
-                        isSetTag: false
-                        tagName: Tag2445445
-                    userId: 65c8bdff40bc6daf810dfb47
-      security:
-        - bearerAuth: []
+              example:
+                _id: 65d74d51ec80b472fc681f36
+                userId: 65c8bdff40bc6daf810dfb47
+                tagsArray:
+                  - elementType: Type1
+                    identifire: ID1
+                    isHide: true
+                    isSetTag: true
+                    tagName: Tag1
+                    _id: 65d74d51ec80b472fc681f37
+                  - elementType: Type2
+                    identifire: ID2
+                    isHide: false
+                    isSetTag: false
+                    tagName: Updated Tag name
+                    _id: 65d74d51ec80b472fc681f38
+                  - elementType: Type12323
+                    identifire: ID1232
+                    isHide: false
+                    isSetTag: true
+                    tagName: Tag2222323
+                    _id: 65e050907752f3db05b54eff
+                  - elementType: Type22323
+                    identifire: ID2332
+                    isHide: true
+                    isSetTag: false
+                    tagName: Tag2445445
+                    _id: 65e050907752f3db05b54f00
+                __v: 0
   /tag/hide-new-tag:
     post:
       tags:
         - New Tags
       summary: HIde Tag
-      description: HIde Tag
-      operationId: hideTag
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
-                tagId:
-                  type: string
-                  example: 65d74d51ec80b472fc681f38
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              HIde Tag:
-                value:
-                  tagId: 65d74d51ec80b472fc681f38
-                  userId: 65c8bdff40bc6daf810dfb47
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                tagId: 65d74d51ec80b472fc681f38
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: New Request
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '24'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 14:21:45 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"18-s2mC6ANmZvLPwttiuTVqjGAIKZ4"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '24'
+            ETag:
+              schema:
+                type: string
+                example: W/"18-s2mC6ANmZvLPwttiuTVqjGAIKZ4"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 14:21:45 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: Tag hidden
-              examples:
-                New Request:
-                  value:
-                    message: Tag hidden
-      security:
-        - bearerAuth: []
+              example:
+                message: Tag hidden
   /tag/edit-new-tag-name:
     post:
       tags:
         - New Tags
       summary: Edit tag name
-      description: Edit tag name
-      operationId: editTagName
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
-                tagId:
-                  type: string
-                  example: 65d74d51ec80b472fc681f38
-                tagName:
-                  type: string
-                  example: Updated Tag name
-                userId:
-                  type: string
-                  example: 65c8bdff40bc6daf810dfb47
-            examples:
-              Edit tag name:
-                value:
-                  tagId: 65d74d51ec80b472fc681f38
-                  tagName: Updated Tag name
-                  userId: 65c8bdff40bc6daf810dfb47
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                tagId: 65d74d51ec80b472fc681f38
+                tagName: Updated Tag name
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: New Request
+          description: OK
           headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Content-Length:
-              schema:
-                type: string
-                example: '30'
-            Date:
-              schema:
-                type: string
-                example: Thu, 22 Feb 2024 14:29:13 GMT
-            ETag:
-              schema:
-                type: string
-                example: W/"1e-V35ThX95tygqnofATvsiL28ARwo"
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
             X-Powered-By:
               schema:
                 type: string
                 example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '30'
+            ETag:
+              schema:
+                type: string
+                example: W/"1e-V35ThX95tygqnofATvsiL28ARwo"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Feb 2024 14:29:13 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: Tag Name updated
-              examples:
-                New Request:
-                  value:
-                    message: Tag Name updated
+              example:
+                message: Tag Name updated
+  /statistics/all-stats/{userId}:
+    get:
+      tags:
+        - Statistics
+      summary: Get Statistics
       security:
         - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '186'
+            ETag:
+              schema:
+                type: string
+                example: W/"ba-7hRQ2xXFZwsXQXh5vnwo1I3xcDg"
+            Date:
+              schema:
+                type: string
+                example: Thu, 07 Mar 2024 15:12:41 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - carbs: 40
+                  fat: 15
+                  protein: 20
+                  water: 500
+                  weight: 200
+                  selectedDate: '2024-03-23'
+                - carbs: 40404040404
+                  fat: 15
+                  protein: 20
+                  water: 500
+                  weight: 200
+                  selectedDate: '2024-03-23'
 components:
   securitySchemes:
     bearerAuth:
@@ -3187,3 +2107,4 @@ tags:
   - name: Food
   - name: New History
   - name: New Tags
+  - name: Statistics

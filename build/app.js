@@ -44,6 +44,7 @@ app.use(_express.default.static(_path.default.resolve("./public")));
   app.use("/auth", _routes.default);
   app.use("/tag", _routes.default);
   app.use("/food", _routes.default);
+  app.use("/statistics", _routes.default);
   app.listen(process.env.SERVER_PORT, () => console.log(`Server is listening at http://localhost:${process.env.SERVER_PORT}`));
 }).catch(error => {
   console.error(`Failed to connect to MongoDB: ${error.message}`);
