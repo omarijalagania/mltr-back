@@ -31,7 +31,15 @@ export const getAllStatistics = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "No history found" })
     }
 
-    const historyList = history.userFoodHistoryList
+    const historyList = history.userFoodHistoryList.filter((item) => {
+      return !(
+        item.carbs === 0 &&
+        item.fat === 0 &&
+        item.protein === 0 &&
+        item.water === 0 &&
+        item.weight === 0
+      )
+    })
 
     return res.status(200).send(historyList)
   } catch (error) {
@@ -39,10 +47,35 @@ export const getAllStatistics = async (req: Request, res: Response) => {
   }
 }
 
-// calories: { type: Number },
-//       carbs: { type: Number },
-//       fat: { type: Number },
-//       protein: { type: Number },
-//       water: { type: Number },
-//       weight: { type: Number },
-//       selectedDate: { type: String },
+export const getWeightStatistics = async (req: Request, res: Response) => {
+  const { userId } = req.params
+
+  const isValid = isValidId(userId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    const history = await UserFoodHistory.findOne({ userId }).select({
+      "userFoodHistoryList.weight": 1,
+      "userFoodHistoryList.selectedDate": 1,
+    })
+
+    if (!history) {
+      return res.status(404).json({ message: "No history found" })
+    }
+
+    const historyList = history.userFoodHistoryList
+
+    return res.status(200).send(historyList)
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
