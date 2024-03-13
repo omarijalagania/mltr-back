@@ -2157,6 +2157,124 @@ paths:
                   selectedDate: '2024-03-23'
                 - weight: 200
                   selectedDate: '2024-03-23'
+  /weight/user-weight:
+    post:
+      tags:
+        - Weight
+      summary: Add user weight
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                weight: 100
+                date: '2024-03-23'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-/6Zoz8zcDwovrwXYCdto8C3C5Cw"
+            Date:
+              schema:
+                type: string
+                example: Wed, 13 Mar 2024 05:24:09 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Weight added
+  /weight/user-weight/{userId}:
+    get:
+      tags:
+        - Weight
+      summary: Get user weight
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65c8bdff40bc6daf810dfb47
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '144'
+            ETag:
+              schema:
+                type: string
+                example: W/"90-0yryYrp+tgm+j+xSOmsBHMlY+40"
+            Date:
+              schema:
+                type: string
+                example: Wed, 13 Mar 2024 05:27:44 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - _id: 65f138790d752ce97f427602
+                  weight: 100
+                  date: '2024-03-23'
+                  userId: 65c8bdff40bc6daf810dfb47
+                  createdAt: '2024-03-13T05:24:09.236Z'
 components:
   securitySchemes:
     bearerAuth:
@@ -2167,3 +2285,4 @@ tags:
   - name: New History
   - name: New Tags
   - name: Statistics
+  - name: Weight

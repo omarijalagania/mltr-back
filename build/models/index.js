@@ -45,6 +45,12 @@ Object.defineProperty(exports, "UserFoodList", {
     return _UserFoodList.default;
   }
 });
+Object.defineProperty(exports, "Weight", {
+  enumerable: true,
+  get: function () {
+    return _Weight.default;
+  }
+});
 var _User = _interopRequireDefault(require("./User"));
 var _Tag = _interopRequireDefault(require("./Tag"));
 var _History = _interopRequireDefault(require("./History"));
@@ -52,4 +58,5 @@ var _Food = _interopRequireDefault(require("./Food"));
 var _UserFoodList = _interopRequireDefault(require("./UserFoodList"));
 var _FoodHistory = _interopRequireDefault(require("./FoodHistory"));
 var _NewTag = _interopRequireDefault(require("./NewTag"));
+var _Weight = _interopRequireDefault(require("./Weight"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

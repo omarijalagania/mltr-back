@@ -6,6 +6,7 @@ import privacyRoute from "./privacy"
 import termsRoute from "./terms"
 import foodRoute from "./food"
 import statisticsRoute from "./statistics"
+import weightRoute from "./weight"
 
 const router = express.Router()
 
@@ -16,5 +17,6 @@ router.use(privacyRoute)
 router.use(termsRoute)
 router.use(foodRoute)
 router.use(statisticsRoute)
+router.use(weightRoute)
 
 export default router

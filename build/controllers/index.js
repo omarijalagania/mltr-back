@@ -80,3 +80,14 @@ Object.keys(_statisticsController).forEach(function (key) {
     }
   });
 });
+var _weightController = require("./weight-controller");
+Object.keys(_weightController).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _weightController[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _weightController[key];
+    }
+  });
+});

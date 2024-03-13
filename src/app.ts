@@ -12,6 +12,7 @@ import privacyRoute from "./routes"
 import statisticsRoute from "./routes"
 import foodRoute from "./routes"
 import termsRoute from "./routes"
+import weightRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
 
@@ -43,6 +44,7 @@ connectDB(false)
     app.use("/tag", tagRoute)
     app.use("/food", foodRoute)
     app.use("/statistics", statisticsRoute)
+    app.use("/weight", weightRoute)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
