@@ -1986,7 +1986,7 @@ paths:
               example:
                 userId: 65c8bdff40bc6daf810dfb47
                 tagId: 65d74d51ec80b472fc681f38
-                tagName: Updated Tag name
+                tagName: Updated Tag name 888888888888
       security:
         - bearerAuth: []
       responses:
@@ -2170,7 +2170,7 @@ paths:
               example:
                 userId: 65c8bdff40bc6daf810dfb47
                 weight: 100
-                date: '2024-03-23'
+                date: '2024-03-25'
       security:
         - bearerAuth: []
       responses:
@@ -2215,6 +2215,71 @@ paths:
                 type: object
               example:
                 message: Weight added
+    patch:
+      tags:
+        - Weight
+      summary: Update user weight
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 65c8bdff40bc6daf810dfb47
+                weight: 130
+                date: '2024-03-25'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '234'
+            ETag:
+              schema:
+                type: string
+                example: W/"ea-yUEDqZBTwPORjc8lZEMtnH8Prg4"
+            Date:
+              schema:
+                type: string
+                example: Fri, 22 Mar 2024 20:19:31 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                updatedWeight:
+                  _id: 65fde7b634940be58339443c
+                  weight: 100
+                  date: '2024-03-25'
+                  userId: 65c8bdff40bc6daf810dfb47
+                  createdAt: '2024-03-22T20:19:02.042Z'
+                  updatedAt: '2024-03-22T20:19:02.042Z'
+                  __v: 0
+                message: Weight updated
   /weight/user-weight/{userId}:
     get:
       tags:

@@ -45,3 +45,28 @@ export const getUserWeight = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+export const updateUserWeight = async (req: Request, res: Response) => {
+  const { weight, userId, date } = req.body
+  try {
+    const isValid = isValidId(userId)
+    const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const updatedWeight = await Weight.findOneAndUpdate(
+      { userId, date },
+      { weight },
+    )
+
+    res.status(200).json({ updatedWeight, message: "Weight updated" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}

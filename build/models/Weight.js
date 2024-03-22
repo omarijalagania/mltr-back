@@ -20,6 +20,10 @@ const weightSchema = new _mongoose.default.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
 });
 var _default = _mongoose.default.model("Weight", weightSchema);
