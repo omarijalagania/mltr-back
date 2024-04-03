@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateFood = exports.removeFood = exports.getAllFoods = exports.addFood = void 0;
+exports.updateFood = exports.removeFood = exports.getAllFoods = exports.generateText = exports.addFood = void 0;
 var _helpers = require("../helpers");
 var _models = require("../models");
 var _mongoose = _interopRequireDefault(require("mongoose"));
@@ -162,3 +162,29 @@ const updateFood = async (req, res) => {
   }
 };
 exports.updateFood = updateFood;
+const generateText = async (req, res) => {
+  const {
+    obj
+  } = req.body;
+  try {
+    const resp = await fetch("https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=AIzaSyA2O-q7hP61dLApeusIX3GPTSMBegci5e8", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        prompt: obj,
+        max_tokens: 100
+      })
+    });
+    const data = await resp.json();
+    console.log(data);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error
+    });
+  }
+};
+exports.generateText = generateText;

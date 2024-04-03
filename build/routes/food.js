@@ -13,5 +13,9 @@ router.get("/get-food", _middlewares.authMiddleware, _controllers.getAllFoods);
 router.post("/post-food", _middlewares.authMiddleware, _controllers.addFood);
 router.post("/delete-food", _middlewares.authMiddleware, _controllers.removeFood);
 router.patch("/update-food", _middlewares.authMiddleware, _controllers.updateFood);
+
+//test
+
+router.post("/generate-text", _controllers.generateText);
 var _default = router;
 exports.default = _default;
