@@ -123,9 +123,11 @@ export const updateFood = async (req: Request, res: Response) => {
 export const generateText = async (req: Request, res: Response) => {
   const { obj } = req.body
 
+  console.log(obj)
+
   try {
     const resp = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=AIzaSyA2O-q7hP61dLApeusIX3GPTSMBegci5e8",
+      `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -133,7 +135,6 @@ export const generateText = async (req: Request, res: Response) => {
         },
         body: JSON.stringify({
           prompt: obj,
-          max_tokens: 100,
         }),
       },
     )

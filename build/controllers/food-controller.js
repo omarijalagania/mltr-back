@@ -166,15 +166,15 @@ const generateText = async (req, res) => {
   const {
     obj
   } = req.body;
+  console.log(obj);
   try {
-    const resp = await fetch("https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=AIzaSyA2O-q7hP61dLApeusIX3GPTSMBegci5e8", {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        prompt: obj,
-        max_tokens: 100
+        prompt: obj
       })
     });
     const data = await resp.json();
