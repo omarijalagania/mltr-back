@@ -123,8 +123,6 @@ export const updateFood = async (req: Request, res: Response) => {
 export const generateText = async (req: Request, res: Response) => {
   const { obj } = req.body
 
-  console.log(obj)
-
   try {
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
@@ -133,13 +131,10 @@ export const generateText = async (req: Request, res: Response) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt: obj,
-        }),
+        body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
       },
     )
     const data = await resp.json()
-    console.log(data)
     res.status(200).json(data)
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
