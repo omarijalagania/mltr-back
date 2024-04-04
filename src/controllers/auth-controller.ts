@@ -712,7 +712,13 @@ export const tokenVerify = async (req: Request, res: Response) => {
 
     const token: string = authHeader.split(" ")[1]
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET)
-    return res.status(200).json({ user: decoded })
+
+    const newToken = jwt.sign(
+      { _id: decoded.user?._id, name: decoded.user?.email },
+      process.env.JWT_SECRET,
+    )
+
+    return res.status(200).json({ user: decoded, newToken })
   } catch (error) {
     return res.status(422).json({ message: "invalid token" })
   }
