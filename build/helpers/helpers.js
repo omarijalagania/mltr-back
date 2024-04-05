@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.convertToJSON = convertToJSON;
 exports.decodeTokenAndGetUserId = decodeTokenAndGetUserId;
 exports.isValidId = exports.generateCode = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
@@ -28,4 +29,21 @@ function decodeTokenAndGetUserId(req, userId) {
   } else {
     return false;
   }
+}
+function convertToJSON(outputString) {
+  // Remove triple backticks and newline characters
+  const cleanedString = outputString.replace(/```|\n/g, "");
+
+  // Remove curly braces enclosing the output
+  const trimmedString = cleanedString.substring(1, cleanedString.length - 1);
+
+  // Replace colons with quotes around keys
+  const quotedKeysString = trimmedString.replace(/(\w+):/g, '"$1":');
+
+  // Add double quotes around non-numeric values
+  const jsonString = quotedKeysString.replace(/(\w+:)(\s*)(\D+)/g, '"$1$2$3"');
+
+  // Parse the JSON string to convert it into a JavaScript object
+  const jsonObject = jsonString;
+  return jsonObject;
 }

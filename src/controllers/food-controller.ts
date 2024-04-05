@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { decodeTokenAndGetUserId } from "helpers"
+import { convertToJSON, decodeTokenAndGetUserId } from "helpers"
 import { UserFoodList } from "models"
 import mongoose from "mongoose"
 
@@ -135,7 +135,13 @@ export const generateText = async (req: Request, res: Response) => {
       },
     )
     const data = await resp.json()
-    res.status(200).json(data)
+    const output = data.candidates[0]?.output
+    let parsedString
+    if (output) {
+      parsedString = convertToJSON(output)
+    }
+
+    res.status(200).send(parsedString)
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }

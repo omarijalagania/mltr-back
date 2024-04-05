@@ -167,6 +167,7 @@ const generateText = async (req, res) => {
     obj
   } = req.body;
   try {
+    var _data$candidates$;
     const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`, {
       method: "POST",
       headers: {
@@ -175,7 +176,12 @@ const generateText = async (req, res) => {
       body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`
     });
     const data = await resp.json();
-    res.status(200).json(data);
+    const output = (_data$candidates$ = data.candidates[0]) === null || _data$candidates$ === void 0 ? void 0 : _data$candidates$.output;
+    let parsedString;
+    if (output) {
+      parsedString = (0, _helpers.convertToJSON)(output);
+    }
+    res.status(200).send(parsedString);
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
