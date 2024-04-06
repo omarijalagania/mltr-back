@@ -141,7 +141,7 @@ export const generateText = async (req: Request, res: Response) => {
       parsedString = convertToJSON(output)
     }
 
-    res.status(200).send(parsedString)
+    res.status(200).send(JSON.stringify(parsedString))
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
