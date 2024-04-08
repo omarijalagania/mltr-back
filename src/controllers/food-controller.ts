@@ -134,33 +134,39 @@ export const generateText = async (req: Request, res: Response) => {
         body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
       },
     )
+
     const data = await resp.json()
-    const output = data.candidates[0]?.output
 
-    const outputString = JSON.stringify(output)
+    if (data) {
+      const output = await data?.candidates[0]?.output
+      console.log(output)
+      const outputString = JSON.stringify(output)
 
-    let str
+      let str
 
-    str = outputString?.replace(/(\w+):/g, '"$1":')
-    str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-    //const parsed = JSON.parse(outputString.trim())
-    str = str?.replace(/\n/g, "")
+      str = outputString?.replace(/(\w+):/g, '"$1":')
+      str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+      //const parsed = JSON.parse(outputString.trim())
+      str = str?.replace(/\n/g, "")
 
-    if (str?.charAt(0) === '"') {
-      str = str?.slice(1)
-    }
+      if (str?.charAt(0) === '"') {
+        str = str?.slice(1)
+      }
 
-    if (str?.charAt(str?.length - 1) === '"') {
-      str = str?.slice(0, -1)
-    }
+      if (str?.charAt(str?.length - 1) === '"') {
+        str = str?.slice(0, -1)
+      }
 
-    let trimmed = str?.trim()
-    if (str) {
-      let parsed = JSON.parse(trimmed)
+      let trimmed = str?.trim()
+      if (str) {
+        let parsed = JSON.parse(trimmed)
 
-      res.status(200).json({ message: "Text generated", data: parsed })
+        res.status(200).json({ message: "Text generated", data: parsed })
+      } else {
+        res.status(412).json({ message: "error" })
+      }
     } else {
-      res.status(412).json({ message: "error" })
+      res.status(412).json({ message: "bad characters" })
     }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
