@@ -139,7 +139,29 @@ export const generateText = async (req: Request, res: Response) => {
 
     const outputString = JSON.stringify(output)
 
-    res.status(200).send(outputString)
+    let str
+
+    str = outputString?.replace(/(\w+):/g, '"$1":')
+    str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+    //const parsed = JSON.parse(outputString.trim())
+    str = str?.replace(/\n/g, "")
+
+    if (str?.charAt(0) === '"') {
+      str = str?.slice(1)
+    }
+
+    if (str?.charAt(str?.length - 1) === '"') {
+      str = str?.slice(0, -1)
+    }
+
+    let trimmed = str?.trim()
+    if (str) {
+      let parsed = JSON.parse(trimmed)
+
+      res.status(200).json({ message: "Text generated", data: parsed })
+    } else {
+      res.status(412).json({ message: "error" })
+    }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
