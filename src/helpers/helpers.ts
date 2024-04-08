@@ -26,7 +26,7 @@ function decodeTokenAndGetUserId(req: Request, userId: string) {
   }
 }
 
-function convertToJSON(outputString: string) {
+function convertToJSON(outputString: any) {
   // Remove triple backticks and newline characters
   const cleanedString = outputString.replace(/```|\n/g, "")
 
@@ -40,7 +40,7 @@ function convertToJSON(outputString: string) {
   const jsonString = quotedKeysString.replace(/(\w+:)(\s*)(\D+)/g, '"$1$2$3"')
 
   // Parse the JSON string to convert it into a JavaScript object
-  const jsonObject = jsonString
+  const jsonObject = JSON.parse(jsonString)
 
   return jsonObject
 }

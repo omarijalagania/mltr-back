@@ -44,6 +44,6 @@ function convertToJSON(outputString) {
   const jsonString = quotedKeysString.replace(/(\w+:)(\s*)(\D+)/g, '"$1$2$3"');
 
   // Parse the JSON string to convert it into a JavaScript object
-  const jsonObject = jsonString;
+  const jsonObject = JSON.parse(jsonString);
   return jsonObject;
 }

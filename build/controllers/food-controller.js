@@ -177,11 +177,8 @@ const generateText = async (req, res) => {
     });
     const data = await resp.json();
     const output = (_data$candidates$ = data.candidates[0]) === null || _data$candidates$ === void 0 ? void 0 : _data$candidates$.output;
-    let parsedString;
-    if (output) {
-      parsedString = (0, _helpers.convertToJSON)(output);
-    }
-    res.status(200).send(JSON.stringify(parsedString));
+    const outputString = JSON.stringify(output);
+    res.status(200).send(outputString);
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",

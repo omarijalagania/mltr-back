@@ -136,12 +136,10 @@ export const generateText = async (req: Request, res: Response) => {
     )
     const data = await resp.json()
     const output = data.candidates[0]?.output
-    let parsedString
-    if (output) {
-      parsedString = convertToJSON(output)
-    }
 
-    res.status(200).send(JSON.stringify(parsedString))
+    const outputString = JSON.stringify(output)
+
+    res.status(200).send(outputString)
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
