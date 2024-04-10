@@ -176,35 +176,34 @@ const generateText = async (req, res) => {
     });
     const data = await resp.json();
     if (data) {
-      var _data$candidates$, _str, _str2, _str3, _str5, _str6, _str8;
+      var _data$candidates$;
       const output = await (data === null || data === void 0 ? void 0 : (_data$candidates$ = data.candidates[0]) === null || _data$candidates$ === void 0 ? void 0 : _data$candidates$.output);
-      console.log(output);
-      const outputString = JSON.stringify(output);
-      let str;
-      str = outputString === null || outputString === void 0 ? void 0 : outputString.replace(/(\w+):/g, '"$1":');
-      str = (_str = str) === null || _str === void 0 ? void 0 : _str.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
-      //const parsed = JSON.parse(outputString.trim())
-      str = (_str2 = str) === null || _str2 === void 0 ? void 0 : _str2.replace(/\n/g, "");
-      if (((_str3 = str) === null || _str3 === void 0 ? void 0 : _str3.charAt(0)) === '"') {
-        var _str4;
-        str = (_str4 = str) === null || _str4 === void 0 ? void 0 : _str4.slice(1);
-      }
-      if (((_str5 = str) === null || _str5 === void 0 ? void 0 : _str5.charAt(((_str6 = str) === null || _str6 === void 0 ? void 0 : _str6.length) - 1)) === '"') {
-        var _str7;
-        str = (_str7 = str) === null || _str7 === void 0 ? void 0 : _str7.slice(0, -1);
-      }
-      let trimmed = (_str8 = str) === null || _str8 === void 0 ? void 0 : _str8.trim();
-      if (str) {
-        let parsed = JSON.parse(trimmed);
-        res.status(200).json({
-          message: "Text generated",
-          data: parsed
-        });
-      } else {
-        res.status(412).json({
-          message: "error"
-        });
-      }
+
+      //   const outputString = output && JSON.stringify(output)
+
+      //   var str
+
+      //   str = outputString?.replace(/(\w+):/g, '"$1":')
+      //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+      //   //const parsed = JSON.parse(outputString.trim())
+      //   str = str?.replace(/\n/g, "")
+
+      //   if (str?.charAt(0) === '"') {
+      //     str = str?.slice(1)
+      //   }
+
+      //   if (str?.charAt(str?.length - 1) === '"') {
+      //     str = str?.slice(0, -1)
+      //   }
+
+      //   let trimmed = str?.trim()
+
+      //   let parsed = JSON.parse(trimmed)
+
+      res.status(200).json({
+        message: "Text generated",
+        data: output
+      });
     } else {
       res.status(412).json({
         message: "bad characters"

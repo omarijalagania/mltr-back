@@ -139,32 +139,29 @@ export const generateText = async (req: Request, res: Response) => {
 
     if (data) {
       const output = await data?.candidates[0]?.output
-      console.log(output)
-      const outputString = JSON.stringify(output)
 
-      let str
+      //   const outputString = output && JSON.stringify(output)
 
-      str = outputString?.replace(/(\w+):/g, '"$1":')
-      str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-      //const parsed = JSON.parse(outputString.trim())
-      str = str?.replace(/\n/g, "")
+      //   var str
 
-      if (str?.charAt(0) === '"') {
-        str = str?.slice(1)
-      }
+      //   str = outputString?.replace(/(\w+):/g, '"$1":')
+      //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+      //   //const parsed = JSON.parse(outputString.trim())
+      //   str = str?.replace(/\n/g, "")
 
-      if (str?.charAt(str?.length - 1) === '"') {
-        str = str?.slice(0, -1)
-      }
+      //   if (str?.charAt(0) === '"') {
+      //     str = str?.slice(1)
+      //   }
 
-      let trimmed = str?.trim()
-      if (str) {
-        let parsed = JSON.parse(trimmed)
+      //   if (str?.charAt(str?.length - 1) === '"') {
+      //     str = str?.slice(0, -1)
+      //   }
 
-        res.status(200).json({ message: "Text generated", data: parsed })
-      } else {
-        res.status(412).json({ message: "error" })
-      }
+      //   let trimmed = str?.trim()
+
+      //   let parsed = JSON.parse(trimmed)
+
+      res.status(200).json({ message: "Text generated", data: output })
     } else {
       res.status(412).json({ message: "bad characters" })
     }
