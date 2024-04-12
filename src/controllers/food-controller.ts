@@ -1,7 +1,13 @@
+import dotenv from "dotenv"
+dotenv.config()
 import { Request, Response } from "express"
-import { convertToJSON, decodeTokenAndGetUserId } from "helpers"
+import { decodeTokenAndGetUserId } from "helpers"
 import { UserFoodList } from "models"
 import mongoose from "mongoose"
+import { GoogleGenerativeAI } from "@google/generative-ai"
+
+const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_API_KEY as string)
+const model = genAI.getGenerativeModel({ model: "gemini-pro" })
 
 export const getAllFoods = async (req: Request, res: Response) => {
   const { userId } = req.query
@@ -124,47 +130,76 @@ export const generateText = async (req: Request, res: Response) => {
   const { obj } = req.body
 
   try {
-    const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
-      },
-    )
+    // const resp = await fetch(
+    //   `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
+    //   },
+    // )
 
-    const data = await resp.json()
+    const result = await model.generateContent(JSON.stringify(obj))
 
-    if (data) {
-      const output = await data?.candidates[0]?.output
+    const response = await result.response
+    const text = await response.text()
 
-      //   const outputString = output && JSON.stringify(output)
+    if (text) {
+      let str
 
-      //   var str
+      str = text?.replace(/(\w+):/g, '"$1":')
+      str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+      //const parsed = JSON.parse(outputString.trim())
+      str = str?.replace(/\n/g, "")
 
-      //   str = outputString?.replace(/(\w+):/g, '"$1":')
-      //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-      //   //const parsed = JSON.parse(outputString.trim())
-      //   str = str?.replace(/\n/g, "")
+      if (str?.charAt(0) === '"') {
+        str = str?.slice(1)
+      }
 
-      //   if (str?.charAt(0) === '"') {
-      //     str = str?.slice(1)
-      //   }
+      if (str?.charAt(str?.length - 1) === '"') {
+        str = str?.slice(0, -1)
+      }
 
-      //   if (str?.charAt(str?.length - 1) === '"') {
-      //     str = str?.slice(0, -1)
-      //   }
+      let trimmed = str?.trim()
 
-      //   let trimmed = str?.trim()
+      let parsed = JSON.parse(trimmed)
 
-      //   let parsed = JSON.parse(trimmed)
-
-      res.status(200).json({ message: "Text generated", data: output })
-    } else {
-      res.status(412).json({ message: "bad characters" })
+      res.status(200).json({ message: "Text generated", data: parsed })
     }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error })
+  }
+}
+
+// Generate image
+
+export const generateImage = async (req: Request, res: Response) => {
+  const { text, picture } = req.body
+
+  const dataToSend = {
+    initialData: {
+      mimeType: "image/jpeg",
+      data: picture,
+    },
+  }
+
+  const parts = [
+    {
+      inlineData: dataToSend.initialData,
+    },
+  ]
+
+  try {
+    const result = await model.generateContent(JSON.stringify(parts))
+    console.log(result)
+
+    const response = await result.response
+    const text = await response.text()
+    console.log(text)
+
+    res.status(200).json({ message: "Text generated", data: text })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }

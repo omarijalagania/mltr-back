@@ -1,5 +1,6 @@
 import {
   addFood,
+  generateImage,
   generateText,
   getAllFoods,
   removeFood,
@@ -19,5 +20,6 @@ router.patch("/update-food", authMiddleware, updateFood)
 //test
 
 router.post("/generate-text", generateText)
+router.post("/generate-image", generateImage)
 
 export default router

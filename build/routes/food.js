@@ -17,5 +17,6 @@ router.patch("/update-food", _middlewares.authMiddleware, _controllers.updateFoo
 //test
 
 router.post("/generate-text", _controllers.generateText);
+router.post("/generate-image", _controllers.generateImage);
 var _default = router;
 exports.default = _default;

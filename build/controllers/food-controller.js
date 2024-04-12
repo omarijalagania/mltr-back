@@ -3,11 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateFood = exports.removeFood = exports.getAllFoods = exports.generateText = exports.addFood = void 0;
+exports.updateFood = exports.removeFood = exports.getAllFoods = exports.generateText = exports.generateImage = exports.addFood = void 0;
+var _dotenv = _interopRequireDefault(require("dotenv"));
 var _helpers = require("../helpers");
 var _models = require("../models");
 var _mongoose = _interopRequireDefault(require("mongoose"));
+var _generativeAi = require("@google/generative-ai");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+_dotenv.default.config();
+const genAI = new _generativeAi.GoogleGenerativeAI(process.env.GENERATIVE_API_KEY);
+const model = genAI.getGenerativeModel({
+  model: "gemini-pro"
+});
 const getAllFoods = async (req, res) => {
   const {
     userId
@@ -167,46 +174,40 @@ const generateText = async (req, res) => {
     obj
   } = req.body;
   try {
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`
-    });
-    const data = await resp.json();
-    if (data) {
-      var _data$candidates$;
-      const output = await (data === null || data === void 0 ? void 0 : (_data$candidates$ = data.candidates[0]) === null || _data$candidates$ === void 0 ? void 0 : _data$candidates$.output);
+    // const resp = await fetch(
+    //   `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
+    //   },
+    // )
 
-      //   const outputString = output && JSON.stringify(output)
-
-      //   var str
-
-      //   str = outputString?.replace(/(\w+):/g, '"$1":')
-      //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-      //   //const parsed = JSON.parse(outputString.trim())
-      //   str = str?.replace(/\n/g, "")
-
-      //   if (str?.charAt(0) === '"') {
-      //     str = str?.slice(1)
-      //   }
-
-      //   if (str?.charAt(str?.length - 1) === '"') {
-      //     str = str?.slice(0, -1)
-      //   }
-
-      //   let trimmed = str?.trim()
-
-      //   let parsed = JSON.parse(trimmed)
-
+    const result = await model.generateContent(JSON.stringify(obj));
+    const response = await result.response;
+    const text = await response.text();
+    if (text) {
+      var _str, _str2, _str3, _str5, _str6, _str8;
+      let str;
+      str = text === null || text === void 0 ? void 0 : text.replace(/(\w+):/g, '"$1":');
+      str = (_str = str) === null || _str === void 0 ? void 0 : _str.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
+      //const parsed = JSON.parse(outputString.trim())
+      str = (_str2 = str) === null || _str2 === void 0 ? void 0 : _str2.replace(/\n/g, "");
+      if (((_str3 = str) === null || _str3 === void 0 ? void 0 : _str3.charAt(0)) === '"') {
+        var _str4;
+        str = (_str4 = str) === null || _str4 === void 0 ? void 0 : _str4.slice(1);
+      }
+      if (((_str5 = str) === null || _str5 === void 0 ? void 0 : _str5.charAt(((_str6 = str) === null || _str6 === void 0 ? void 0 : _str6.length) - 1)) === '"') {
+        var _str7;
+        str = (_str7 = str) === null || _str7 === void 0 ? void 0 : _str7.slice(0, -1);
+      }
+      let trimmed = (_str8 = str) === null || _str8 === void 0 ? void 0 : _str8.trim();
+      let parsed = JSON.parse(trimmed);
       res.status(200).json({
         message: "Text generated",
-        data: output
-      });
-    } else {
-      res.status(412).json({
-        message: "bad characters"
+        data: parsed
       });
     }
   } catch (error) {
@@ -216,4 +217,38 @@ const generateText = async (req, res) => {
     });
   }
 };
+
+// Generate image
 exports.generateText = generateText;
+const generateImage = async (req, res) => {
+  const {
+    text,
+    picture
+  } = req.body;
+  const dataToSend = {
+    initialData: {
+      mimeType: "image/jpeg",
+      data: picture
+    }
+  };
+  const parts = [{
+    inlineData: dataToSend.initialData
+  }];
+  try {
+    const result = await model.generateContent(JSON.stringify(parts));
+    console.log(result);
+    const response = await result.response;
+    const text = await response.text();
+    console.log(text);
+    res.status(200).json({
+      message: "Text generated",
+      data: text
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error
+    });
+  }
+};
+exports.generateImage = generateImage;
