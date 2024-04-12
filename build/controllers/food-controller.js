@@ -15,6 +15,9 @@ const genAI = new _generativeAi.GoogleGenerativeAI(process.env.GENERATIVE_API_KE
 const model = genAI.getGenerativeModel({
   model: "gemini-pro"
 });
+const model2 = genAI.getGenerativeModel({
+  model: "gemini-pro"
+});
 const getAllFoods = async (req, res) => {
   const {
     userId
@@ -222,20 +225,19 @@ const generateText = async (req, res) => {
 exports.generateText = generateText;
 const generateImage = async (req, res) => {
   const {
-    text,
-    picture
+    image
   } = req.body;
   const dataToSend = {
     initialData: {
       mimeType: "image/jpeg",
-      data: picture
+      data: image
     }
   };
   const parts = [{
     inlineData: dataToSend.initialData
   }];
   try {
-    const result = await model.generateContent(JSON.stringify(parts));
+    const result = await model2.generateContent(JSON.stringify(dataToSend));
     console.log(result);
     const response = await result.response;
     const text = await response.text();

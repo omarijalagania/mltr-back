@@ -8,6 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 
 const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_API_KEY as string)
 const model = genAI.getGenerativeModel({ model: "gemini-pro" })
+const model2 = genAI.getGenerativeModel({ model: "gemini-pro" })
 
 export const getAllFoods = async (req: Request, res: Response) => {
   const { userId } = req.query
@@ -176,12 +177,12 @@ export const generateText = async (req: Request, res: Response) => {
 // Generate image
 
 export const generateImage = async (req: Request, res: Response) => {
-  const { text, picture } = req.body
+  const { image } = req.body
 
   const dataToSend = {
     initialData: {
       mimeType: "image/jpeg",
-      data: picture,
+      data: image,
     },
   }
 
@@ -192,7 +193,7 @@ export const generateImage = async (req: Request, res: Response) => {
   ]
 
   try {
-    const result = await model.generateContent(JSON.stringify(parts))
+    const result = await model2.generateContent(JSON.stringify(dataToSend))
     console.log(result)
 
     const response = await result.response
