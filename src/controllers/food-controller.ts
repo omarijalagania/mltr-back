@@ -179,21 +179,21 @@ export const generateText = async (req: Request, res: Response) => {
 export const generateImage = async (req: Request, res: Response) => {
   const { image } = req.body
 
-  const dataToSend = {
-    initialData: {
-      mimeType: "image/jpeg",
-      data: image,
-    },
+  function base64ToGenerativePart(base64Image: string, mimeType: string) {
+    return {
+      inlineData: {
+        data: base64Image,
+        mimeType,
+      },
+    }
   }
 
-  const parts = [
-    {
-      inlineData: dataToSend.initialData,
-    },
-  ]
+  const part = base64ToGenerativePart(image, "image/jpeg")
+
+  const prompt = "what is on image?"
 
   try {
-    const result = await model2.generateContent(JSON.stringify(dataToSend))
+    const result = await model2.generateContent(JSON.stringify([prompt, part]))
     console.log(result)
 
     const response = await result.response

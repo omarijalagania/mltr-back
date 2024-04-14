@@ -227,17 +227,18 @@ const generateImage = async (req, res) => {
   const {
     image
   } = req.body;
-  const dataToSend = {
-    initialData: {
-      mimeType: "image/jpeg",
-      data: image
-    }
-  };
-  const parts = [{
-    inlineData: dataToSend.initialData
-  }];
+  function base64ToGenerativePart(base64Image, mimeType) {
+    return {
+      inlineData: {
+        data: base64Image,
+        mimeType
+      }
+    };
+  }
+  const part = base64ToGenerativePart(image, "image/jpeg");
+  const prompt = "what is on image?";
   try {
-    const result = await model2.generateContent(JSON.stringify(dataToSend));
+    const result = await model2.generateContent(JSON.stringify([prompt, part]));
     console.log(result);
     const response = await result.response;
     const text = await response.text();
