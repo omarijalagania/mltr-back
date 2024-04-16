@@ -227,22 +227,44 @@ const generateImage = async (req, res) => {
   const {
     image
   } = req.body;
-  function base64ToGenerativePart(base64Image, mimeType) {
-    return {
-      inlineData: {
-        data: base64Image,
-        mimeType
-      }
-    };
-  }
-  const part = base64ToGenerativePart(image, "image/jpeg");
+
+  // function base64ToGenerativePart(base64Image: string, mimeType: string) {
+  //   return {
+  //     inlineData: {
+  //       data: base64Image,
+  //       mimeType,
+  //     },
+  //   }
+  // }
+
+  // const part = base64ToGenerativePart(image, "image/jpeg")
+
   const prompt = "what is on image?";
+  const data = {
+    contents: [{
+      parts: [{
+        text: prompt
+      }, {
+        inlineData: {
+          mimeType: "image/jpeg",
+          data: image.replace(/^data:image\/jpeg;base64,/, "")
+        }
+      }]
+    }]
+  };
   try {
-    const result = await model2.generateContent(JSON.stringify([prompt, part]));
-    console.log(result);
-    const response = await result.response;
-    const text = await response.text();
-    console.log(text);
+    // const result = await model2.generateContent(JSON.stringify([prompt, part]))
+    // const response = await result.response
+    // const text = await response.text()
+
+    const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${process.env.GENERATIVE_API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const text = await result.json();
     res.status(200).json({
       message: "Text generated",
       data: text
