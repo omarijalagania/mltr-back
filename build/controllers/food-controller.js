@@ -15,9 +15,6 @@ const genAI = new _generativeAi.GoogleGenerativeAI(process.env.GENERATIVE_API_KE
 const model = genAI.getGenerativeModel({
   model: "gemini-pro"
 });
-const model2 = genAI.getGenerativeModel({
-  model: "gemini-pro"
-});
 const getAllFoods = async (req, res) => {
   const {
     userId
@@ -225,25 +222,14 @@ const generateText = async (req, res) => {
 exports.generateText = generateText;
 const generateImage = async (req, res) => {
   const {
-    image
+    image,
+    prompt
   } = req.body;
-
-  // function base64ToGenerativePart(base64Image: string, mimeType: string) {
-  //   return {
-  //     inlineData: {
-  //       data: base64Image,
-  //       mimeType,
-  //     },
-  //   }
-  // }
-
-  // const part = base64ToGenerativePart(image, "image/jpeg")
-
-  const prompt = "what is on image?";
+  const testPrompt = "When provided with a text description of either a single food or drink item or a meal, analyze the description and return the nutritional value per 100 grams of the product(s). The response format should directly correspond to the number of products described.         Text description: Pepsi         Guidelines:         1. Single Product Description:         - Example Text Description: “Pepsi”         - Expected Response Format for a Single Product:         - A single JSON object detailing the nutritional information per 100 grams of the product.         - Example Structure for “Pepsi”:         {           name:Pepsi,           type: drink,           calories: 42 kcal,           protein: 0 g,           fat: 0 g,           carbs: 11 g,           water: 89 g,           serving: Can,           weight: 330 g         }         2. Group of Products (Meal) Description:         - Example Text Description: “Meal consisting of a cheeseburger, small fries, and a soda”         - Expected Response Format for Multiple Products (Meal):         - A single JSON object containing nested JSON objects for each item in the meal, with each item’s nutritional details per 100 grams.         - Example Structure for a Meal:         [            {               name:Cheeseburger,               type:food,               calories:250 kcal,               protein:15 g,               fat:10 g,               carbs:20 g,               water:50 g,               serving:Burger,               weight:150 g            },            {               name:Fries,               type:food,               calories:300 kcal,               protein:3 g,               fat:15 g,               carbs:40 g,               water:40 g,               serving:Small portion,               weight:70 g            },            {               name:Soda,               type:drink,               calories:42 kcal,               protein:0 g,               fat:0 g,               carbs:11 g,               water:89 g,               serving:Can,               weight:330 g            }         ]         The response must be in plain text JSON format only, explicitly excluding any Markdown, code block syntax (```), introductory text, or formatting symbols. All nutritional values are to be provided per 100 grams of the product. Ensure that the output strictly adheres to the described structure, making it suitable for direct parsing in applications.";
   const data = {
     contents: [{
       parts: [{
-        text: prompt
+        text: testPrompt
       }, {
         inlineData: {
           mimeType: "image/jpeg",
