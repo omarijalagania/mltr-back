@@ -8,7 +8,6 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 var _express = _interopRequireDefault(require("express"));
 var _path = _interopRequireDefault(require("path"));
 var _cors = _interopRequireDefault(require("cors"));
-var _bodyParser = _interopRequireDefault(require("body-parser"));
 var _config = require("./config");
 var _routes = _interopRequireDefault(require("./routes"));
 var _yamljs = _interopRequireDefault(require("yamljs"));
@@ -28,10 +27,12 @@ const swaggerDocument = _yamljs.default.load("./src/config/swagger.yaml");
 app.use("/api-docs", _swaggerUiExpress.default.serve, _swaggerUiExpress.default.setup(swaggerDocument));
 app.use(_express.default.static(_path.default.resolve("./public")));
 (0, _config.connectDB)(false).then(() => {
-  app.use(_express.default.urlencoded({
-    extended: true
+  app.use(_express.default.json({
+    limit: "50mb"
   }));
-  app.use(_bodyParser.default.json());
+  app.use(_express.default.urlencoded({
+    limit: "50mb"
+  }));
   app.use((0, _cors.default)({}));
 
   // app.get("/", async (_, res) => {
