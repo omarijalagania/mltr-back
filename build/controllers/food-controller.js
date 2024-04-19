@@ -239,6 +239,7 @@ const generateImage = async (req, res) => {
     }]
   };
   try {
+    var _text$candidates$, _text$candidates$$con, _text$candidates$$con2;
     // const result = await model2.generateContent(JSON.stringify([prompt, part]))
     // const response = await result.response
     // const text = await response.text()
@@ -251,10 +252,29 @@ const generateImage = async (req, res) => {
       body: JSON.stringify(data)
     });
     const text = await result.json();
-    res.status(200).json({
-      message: "Text generated",
-      data: text
-    });
+    const outputString = text === null || text === void 0 ? void 0 : (_text$candidates$ = text.candidates[0]) === null || _text$candidates$ === void 0 ? void 0 : (_text$candidates$$con = _text$candidates$.content) === null || _text$candidates$$con === void 0 ? void 0 : (_text$candidates$$con2 = _text$candidates$$con.parts[0]) === null || _text$candidates$$con2 === void 0 ? void 0 : _text$candidates$$con2.text;
+    if (outputString) {
+      var _str9, _str10, _str11, _str13, _str14, _str16;
+      let str;
+      str = outputString === null || outputString === void 0 ? void 0 : outputString.replace(/(\w+):/g, '"$1":');
+      str = (_str9 = str) === null || _str9 === void 0 ? void 0 : _str9.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
+      //const parsed = JSON.parse(outputString.trim())
+      str = (_str10 = str) === null || _str10 === void 0 ? void 0 : _str10.replace(/\n/g, "");
+      if (((_str11 = str) === null || _str11 === void 0 ? void 0 : _str11.charAt(0)) === '"') {
+        var _str12;
+        str = (_str12 = str) === null || _str12 === void 0 ? void 0 : _str12.slice(1);
+      }
+      if (((_str13 = str) === null || _str13 === void 0 ? void 0 : _str13.charAt(((_str14 = str) === null || _str14 === void 0 ? void 0 : _str14.length) - 1)) === '"') {
+        var _str15;
+        str = (_str15 = str) === null || _str15 === void 0 ? void 0 : _str15.slice(0, -1);
+      }
+      let trimmed = (_str16 = str) === null || _str16 === void 0 ? void 0 : _str16.trim();
+      let parsed = JSON.parse(trimmed);
+      res.status(200).json({
+        message: "Text generated",
+        data: parsed
+      });
+    }
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
