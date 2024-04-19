@@ -244,7 +244,12 @@ export const generateImage = async (req: Request, res: Response) => {
 
       let parsed = JSON.parse(trimmed)
 
-      res.status(200).json({ message: "Text generated", data: parsed })
+      if (typeof parsed === "object" && !Array.isArray(parsed)) {
+        let arr = [parsed]
+        res.status(200).json({ message: "Text generated", data: arr })
+      } else {
+        res.status(200).json({ message: "Text generated", data: parsed })
+      }
     }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })

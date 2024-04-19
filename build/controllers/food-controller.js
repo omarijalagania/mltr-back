@@ -278,10 +278,18 @@ const generateImage = async (req, res) => {
       }
       let trimmed = (_str16 = str) === null || _str16 === void 0 ? void 0 : _str16.trim();
       let parsed = JSON.parse(trimmed);
-      res.status(200).json({
-        message: "Text generated",
-        data: parsed
-      });
+      if (typeof parsed === "object" && !Array.isArray(parsed)) {
+        let arr = [parsed];
+        res.status(200).json({
+          message: "Text generated",
+          data: arr
+        });
+      } else {
+        res.status(200).json({
+          message: "Text generated",
+          data: parsed
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
