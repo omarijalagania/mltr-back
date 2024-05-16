@@ -174,50 +174,108 @@ const generateText = async (req, res) => {
     obj
   } = req.body;
   try {
-    // const resp = await fetch(
-    //   `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
-    //   },
-    // )
-
-    const result = await model.generateContent(JSON.stringify(obj));
-    const response = await result.response;
-    const text = await response.text();
-    if (text) {
-      var _str, _str2, _str3, _str5, _str6, _str8;
-      let str;
-      str = text === null || text === void 0 ? void 0 : text.replace(/(\w+):/g, '"$1":');
-      str = (_str = str) === null || _str === void 0 ? void 0 : _str.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
-      //const parsed = JSON.parse(outputString.trim())
-      str = (_str2 = str) === null || _str2 === void 0 ? void 0 : _str2.replace(/\n/g, "");
-      if (((_str3 = str) === null || _str3 === void 0 ? void 0 : _str3.charAt(0)) === '"') {
-        var _str4;
-        str = (_str4 = str) === null || _str4 === void 0 ? void 0 : _str4.slice(1);
-      }
-      if (((_str5 = str) === null || _str5 === void 0 ? void 0 : _str5.charAt(((_str6 = str) === null || _str6 === void 0 ? void 0 : _str6.length) - 1)) === '"') {
-        var _str7;
-        str = (_str7 = str) === null || _str7 === void 0 ? void 0 : _str7.slice(0, -1);
-      }
-      let trimmed = (_str8 = str) === null || _str8 === void 0 ? void 0 : _str8.trim();
-      let parsed = JSON.parse(trimmed);
-      if (typeof parsed === "object" && !Array.isArray(parsed)) {
-        let arr = [parsed];
-        res.status(200).json({
-          message: "Text generated",
-          data: arr
-        });
-      } else {
-        res.status(200).json({
-          message: "Text generated",
-          data: parsed
-        });
-      }
-    }
+    var _text$candidates$, _text$candidates$$con, _text$candidates$$con2, _text$candidates$$con3, _text$candidates$$con4;
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: `{
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. Here are the products: ${obj}"
+                }
+              ]
+            }
+          ],
+          "tools": [
+            {
+              "function_declarations": [
+                {
+                  "name": "analyze_nutritional_value",
+                  "description": "Analyze the nutritional value of one or more food or drink items from a text description and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, and weight) of each product as an array of JSON objects.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "products": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the food or drink item."
+                            },
+                            "type": {
+                              "type": "string",
+                              "description": "Type of the product (food or drink)."
+                            },
+                            "calories": {
+                              "type": "string",
+                              "description": "Calories per 100 grams of the product."
+                            },
+                            "protein": {
+                              "type": "string",
+                              "description": "Protein content per 100 grams of the product."
+                            },
+                            "fat": {
+                              "type": "string",
+                              "description": "Fat content per 100 grams of the product."
+                            },
+                            "carbs": {
+                              "type": "string",
+                              "description": "Carbohydrate content per 100 grams of the product."
+                            },
+                            "water": {
+                              "type": "string",
+                              "description": "Water content per 100 grams of the product."
+                            },
+                            "serving": {
+                              "type": "string",
+                              "description": "Serving size or type."
+                            },
+                            "weight": {
+                              "type": "string",
+                              "description": "Weight of the serving."
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "type",
+                            "calories",
+                            "protein",
+                            "fat",
+                            "carbs",
+                            "water",
+                            "serving",
+                            "weight"
+                          ]
+                        }
+                      }
+                    },
+                    "required": ["products"]
+                  }
+                }
+              ]
+            }
+          ],
+          "tool_config": {
+            "function_calling_config": {
+              "mode": "ANY",
+              "allowed_function_names": ["analyze_nutritional_value"]
+            }
+          }
+        }`
+    });
+    const text = await resp.json();
+    const productArr = text === null || text === void 0 ? void 0 : (_text$candidates$ = text.candidates[0]) === null || _text$candidates$ === void 0 ? void 0 : (_text$candidates$$con = _text$candidates$.content) === null || _text$candidates$$con === void 0 ? void 0 : (_text$candidates$$con2 = _text$candidates$$con.parts[0]) === null || _text$candidates$$con2 === void 0 ? void 0 : (_text$candidates$$con3 = _text$candidates$$con2.functionCall) === null || _text$candidates$$con3 === void 0 ? void 0 : (_text$candidates$$con4 = _text$candidates$$con3.args) === null || _text$candidates$$con4 === void 0 ? void 0 : _text$candidates$$con4.products;
+    res.status(200).json({
+      message: "Text generated",
+      data: productArr
+    });
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
@@ -247,7 +305,7 @@ const generateImage = async (req, res) => {
     }]
   };
   try {
-    var _text$candidates$, _text$candidates$$con, _text$candidates$$con2;
+    var _text$candidates$2, _text$candidates$2$co, _text$candidates$2$co2;
     // const result = await model2.generateContent(JSON.stringify([prompt, part]))
     // const response = await result.response
     // const text = await response.text()
@@ -260,23 +318,23 @@ const generateImage = async (req, res) => {
       body: JSON.stringify(data)
     });
     const text = await result.json();
-    const outputString = text === null || text === void 0 ? void 0 : (_text$candidates$ = text.candidates[0]) === null || _text$candidates$ === void 0 ? void 0 : (_text$candidates$$con = _text$candidates$.content) === null || _text$candidates$$con === void 0 ? void 0 : (_text$candidates$$con2 = _text$candidates$$con.parts[0]) === null || _text$candidates$$con2 === void 0 ? void 0 : _text$candidates$$con2.text;
+    const outputString = text === null || text === void 0 ? void 0 : (_text$candidates$2 = text.candidates[0]) === null || _text$candidates$2 === void 0 ? void 0 : (_text$candidates$2$co = _text$candidates$2.content) === null || _text$candidates$2$co === void 0 ? void 0 : (_text$candidates$2$co2 = _text$candidates$2$co.parts[0]) === null || _text$candidates$2$co2 === void 0 ? void 0 : _text$candidates$2$co2.text;
     if (outputString) {
-      var _str9, _str10, _str11, _str13, _str14, _str16;
+      var _str, _str2, _str3, _str5, _str6, _str8;
       let str;
       str = outputString === null || outputString === void 0 ? void 0 : outputString.replace(/(\w+):/g, '"$1":');
-      str = (_str9 = str) === null || _str9 === void 0 ? void 0 : _str9.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
+      str = (_str = str) === null || _str === void 0 ? void 0 : _str.replace(/: ([\w\s\d.]+)\b/g, ': "$1"');
       //const parsed = JSON.parse(outputString.trim())
-      str = (_str10 = str) === null || _str10 === void 0 ? void 0 : _str10.replace(/\n/g, "");
-      if (((_str11 = str) === null || _str11 === void 0 ? void 0 : _str11.charAt(0)) === '"') {
-        var _str12;
-        str = (_str12 = str) === null || _str12 === void 0 ? void 0 : _str12.slice(1);
+      str = (_str2 = str) === null || _str2 === void 0 ? void 0 : _str2.replace(/\n/g, "");
+      if (((_str3 = str) === null || _str3 === void 0 ? void 0 : _str3.charAt(0)) === '"') {
+        var _str4;
+        str = (_str4 = str) === null || _str4 === void 0 ? void 0 : _str4.slice(1);
       }
-      if (((_str13 = str) === null || _str13 === void 0 ? void 0 : _str13.charAt(((_str14 = str) === null || _str14 === void 0 ? void 0 : _str14.length) - 1)) === '"') {
-        var _str15;
-        str = (_str15 = str) === null || _str15 === void 0 ? void 0 : _str15.slice(0, -1);
+      if (((_str5 = str) === null || _str5 === void 0 ? void 0 : _str5.charAt(((_str6 = str) === null || _str6 === void 0 ? void 0 : _str6.length) - 1)) === '"') {
+        var _str7;
+        str = (_str7 = str) === null || _str7 === void 0 ? void 0 : _str7.slice(0, -1);
       }
-      let trimmed = (_str16 = str) === null || _str16 === void 0 ? void 0 : _str16.trim();
+      let trimmed = (_str8 = str) === null || _str8 === void 0 ? void 0 : _str8.trim();
       let parsed = JSON.parse(trimmed);
       if (typeof parsed === "object" && !Array.isArray(parsed)) {
         let arr = [parsed];

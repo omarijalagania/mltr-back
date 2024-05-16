@@ -130,49 +130,111 @@ export const generateText = async (req: Request, res: Response) => {
   const { obj } = req.body
 
   try {
-    // const resp = await fetch(
-    //   `https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=${process.env.GENERATIVE_API_KEY}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: `{"prompt": {"text" : ${JSON.stringify(obj)}}}`,
-    //   },
-    // )
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: `{
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. Here are the products: ${obj}"
+                }
+              ]
+            }
+          ],
+          "tools": [
+            {
+              "function_declarations": [
+                {
+                  "name": "analyze_nutritional_value",
+                  "description": "Analyze the nutritional value of one or more food or drink items from a text description and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, and weight) of each product as an array of JSON objects.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "products": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the food or drink item."
+                            },
+                            "type": {
+                              "type": "string",
+                              "description": "Type of the product (food or drink)."
+                            },
+                            "calories": {
+                              "type": "string",
+                              "description": "Calories per 100 grams of the product."
+                            },
+                            "protein": {
+                              "type": "string",
+                              "description": "Protein content per 100 grams of the product."
+                            },
+                            "fat": {
+                              "type": "string",
+                              "description": "Fat content per 100 grams of the product."
+                            },
+                            "carbs": {
+                              "type": "string",
+                              "description": "Carbohydrate content per 100 grams of the product."
+                            },
+                            "water": {
+                              "type": "string",
+                              "description": "Water content per 100 grams of the product."
+                            },
+                            "serving": {
+                              "type": "string",
+                              "description": "Serving size or type."
+                            },
+                            "weight": {
+                              "type": "string",
+                              "description": "Weight of the serving."
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "type",
+                            "calories",
+                            "protein",
+                            "fat",
+                            "carbs",
+                            "water",
+                            "serving",
+                            "weight"
+                          ]
+                        }
+                      }
+                    },
+                    "required": ["products"]
+                  }
+                }
+              ]
+            }
+          ],
+          "tool_config": {
+            "function_calling_config": {
+              "mode": "ANY",
+              "allowed_function_names": ["analyze_nutritional_value"]
+            }
+          }
+        }`,
+      },
+    )
 
-    const result = await model.generateContent(JSON.stringify(obj))
+    const text = await resp.json()
 
-    const response = await result.response
-    const text = await response.text()
+    const productArr =
+      text?.candidates[0]?.content?.parts[0]?.functionCall?.args?.products
 
-    if (text) {
-      let str
-
-      str = text?.replace(/(\w+):/g, '"$1":')
-      str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-      //const parsed = JSON.parse(outputString.trim())
-      str = str?.replace(/\n/g, "")
-
-      if (str?.charAt(0) === '"') {
-        str = str?.slice(1)
-      }
-
-      if (str?.charAt(str?.length - 1) === '"') {
-        str = str?.slice(0, -1)
-      }
-
-      let trimmed = str?.trim()
-
-      let parsed = JSON.parse(trimmed)
-
-      if (typeof parsed === "object" && !Array.isArray(parsed)) {
-        let arr = [parsed]
-        res.status(200).json({ message: "Text generated", data: arr })
-      } else {
-        res.status(200).json({ message: "Text generated", data: parsed })
-      }
-    }
+    res.status(200).json({ message: "Text generated", data: productArr })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
