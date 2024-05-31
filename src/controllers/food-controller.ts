@@ -131,7 +131,7 @@ export const generateText = async (req: Request, res: Response) => {
 
   try {
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -251,28 +251,100 @@ export const generateImage = async (req: Request, res: Response) => {
   const data = {
     contents: [
       {
+        role: "user",
         parts: [
           {
-            text: testPrompt,
+            text: "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value_from_photo function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, weight, and barcode. When provided with an image of a food item, whether packaged, fresh, or as part of a meal, analyze the content and return the nutritional values normalized for a 100-gram portion. The response should identify the item or items and estimate the serving size and total weight of the serving. Format the response as plain text JSON objects with the identified name of the item as the top-level key.",
           },
           {
             inlineData: {
               mimeType: "image/jpeg",
-              data: image.replace(/^data:image\/jpeg;base64,/, ""),
+              data: image,
             },
           },
         ],
       },
     ],
+    tools: [
+      {
+        function_declarations: [
+          {
+            name: "analyze_nutritional_value_from_photo",
+            description:
+              "Analyze the nutritional value of one or more food or drink items from photo data and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, weight, and barcode) of each product as plain text JSON objects.",
+            parameters: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  description: "Name of the food or drink item.",
+                },
+                type: {
+                  type: "string",
+                  description: "Type of the product (food or drink).",
+                },
+                calories: {
+                  type: "string",
+                  description: "Calories per 100 grams of the product.",
+                },
+                protein: {
+                  type: "string",
+                  description: "Protein content per 100 grams of the product.",
+                },
+                fat: {
+                  type: "string",
+                  description: "Fat content per 100 grams of the product.",
+                },
+                carbs: {
+                  type: "string",
+                  description:
+                    "Carbohydrate content per 100 grams of the product.",
+                },
+                water: {
+                  type: "string",
+                  description: "Water content per 100 grams of the product.",
+                },
+                serving: {
+                  type: "string",
+                  description: "Serving size or type.",
+                },
+                weight: {
+                  type: "string",
+                  description: "Weight of the serving.",
+                },
+                barcode: {
+                  type: "string",
+                  description: "Barcode number if present, or 'Not Found'.",
+                },
+              },
+              required: [
+                "name",
+                "type",
+                "calories",
+                "protein",
+                "fat",
+                "carbs",
+                "water",
+                "serving",
+                "weight",
+                "barcode",
+              ],
+            },
+          },
+        ],
+      },
+    ],
+    tool_config: {
+      function_calling_config: {
+        mode: "ANY",
+        allowed_function_names: ["analyze_nutritional_value_from_photo"],
+      },
+    },
   }
 
   try {
-    // const result = await model2.generateContent(JSON.stringify([prompt, part]))
-    // const response = await result.response
-    // const text = await response.text()
-
     const result = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -284,35 +356,90 @@ export const generateImage = async (req: Request, res: Response) => {
 
     const text = await result.json()
 
-    const outputString = text?.candidates[0]?.content?.parts[0]?.text
+    // "data": {
+    //   "candidates": [
+    //       {
+    //           "content": {
+    //               "parts": [
+    //                   {
+    //                       "functionCall": {
+    //                           "name": "analyze_nutritional_value_from_photo",
+    //                           "args": {
+    //                               "name": "Hamburger",
+    //                               "weight": "200",
+    //                               "fat": "12",
+    //                               "calories": "290",
+    //                               "type": "food",
+    //                               "water": "45",
+    //                               "barcode": "Not Found",
+    //                               "serving": "1 burger",
+    //                               "carbs": "35",
+    //                               "protein": "20"
+    //                           }
+    //                       }
+    //                   }
+    //               ],
+    //               "role": "model"
+    //           },
+    //           "finishReason": "STOP",
+    //           "index": 0,
+    //           "safetyRatings": [
+    //               {
+    //                   "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+    //                   "probability": "NEGLIGIBLE"
+    //               },
+    //               {
+    //                   "category": "HARM_CATEGORY_HARASSMENT",
+    //                   "probability": "NEGLIGIBLE"
+    //               },
+    //               {
+    //                   "category": "HARM_CATEGORY_HATE_SPEECH",
+    //                   "probability": "NEGLIGIBLE"
+    //               },
+    //               {
+    //                   "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+    //                   "probability": "NEGLIGIBLE"
+    //               }
+    //           ]
+    //       }
+    //   ],
+    //   "usageMetadata": {
+    //       "promptTokenCount": 699,
+    //       "candidatesTokenCount": 77,
+    //       "totalTokenCount": 776
+    //   }
 
-    if (outputString) {
-      let str
+    const outputString =
+      text?.candidates[0]?.content?.parts[0]?.functionCall?.args
 
-      str = outputString?.replace(/(\w+):/g, '"$1":')
-      str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-      //const parsed = JSON.parse(outputString.trim())
-      str = str?.replace(/\n/g, "")
+    // const outputString = text?.candidates[0]?.content?.parts[0]?.text
 
-      if (str?.charAt(0) === '"') {
-        str = str?.slice(1)
-      }
+    // if (outputString) {
+    //   let str
 
-      if (str?.charAt(str?.length - 1) === '"') {
-        str = str?.slice(0, -1)
-      }
+    //   str = outputString?.replace(/(\w+):/g, '"$1":')
+    //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
+    //   //const parsed = JSON.parse(outputString.trim())
+    //   str = str?.replace(/\n/g, "")
 
-      let trimmed = str?.trim()
+    //   if (str?.charAt(0) === '"') {
+    //     str = str?.slice(1)
+    //   }
 
-      let parsed = JSON.parse(trimmed)
+    //   if (str?.charAt(str?.length - 1) === '"') {
+    //     str = str?.slice(0, -1)
+    //   }
 
-      if (typeof parsed === "object" && !Array.isArray(parsed)) {
-        let arr = [parsed]
-        res.status(200).json({ message: "Text generated", data: arr })
-      } else {
-        res.status(200).json({ message: "Text generated", data: parsed })
-      }
-    }
+    //   let trimmed = str?.trim()
+
+    //   let parsed = JSON.parse(trimmed)
+
+    //   if (typeof parsed === "object" && !Array.isArray(parsed)) {
+    //     let arr = [parsed]
+    res.status(200).json({ message: "Text generated", data: [outputString] })
+    // } else {
+    //   res.status(200).json({ message: "Text generated", data: parsed })
+    // }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
