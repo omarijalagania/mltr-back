@@ -243,10 +243,7 @@ export const generateText = async (req: Request, res: Response) => {
 // Generate image
 
 export const generateImage = async (req: Request, res: Response) => {
-  const { image, prompt } = req.body
-
-  const testPrompt =
-    "When provided with a text description of either a single food or drink item or a meal, analyze the description and return the nutritional value per 100 grams of the product(s). The response format should directly correspond to the number of products described.         Text description: Pepsi         Guidelines:         1. Single Product Description:         - Example Text Description: “Pepsi”         - Expected Response Format for a Single Product:         - A single JSON object detailing the nutritional information per 100 grams of the product.         - Example Structure for “Pepsi”:         {           name:Pepsi,           type: drink,           calories: 42 kcal,           protein: 0 g,           fat: 0 g,           carbs: 11 g,           water: 89 g,           serving: Can,           weight: 330 g         }         2. Group of Products (Meal) Description:         - Example Text Description: “Meal consisting of a cheeseburger, small fries, and a soda”         - Expected Response Format for Multiple Products (Meal):         - A single JSON object containing nested JSON objects for each item in the meal, with each item’s nutritional details per 100 grams.         - Example Structure for a Meal:         [            {               name:Cheeseburger,               type:food,               calories:250 kcal,               protein:15 g,               fat:10 g,               carbs:20 g,               water:50 g,               serving:Burger,               weight:150 g            },            {               name:Fries,               type:food,               calories:300 kcal,               protein:3 g,               fat:15 g,               carbs:40 g,               water:40 g,               serving:Small portion,               weight:70 g            },            {               name:Soda,               type:drink,               calories:42 kcal,               protein:0 g,               fat:0 g,               carbs:11 g,               water:89 g,               serving:Can,               weight:330 g            }         ]         The response must be in plain text JSON format only, explicitly excluding any Markdown, code block syntax (```), introductory text, or formatting symbols. All nutritional values are to be provided per 100 grams of the product. Ensure that the output strictly adheres to the described structure, making it suitable for direct parsing in applications."
+  const { image } = req.body
 
   const data = {
     contents: [
@@ -259,7 +256,7 @@ export const generateImage = async (req: Request, res: Response) => {
           {
             inlineData: {
               mimeType: "image/jpeg",
-              data: image,
+              data: image.replace(/^data:image\/jpeg;base64,/, ""),
             },
           },
         ],
@@ -356,90 +353,10 @@ export const generateImage = async (req: Request, res: Response) => {
 
     const text = await result.json()
 
-    // "data": {
-    //   "candidates": [
-    //       {
-    //           "content": {
-    //               "parts": [
-    //                   {
-    //                       "functionCall": {
-    //                           "name": "analyze_nutritional_value_from_photo",
-    //                           "args": {
-    //                               "name": "Hamburger",
-    //                               "weight": "200",
-    //                               "fat": "12",
-    //                               "calories": "290",
-    //                               "type": "food",
-    //                               "water": "45",
-    //                               "barcode": "Not Found",
-    //                               "serving": "1 burger",
-    //                               "carbs": "35",
-    //                               "protein": "20"
-    //                           }
-    //                       }
-    //                   }
-    //               ],
-    //               "role": "model"
-    //           },
-    //           "finishReason": "STOP",
-    //           "index": 0,
-    //           "safetyRatings": [
-    //               {
-    //                   "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-    //                   "probability": "NEGLIGIBLE"
-    //               },
-    //               {
-    //                   "category": "HARM_CATEGORY_HARASSMENT",
-    //                   "probability": "NEGLIGIBLE"
-    //               },
-    //               {
-    //                   "category": "HARM_CATEGORY_HATE_SPEECH",
-    //                   "probability": "NEGLIGIBLE"
-    //               },
-    //               {
-    //                   "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-    //                   "probability": "NEGLIGIBLE"
-    //               }
-    //           ]
-    //       }
-    //   ],
-    //   "usageMetadata": {
-    //       "promptTokenCount": 699,
-    //       "candidatesTokenCount": 77,
-    //       "totalTokenCount": 776
-    //   }
-
     const outputString =
       text?.candidates[0]?.content?.parts[0]?.functionCall?.args
 
-    // const outputString = text?.candidates[0]?.content?.parts[0]?.text
-
-    // if (outputString) {
-    //   let str
-
-    //   str = outputString?.replace(/(\w+):/g, '"$1":')
-    //   str = str?.replace(/: ([\w\s\d.]+)\b/g, ': "$1"')
-    //   //const parsed = JSON.parse(outputString.trim())
-    //   str = str?.replace(/\n/g, "")
-
-    //   if (str?.charAt(0) === '"') {
-    //     str = str?.slice(1)
-    //   }
-
-    //   if (str?.charAt(str?.length - 1) === '"') {
-    //     str = str?.slice(0, -1)
-    //   }
-
-    //   let trimmed = str?.trim()
-
-    //   let parsed = JSON.parse(trimmed)
-
-    //   if (typeof parsed === "object" && !Array.isArray(parsed)) {
-    //     let arr = [parsed]
     res.status(200).json({ message: "Text generated", data: [outputString] })
-    // } else {
-    //   res.status(200).json({ message: "Text generated", data: parsed })
-    // }
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
