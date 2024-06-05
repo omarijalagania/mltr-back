@@ -13,15 +13,11 @@ const welcomeToMLTRTemplate = () => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to MLTR</title>
   </head>
-  <body style="background-color: black; color: white">
+  <body style="background-color: black; color: white; padding: 5px">
     <img style="padding: 10px" src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
     <h1
       style="
-        background-image: linear-gradient(to right, #adff00, #0085ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
+        color: #c4ff46;
         font-size: 44px;
         line-height: 40px;
         font-weight: 700;
@@ -37,11 +33,7 @@ const welcomeToMLTRTemplate = () => {
 
     <h2
       style="
-        background-image: linear-gradient(to right, #adff00, #0085ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
+        color: #c4ff46;
         font-size: 32px;
         line-height: 22px;
       "
