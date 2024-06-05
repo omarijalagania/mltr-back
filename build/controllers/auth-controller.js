@@ -398,7 +398,7 @@ const userRegister = async (req, res) => {
       }, {
         new: true
       });
-      (0, _mail.sendCodeConfirmation)(code, login);
+      (0, _mail.sendCodeConfirmation)(code, login, _mail.codeConfirmationTemplate);
       return res.status(200).json({
         message: "User updated, confirmation code sent to email",
         user: user.email
@@ -425,7 +425,7 @@ const userRegister = async (req, res) => {
         water,
         status: "inactive"
       });
-      (0, _mail.sendCodeConfirmation)(code, login);
+      (0, _mail.sendCodeConfirmation)(code, login, _mail.codeConfirmationTemplate);
       return res.status(200).json({
         message: "User registered, confirmation code sent to email",
         user: user.email
@@ -481,7 +481,7 @@ const getConfirmationCode = async (req, res) => {
       }, {
         new: true
       });
-      (0, _mail.sendCodeConfirmation)(code, user.email);
+      (0, _mail.sendCodeConfirmation)(code, user.email, _mail.codeConfirmationTemplate);
       return res.status(201).json({
         message: "Confirmation code sent to email",
         user: user.email
@@ -593,7 +593,7 @@ const deactivateAccount = async (req, res) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      (0, _mail.sendCodeConfirmation)("49640", login);
+      (0, _mail.sendCodeConfirmation)("49640", login, _mail.codeConfirmationTemplate);
       user = await _models.User.findOneAndUpdate({
         email: login
       }, {
@@ -608,7 +608,7 @@ const deactivateAccount = async (req, res) => {
 
     // FOR TEST END
     else {
-      (0, _mail.sendCodeConfirmation)(code, login);
+      (0, _mail.sendCodeConfirmation)(code, login, _mail.codeConfirmationTemplate);
       user = await _models.User.findOneAndUpdate({
         email: login
       }, {

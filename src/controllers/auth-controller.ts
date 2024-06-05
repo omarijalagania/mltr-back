@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { User } from "models"
 import { generateCode } from "helpers"
-import { sendCodeConfirmation } from "mail"
+import { codeConfirmationTemplate, sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
@@ -380,7 +380,7 @@ export const userRegister = async (req: Request, res: Response) => {
           new: true,
         },
       )
-      sendCodeConfirmation(code, login)
+      sendCodeConfirmation(code, login, codeConfirmationTemplate)
       return res.status(200).json({
         message: "User updated, confirmation code sent to email",
         user: user.email,
@@ -408,7 +408,7 @@ export const userRegister = async (req: Request, res: Response) => {
         status: "inactive",
       })
 
-      sendCodeConfirmation(code, login)
+      sendCodeConfirmation(code, login, codeConfirmationTemplate)
       return res.status(200).json({
         message: "User registered, confirmation code sent to email",
         user: user.email,
@@ -459,7 +459,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { new: true },
       )
 
-      sendCodeConfirmation(code, user.email)
+      sendCodeConfirmation(code, user.email, codeConfirmationTemplate)
       return res.status(201).json({
         message: "Confirmation code sent to email",
         user: user.email,
@@ -562,7 +562,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      sendCodeConfirmation("49640", login)
+      sendCodeConfirmation("49640", login, codeConfirmationTemplate)
       user = await User.findOneAndUpdate(
         {
           email: login,
@@ -581,7 +581,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
 
     // FOR TEST END
     else {
-      sendCodeConfirmation(code, login)
+      sendCodeConfirmation(code, login, codeConfirmationTemplate)
 
       user = await User.findOneAndUpdate(
         {

@@ -1,8 +1,10 @@
 import nodemailer from "nodemailer"
-import { codeConfirmationTemplate } from "mail"
-import { welcomeToMLTRTemplate } from "./welcome-mltr"
 
-export const sendCodeConfirmation = async (code: string, email: string) => {
+export const sendCodeConfirmation = async (
+  code: string,
+  email: string,
+  template: any,
+) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -14,7 +16,7 @@ export const sendCodeConfirmation = async (code: string, email: string) => {
     from: `<${process.env.EMAIL_FROM}>`,
     to: email,
     subject: "MLTR Verification Code",
-    html: welcomeToMLTRTemplate(),
+    html: template(code),
   }
   transporter.sendMail(mailOptions, (err: any, info: any) => {
     if (err) {

@@ -5,9 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sendCodeConfirmation = void 0;
 var _nodemailer = _interopRequireDefault(require("nodemailer"));
-var _welcomeMltr = require("./welcome-mltr");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const sendCodeConfirmation = async (code, email) => {
+const sendCodeConfirmation = async (code, email, template) => {
   const transporter = _nodemailer.default.createTransport({
     service: "gmail",
     auth: {
@@ -19,7 +18,7 @@ const sendCodeConfirmation = async (code, email) => {
     from: `<${process.env.EMAIL_FROM}>`,
     to: email,
     subject: "MLTR Verification Code",
-    html: (0, _welcomeMltr.welcomeToMLTRTemplate)()
+    html: template(code)
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
