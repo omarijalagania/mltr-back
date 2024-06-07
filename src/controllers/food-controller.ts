@@ -240,7 +240,7 @@ export const generateText = async (req: Request, res: Response) => {
   }
 }
 
-// Generate image
+// Generate image  data: image.replace(/^data:image\/jpeg;base64,/, ""),
 
 export const generateImage = async (req: Request, res: Response) => {
   const { image } = req.body
@@ -251,7 +251,7 @@ export const generateImage = async (req: Request, res: Response) => {
         role: "user",
         parts: [
           {
-            text: "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value_from_photo function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, weight, and barcode. When provided with an image of a food item, whether packaged, fresh, or as part of a meal, analyze the content and return the nutritional values normalized for a 100-gram portion. The response should identify the item or items and estimate the serving size and total weight of the serving. Format the response as plain text JSON objects with the identified name of the item as the top-level key.",
+            text: "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value_from_photo function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. When provided with an image of a food item, whether packaged, fresh, or as part of a meal, analyze the content and return the nutritional values normalized for a 100-gram portion. The response should identify the item or items and estimate the serving size and total weight of the serving. The serving parameter should reflect the quantity and size seen in the photo (e.g., '5 medium apples' if there are 5 apples, '1 large burger' if there is one large burger). The weight should be the total weight for the quantity observed. Format the response as plain text JSON objects with the identified name of the item as the top-level key.",
           },
           {
             inlineData: {
@@ -268,7 +268,7 @@ export const generateImage = async (req: Request, res: Response) => {
           {
             name: "analyze_nutritional_value_from_photo",
             description:
-              "Analyze the nutritional value of one or more food or drink items from photo data and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, weight, and barcode) of each product as plain text JSON objects.",
+              "Analyze the nutritional value of one or more food or drink items from photo data and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, and weight) of each product as plain text JSON objects.",
             parameters: {
               type: "object",
               properties: {
@@ -303,15 +303,13 @@ export const generateImage = async (req: Request, res: Response) => {
                 },
                 serving: {
                   type: "string",
-                  description: "Serving size or type.",
+                  description:
+                    "Serving size or type based on the quantity and size observed in the photo.",
                 },
                 weight: {
                   type: "string",
-                  description: "Weight of the serving.",
-                },
-                barcode: {
-                  type: "string",
-                  description: "Barcode number if present, or 'Not Found'.",
+                  description:
+                    "Total weight of the serving based on the quantity and size observed in the photo.",
                 },
               },
               required: [
@@ -324,7 +322,6 @@ export const generateImage = async (req: Request, res: Response) => {
                 "water",
                 "serving",
                 "weight",
-                "barcode",
               ],
             },
           },
@@ -353,10 +350,11 @@ export const generateImage = async (req: Request, res: Response) => {
 
     const text = await result.json()
 
-    const outputString =
-      text?.candidates[0]?.content?.parts[0]?.functionCall?.args
+    const outputString = text?.candidates[0]?.content?.parts?.map(
+      (item: any) => item?.functionCall?.args,
+    )
 
-    res.status(200).json({ message: "Text generated", data: [outputString] })
+    res.status(200).json({ message: "Text generated", data: outputString })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }

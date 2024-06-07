@@ -284,7 +284,7 @@ const generateText = async (req, res) => {
   }
 };
 
-// Generate image
+// Generate image  data: image.replace(/^data:image\/jpeg;base64,/, ""),
 exports.generateText = generateText;
 const generateImage = async (req, res) => {
   const {
@@ -294,7 +294,7 @@ const generateImage = async (req, res) => {
     contents: [{
       role: "user",
       parts: [{
-        text: "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value_from_photo function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, weight, and barcode. When provided with an image of a food item, whether packaged, fresh, or as part of a meal, analyze the content and return the nutritional values normalized for a 100-gram portion. The response should identify the item or items and estimate the serving size and total weight of the serving. Format the response as plain text JSON objects with the identified name of the item as the top-level key."
+        text: "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value_from_photo function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. When provided with an image of a food item, whether packaged, fresh, or as part of a meal, analyze the content and return the nutritional values normalized for a 100-gram portion. The response should identify the item or items and estimate the serving size and total weight of the serving. The serving parameter should reflect the quantity and size seen in the photo (e.g., '5 medium apples' if there are 5 apples, '1 large burger' if there is one large burger). The weight should be the total weight for the quantity observed. Format the response as plain text JSON objects with the identified name of the item as the top-level key."
       }, {
         inlineData: {
           mimeType: "image/jpeg",
@@ -305,7 +305,7 @@ const generateImage = async (req, res) => {
     tools: [{
       function_declarations: [{
         name: "analyze_nutritional_value_from_photo",
-        description: "Analyze the nutritional value of one or more food or drink items from photo data and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, weight, and barcode) of each product as plain text JSON objects.",
+        description: "Analyze the nutritional value of one or more food or drink items from photo data and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, and weight) of each product as plain text JSON objects.",
         parameters: {
           type: "object",
           properties: {
@@ -339,18 +339,14 @@ const generateImage = async (req, res) => {
             },
             serving: {
               type: "string",
-              description: "Serving size or type."
+              description: "Serving size or type based on the quantity and size observed in the photo."
             },
             weight: {
               type: "string",
-              description: "Weight of the serving."
-            },
-            barcode: {
-              type: "string",
-              description: "Barcode number if present, or 'Not Found'."
+              description: "Total weight of the serving based on the quantity and size observed in the photo."
             }
           },
-          required: ["name", "type", "calories", "protein", "fat", "carbs", "water", "serving", "weight", "barcode"]
+          required: ["name", "type", "calories", "protein", "fat", "carbs", "water", "serving", "weight"]
         }
       }]
     }],
@@ -362,7 +358,7 @@ const generateImage = async (req, res) => {
     }
   };
   try {
-    var _text$candidates$2, _text$candidates$2$co, _text$candidates$2$co2, _text$candidates$2$co3;
+    var _text$candidates$2, _text$candidates$2$co, _text$candidates$2$co2;
     const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`, {
       method: "POST",
       headers: {
@@ -371,10 +367,13 @@ const generateImage = async (req, res) => {
       body: JSON.stringify(data)
     });
     const text = await result.json();
-    const outputString = text === null || text === void 0 ? void 0 : (_text$candidates$2 = text.candidates[0]) === null || _text$candidates$2 === void 0 ? void 0 : (_text$candidates$2$co = _text$candidates$2.content) === null || _text$candidates$2$co === void 0 ? void 0 : (_text$candidates$2$co2 = _text$candidates$2$co.parts[0]) === null || _text$candidates$2$co2 === void 0 ? void 0 : (_text$candidates$2$co3 = _text$candidates$2$co2.functionCall) === null || _text$candidates$2$co3 === void 0 ? void 0 : _text$candidates$2$co3.args;
+    const outputString = text === null || text === void 0 ? void 0 : (_text$candidates$2 = text.candidates[0]) === null || _text$candidates$2 === void 0 ? void 0 : (_text$candidates$2$co = _text$candidates$2.content) === null || _text$candidates$2$co === void 0 ? void 0 : (_text$candidates$2$co2 = _text$candidates$2$co.parts) === null || _text$candidates$2$co2 === void 0 ? void 0 : _text$candidates$2$co2.map(item => {
+      var _item$functionCall;
+      return item === null || item === void 0 ? void 0 : (_item$functionCall = item.functionCall) === null || _item$functionCall === void 0 ? void 0 : _item$functionCall.args;
+    });
     res.status(200).json({
       message: "Text generated",
-      data: [outputString]
+      data: outputString
     });
   } catch (error) {
     res.status(500).json({
