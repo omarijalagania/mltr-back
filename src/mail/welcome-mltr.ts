@@ -1,17 +1,23 @@
 export const welcomeToMLTRTemplate = () => {
   return `
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to MLTR</title>
   </head>
-  <body style="background-color: black; color: white; padding: 5px">
-    <img style="padding: 10px" src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
+  <body style="background-color: black; color: white; padding: 15px">
+    <img
+      height="85px"
+      width="85px"
+      style="padding-bottom: 60px"
+      src="${process.env.BACKEND_URL}/images/mltr.png"
+      alt="mltr"
+    />
     <h1
       style="
-        color: #c4ff46;
+        color: #8be100;
         font-size: 44px;
         line-height: 40px;
         font-weight: 700;
@@ -19,7 +25,15 @@ export const welcomeToMLTRTemplate = () => {
     >
       Welcome to MLTR
     </h1>
-    <p style="text-align: left; font-size: 14px; line-height: 22px">
+    <p
+      style="
+        text-align: left;
+        font-size: 14px;
+        line-height: 22px;
+        padding-bottom: 60px;
+        padding-top: 20px;
+      "
+    >
       Welcome aboard! We're thrilled to have you join the MLTR family. Our
       mission is simple: to help you lead a healthier, more balanced life with
       ease and insight.
@@ -27,9 +41,10 @@ export const welcomeToMLTRTemplate = () => {
 
     <h2
       style="
-        color: #c4ff46;
+        color: #8be100;
         font-size: 32px;
         line-height: 22px;
+        padding-bottom: 60px;
       "
     >
       Getting Started
@@ -37,7 +52,14 @@ export const welcomeToMLTRTemplate = () => {
 
     <!-- One -->
 
-    <div style="display: flex; margin-bottom: 20px">
+    <div
+      style="
+        margin-bottom: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
       <p
         style="
           font-weight: 400;
@@ -48,7 +70,7 @@ export const welcomeToMLTRTemplate = () => {
       >
         <span
           style="
-            color: #c4ff46;
+            color: #009cb1;
             font-weight: 700;
             font-size: 16px;
             line-height: 22px;
@@ -58,17 +80,24 @@ export const welcomeToMLTRTemplate = () => {
         settings.
       </p>
       <img
-        style="width: 141px; height: 95px; padding: 0 5px"
-        src="${process.env.BACKEND_URL}/images/apple.png"
+        style="width: 79px; height: 100px"
+        src="${process.env.BACKEND_URL}/images/Personal_Goal.png"
         alt="apple"
       />
     </div>
 
     <!-- Two -->
 
-    <div style="display: flex; justify-content: space-between">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 90px;
+      "
+    >
       <img
-        style="width: 141px; height: 88px; padding: 0 5px"
+        style="width: 135px; height: 80px"
         src="${process.env.BACKEND_URL}/images/cup.png"
         alt="apple"
       />
@@ -82,7 +111,7 @@ export const welcomeToMLTRTemplate = () => {
       >
         <span
           style="
-            color: #c4ff46;
+            color: #009cb1;
             font-weight: 700;
             font-size: 16px;
             line-height: 22px;
@@ -95,7 +124,14 @@ export const welcomeToMLTRTemplate = () => {
 
     <!-- Three -->
 
-    <div style="display: flex; margin-top: 20px">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 90px;
+      "
+    >
       <p
         style="
           font-weight: 400;
@@ -106,7 +142,7 @@ export const welcomeToMLTRTemplate = () => {
       >
         <span
           style="
-            color: #c4ff46;
+            color: #009cb1;
             font-weight: 700;
             font-size: 16px;
             line-height: 22px;
@@ -115,16 +151,21 @@ export const welcomeToMLTRTemplate = () => {
         >Keep track of your liquids intake with our hydration tracker to ensure
         you’re always at your best.
       </p>
-      <img src="${process.env.BACKEND_URL}/images/glass.png" alt="apple" />
+      <img width="50px" height="90px" src="${process.env.BACKEND_URL}/images/glass.png" alt="apple" />
     </div>
 
     <!-- Four -->
 
     <div
-      style="display: flex; justify-content: space-between; margin-top: 20px"
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 90px;
+      "
     >
       <img
-        style="width: 141px; height: 88px; padding: 0 5px"
+        style="width: 63px; height: 88px"
         src="${process.env.BACKEND_URL}/images/heart.png"
         alt="apple"
       />
@@ -138,7 +179,7 @@ export const welcomeToMLTRTemplate = () => {
       >
         <span
           style="
-            color: #c4ff46;
+            color: #009cb1;
             font-weight: 700;
             font-size: 16px;
             line-height: 22px;
@@ -155,7 +196,7 @@ export const welcomeToMLTRTemplate = () => {
       <p style="font-weight: 400; font-size: 16px; line-height: 22px">
         <span
           style="
-            color: #c4ff46;
+            color: #009cb1;
             font-weight: 700;
             font-size: 16px;
             line-height: 22px;
@@ -212,6 +253,21 @@ export const welcomeToMLTRTemplate = () => {
       <p>
         <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
       </p>
+
+      <p>
+        <a
+          style="
+            color: #7c7c7c;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            padding-left: 20px;
+          "
+          href="https://mltr.app/policies/terms.html"
+          >ONYX Labs</a
+        >
+      </p>
+
       <p>
         <a
           style="
@@ -242,7 +298,6 @@ export const welcomeToMLTRTemplate = () => {
   </body>
 </html>
 
-  
 
     `
 }
