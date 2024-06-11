@@ -4,6 +4,7 @@ import { generateCode } from "helpers"
 import { codeConfirmationTemplate, sendCodeConfirmation } from "mail"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
 
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {

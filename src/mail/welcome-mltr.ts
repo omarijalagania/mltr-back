@@ -6,6 +6,18 @@ export const welcomeToMLTRTemplate = () => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to MLTR</title>
+
+    <style>
+      /* Media query for devices with width less than 350px */
+      @media only screen and (max-width: 350px) {
+        .remove-padding {
+          padding: 0 !important; /* !important ensures higher priority */
+        }
+        .remove-padding {
+          margin: 0 !important;
+        }
+      }
+    </style>
   </head>
   <body style="background-color: black; color: white; padding: 15px">
     <img
@@ -247,42 +259,41 @@ export const welcomeToMLTRTemplate = () => {
         display: flex;
         margin-top: 60px;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        width: 95%;
       "
     >
-      <p>
+      <div>
         <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
-      </p>
+      </div>
 
-      <p>
+      <div>
         <a
           style="
             color: #7c7c7c;
             font-weight: 400;
             font-size: 14px;
             line-height: 20px;
-            padding-left: 20px;
           "
           href="https://mltr.app/policies/terms.html"
           >ONYX Labs</a
         >
-      </p>
+      </div>
 
-      <p>
+      <div>
         <a
           style="
             color: #c4ff46;
             font-weight: 400;
             font-size: 14px;
             line-height: 20px;
-            padding: 0 20px;
           "
           href="https://mltr.app/policies/terms.html"
           >Terms and Conditions</a
         >
-      </p>
+      </div>
 
-      <p>
+      <div>
         <a
           style="
             color: #c4ff46;
@@ -293,11 +304,9 @@ export const welcomeToMLTRTemplate = () => {
           href="https://mltr.app/policies/privacy.html"
           >Privacy Policy
         </a>
-      </p>
+      </div>
     </div>
   </body>
 </html>
-
-
-    `
+  `
 }
