@@ -3,12 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userRegister = exports.userLogin = exports.updateUser = exports.tokenVerify = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getUser = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
+exports.userRegister = exports.userLogin = exports.userBuyPro = exports.updateUser = exports.tokenVerify = exports.registerWithGoogle = exports.registerWithApple = exports.loginWithGoogle = exports.loginWithApple = exports.getUser = exports.getConfirmationCode = exports.deactivateAccount = exports.confirmDeactivationCode = void 0;
 var _models = require("../models");
 var _helpers = require("../helpers");
 var _mail = require("../mail");
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+var _welcomeMltr = require("../mail/welcome-mltr");
+var _proMltr = require("../mail/pro-mltr");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const registerWithGoogle = async (req, res) => {
   const {
@@ -90,6 +92,7 @@ const registerWithGoogle = async (req, res) => {
         _id: (_user3 = user) === null || _user3 === void 0 ? void 0 : _user3._id,
         name: (_user4 = user) === null || _user4 === void 0 ? void 0 : _user4.email
       }, process.env.JWT_SECRET);
+      (0, _mail.sendCodeConfirmation)("49640", login, _welcomeMltr.welcomeToMLTRTemplate);
       return res.status(201).json({
         message: "User Registered and logged in",
         token,
@@ -249,6 +252,7 @@ const registerWithApple = async (req, res) => {
         name: (_user9 = user) === null || _user9 === void 0 ? void 0 : _user9.email,
         appleToken: (_user10 = user) === null || _user10 === void 0 ? void 0 : _user10.appleToken
       }, process.env.JWT_SECRET);
+      (0, _mail.sendCodeConfirmation)("49640", login, _welcomeMltr.welcomeToMLTRTemplate);
       return res.status(201).json({
         message: "User Registered and logged in",
         token,
@@ -593,7 +597,7 @@ const deactivateAccount = async (req, res) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      (0, _mail.sendCodeConfirmation)("49640", login, _mail.codeConfirmationTemplate);
+      (0, _mail.sendCodeConfirmation)("49640", login, _mail.codeSorryTemplate);
       user = await _models.User.findOneAndUpdate({
         email: login
       }, {
@@ -608,7 +612,7 @@ const deactivateAccount = async (req, res) => {
 
     // FOR TEST END
     else {
-      (0, _mail.sendCodeConfirmation)(code, login, _mail.codeConfirmationTemplate);
+      (0, _mail.sendCodeConfirmation)(code, login, _mail.codeSorryTemplate);
       user = await _models.User.findOneAndUpdate({
         email: login
       }, {
@@ -780,3 +784,16 @@ const getUser = async (req, res) => {
   }
 };
 exports.getUser = getUser;
+const userBuyPro = async (req, res) => {
+  const {
+    login
+  } = req.body;
+  try {
+    (0, _mail.sendCodeConfirmation)("49640", login, _proMltr.welcomeToProTemplate);
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong..."
+    });
+  }
+};
+exports.userBuyPro = userBuyPro;

@@ -12,6 +12,7 @@ import {
   updateUser,
   tokenVerify,
   getUser,
+  userBuyPro,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -39,6 +40,10 @@ router.post(
 )
 router.patch("/update-user", authMiddleware, updateUser)
 router.get("/get-user", authMiddleware, getUser)
+
+//Pro
+
+router.post("/pro", authMiddleware, userBuyPro)
 
 //Token verify
 

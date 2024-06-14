@@ -29,6 +29,10 @@ router.post("/confirm-deactivate-account", _middlewares.authMiddleware, _control
 router.patch("/update-user", _middlewares.authMiddleware, _controllers.updateUser);
 router.get("/get-user", _middlewares.authMiddleware, _controllers.getUser);
 
+//Pro
+
+router.post("/pro", _middlewares.authMiddleware, _controllers.userBuyPro);
+
 //Token verify
 
 router.get("/verify", _controllers.tokenVerify);

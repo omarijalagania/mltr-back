@@ -1,10 +1,15 @@
 import { Request, Response } from "express"
 import { User } from "models"
 import { generateCode } from "helpers"
-import { codeConfirmationTemplate, sendCodeConfirmation } from "mail"
+import {
+  codeConfirmationTemplate,
+  codeSorryTemplate,
+  sendCodeConfirmation,
+} from "mail"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
+import { welcomeToProTemplate } from "mail/pro-mltr"
 
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
@@ -87,6 +92,9 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email },
         process.env.JWT_SECRET,
       )
+
+      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate)
+
       return res.status(201).json({
         message: "User Registered and logged in",
         token,
@@ -239,6 +247,9 @@ export const registerWithApple = async (req: Request, res: Response) => {
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
         process.env.JWT_SECRET,
       )
+
+      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate)
+
       return res.status(201).json({
         message: "User Registered and logged in",
         token,
@@ -563,7 +574,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      sendCodeConfirmation("49640", login, codeConfirmationTemplate)
+      sendCodeConfirmation("49640", login, codeSorryTemplate)
       user = await User.findOneAndUpdate(
         {
           email: login,
@@ -582,7 +593,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
 
     // FOR TEST END
     else {
-      sendCodeConfirmation(code, login, codeConfirmationTemplate)
+      sendCodeConfirmation(code, login, codeSorryTemplate)
 
       user = await User.findOneAndUpdate(
         {
@@ -730,6 +741,15 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const userBuyPro = async (req: Request, res: Response) => {
+  const { login } = req.body
+  try {
+    sendCodeConfirmation("49640", login, welcomeToProTemplate)
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }

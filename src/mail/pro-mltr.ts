@@ -1,16 +1,10 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.welcomeToMLTRTemplate = void 0;
-const welcomeToMLTRTemplate = () => {
+export const welcomeToProTemplate = () => {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to MLTR</title>
+    <title>Welcome to MLTR Pro</title>
     <style>
       /* Media query for devices with width less than 350px */
       @media only screen and (max-width: 350px) {
@@ -40,7 +34,7 @@ const welcomeToMLTRTemplate = () => {
               font-weight: 700;
             "
           >
-            Welcome to MLTR
+          Welcome to Pro!
           </h1>
         </td>
       </tr>
@@ -55,25 +49,12 @@ const welcomeToMLTRTemplate = () => {
           "
         >
           <p>
-            Welcome aboard! We're thrilled to have you join the MLTR family. Our
-            mission is simple: to help you lead a healthier, more balanced life
-            with ease and insight.
+            We are thrilled to have you on board with MLTR Pro! You're all set to enhance your health journey with some top-notch tools that'll make staying on track a breeze. Here are some cool things you can do now!
           </p>
         </td>
       </tr>
       <tr>
-        <td>
-          <h2
-            style="
-              color: #8be100;
-              font-size: 32px;
-              line-height: 22px;
-              padding-bottom: 60px;
-            "
-          >
-            Getting Started
-          </h2>
-        </td>
+        
       </tr>
       <tr>
         <td>
@@ -95,15 +76,14 @@ const welcomeToMLTRTemplate = () => {
                     font-size: 16px;
                     line-height: 22px;
                   "
-                  >Setting Your Goals:
+                  >Advanced Analytics:
                 </span>
-                Customize your health and nutrition goals and preferences
-                through our settings.
+                Dive into your health data like never before. See trends, track progress, and gain the insights you need to make informed decisions.
               </td>
               <td style="text-align: right">
                 <img
-                  style="width: 79px; height: 100px"
-                  src="${process.env.BACKEND_URL}/images/Personal_Goal.png"
+                  style="width: 131px; height: 169px"
+                  src="${process.env.BACKEND_URL}/images/desk.png"
                   alt="apple"
                 />
               </td>
@@ -116,8 +96,8 @@ const welcomeToMLTRTemplate = () => {
             <tr>
               <td style="text-align: left">
                 <img
-                  style="width: 135px; height: 80px"
-                  src="${process.env.BACKEND_URL}/images/cup.png"
+                  style="width: 96px; height: 167px"
+                  src="${process.env.BACKEND_URL}/images/bite.png"
                   alt="apple"
                 />
               </td>
@@ -136,10 +116,9 @@ const welcomeToMLTRTemplate = () => {
                     font-size: 16px;
                     line-height: 22px;
                   "
-                  >Tracking Your Meals:
+                  >AI Food Search: 
                 </span>
-                Use our extensive food database to build your daily meals and
-                have them ready to go.
+                See something tasty? Snap a photo, and our AI will identify the food for you, providing detailed nutritional info. It’s your diet detective, decoding foods with just a click!
               </td>
             </tr>
             <!-- Spacer -->
@@ -163,16 +142,15 @@ const welcomeToMLTRTemplate = () => {
                     font-size: 16px;
                     line-height: 22px;
                   "
-                  >Staying Hydrated:
+                  > AI Meal Builder:
                 </span>
-                Keep track of your liquids intake with our hydration tracker to
-                ensure you’re always at your best.
+                AI Meal Builder: Got a photo with multiple foods? No problem. Our AI will identify each item in your picture and combine them into a meal for you. Keeping track of your diet has never been easier!
               </td>
               <td style="text-align: right">
                 <img
-                  width="50px"
-                  height="90px"
-                  src="${process.env.BACKEND_URL}/images/glass.png"
+                  width="172px"
+                  height="163px"
+                  src="${process.env.BACKEND_URL}/images/fridge.png"
                   alt="apple"
                 />
               </td>
@@ -181,79 +159,23 @@ const welcomeToMLTRTemplate = () => {
             <tr>
               <td colspan="2" style="padding-top: 60px"></td>
             </tr>
-            <!-- Four -->
-            <tr>
-              <td style="text-align: left">
-                <img
-                  style="width: 63px; height: 88px"
-                  src="${process.env.BACKEND_URL}/images/heart.png"
-                  alt="apple"
-                />
-              </td>
-              <td
-                style="
-                  font-weight: 400;
-                  font-size: 16px;
-                  line-height: 22px;
-                
-                "
-              >
-                <span
-                  style="
-                    color: #009cb1;
-                    font-weight: 700;
-                    font-size: 16px;
-                    line-height: 22px;
-                  "
-                  >Tracking Your Meals:
-                </span>
-                Use our extensive food database to build your daily meals and
-                have them ready to go.
-              </td>
-            </tr>
+            
           </table>
         </td>
       </tr>
       <tr>
         <tr>
-          <td colspan="2" style="padding-top: 90px"></td>
+          <td colspan="2" style="padding-top: 60px"></td>
         </tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          <span
-            style="
-              color: #009cb1;
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 22px;
-            "
-            >Explore More:
-          </span>
-          Don’t forget to explore the app to discover more features like: weight
-          tracker, history, and analytics that can help you refine your health
-          and wellness strategy.
+          
+          These Pro features are designed to simplify and enrich your approach to health and nutrition. And remember, we are always working on even more amazing features for our Pro users.
         </td>
       </tr>
+      
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          We're excited to be a part of your health journey and are here to help
-          you succeed. If you have any questions or need assistance, our support
-          team is just an email away at
-          <a
-            style="
-              color: #c4ff46;
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 22px;
-            "
-            href="mailto:mltr.support@onyxlabs.tech"
-            >mltr.support@onyxlabs.tech</a
-          >.
-        </td>
-      </tr>
-      <tr>
-        <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          Thank you for choosing MLTR. Let’s make your health and wellness
-          journey rewarding and enjoyable!
+          <p style="padding: 10px 0;">Thanks for choosing MLTR Pro. Here's to a healthier, more informed you!</p>
         </td>
       </tr>
       <tr>
@@ -328,7 +250,5 @@ const welcomeToMLTRTemplate = () => {
     </table>
   </body>
 </html>
-
-  `;
-};
-exports.welcomeToMLTRTemplate = welcomeToMLTRTemplate;
+  `
+}

@@ -25,3 +25,25 @@ Object.keys(_template).forEach(function (key) {
     }
   });
 });
+var _sorry = require("./sorry");
+Object.keys(_sorry).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _sorry[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sorry[key];
+    }
+  });
+});
+var _welcomeMltr = require("./welcome-mltr");
+Object.keys(_welcomeMltr).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _welcomeMltr[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _welcomeMltr[key];
+    }
+  });
+});
