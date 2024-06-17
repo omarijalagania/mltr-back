@@ -228,7 +228,8 @@ export const registerWithApple = async (req: Request, res: Response) => {
       user = await User.create({
         email: login,
         appleToken,
-        username: sex,
+        username,
+        sex,
         birth,
         height,
         is_ft_heigth,
