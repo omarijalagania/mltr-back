@@ -4,6 +4,10 @@ export const welcomeToProTemplate = () => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <!--Dark Mode meta tags needed to enable Dark Mode in email client user agents-->
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark only">
+
     <title>Welcome to MLTR Pro</title>
     <style>
       /* Media query for devices with width less than 350px */
@@ -15,9 +19,17 @@ export const welcomeToProTemplate = () => {
           margin: 0 !important;
         }
       }
+
     </style>
+    <style type="text/css">
+  :root {
+    color-scheme: light dark;
+    supported-color-schemes: light dark;
+  }
+    
+</style>
   </head>
-  <body style="background-color: black; color: white; padding: 15px">
+  <body style="padding: 15px;">
     <table width="100%" cellspacing="0" cellpadding="0" style="color: white">
       <tr>
         <td style="padding-bottom: 60px">
@@ -48,7 +60,7 @@ export const welcomeToProTemplate = () => {
             padding-top: 20px;
           "
         >
-          <p>
+          <p style="color: black">
             We are thrilled to have you on board with MLTR Pro! You're all set to enhance your health journey with some top-notch tools that'll make staying on track a breeze. Here are some cool things you can do now!
           </p>
         </td>
@@ -66,7 +78,7 @@ export const welcomeToProTemplate = () => {
                   font-weight: 400;
                   font-size: 16px;
                   line-height: 22px;
-                  
+                  color: black;
                 "
               >
                 <span
@@ -90,7 +102,7 @@ export const welcomeToProTemplate = () => {
             </tr>
             <!-- Spacer -->
             <tr>
-              <td colspan="2" style="padding-top: 60px"></td>
+              <td colspan="2" style="padding-top: 60px color: black"></td>
             </tr>
             <!-- Two -->
             <tr>
@@ -106,7 +118,7 @@ export const welcomeToProTemplate = () => {
                   font-weight: 400;
                   font-size: 16px;
                   line-height: 22px;
-                  
+                  color: black;
                 "
               >
                 <span
@@ -132,7 +144,7 @@ export const welcomeToProTemplate = () => {
                   font-weight: 400;
                   font-size: 16px;
                   line-height: 22px;
-                  
+                  color: black;
                 "
               >
                 <span
@@ -167,7 +179,7 @@ export const welcomeToProTemplate = () => {
         <tr>
           <td colspan="2" style="padding-top: 60px"></td>
         </tr>
-        <td style="font-weight: 400; font-size: 16px; line-height: 22px">
+        <td style="font-weight: 400; color: black; font-size: 16px; line-height: 22px">
           
           These Pro features are designed to simplify and enrich your approach to health and nutrition. And remember, we are always working on even more amazing features for our Pro users.
         </td>
@@ -175,16 +187,16 @@ export const welcomeToProTemplate = () => {
       
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          <p style="padding: 10px 0;">Thanks for choosing MLTR Pro. Here's to a healthier, more informed you!</p>
+          <p style="padding: 10px 0; color: black">Thanks for choosing MLTR Pro. Here's to a healthier, more informed you!</p>
         </td>
       </tr>
       <tr>
-        <td style="font-weight: 400; font-size: 16px; line-height: 22px">
+        <td style="font-weight: 400; font-size: 16px; line-height: 22px; color: black">
           Warm regards,
         </td>
       </tr>
       <tr>
-        <td style="font-weight: 400; font-size: 16px; line-height: 22px">
+        <td style="font-weight: 400; font-size: 16px; line-height: 22px; color: black">
           The MLTR Team
         </td>
       </tr>
