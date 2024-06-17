@@ -747,6 +747,7 @@ const updateUser = async (req, res) => {
 exports.updateUser = updateUser;
 const tokenVerify = async (req, res) => {
   try {
+    var _decoded$user, _decoded$user2;
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       return res.status(422).json({
@@ -755,8 +756,13 @@ const tokenVerify = async (req, res) => {
     }
     const token = authHeader.split(" ")[1];
     const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
+    const newToken = _jsonwebtoken.default.sign({
+      _id: (_decoded$user = decoded.user) === null || _decoded$user === void 0 ? void 0 : _decoded$user._id,
+      name: (_decoded$user2 = decoded.user) === null || _decoded$user2 === void 0 ? void 0 : _decoded$user2.email
+    }, process.env.JWT_SECRET);
     return res.status(200).json({
-      user: decoded
+      user: decoded,
+      newToken
     });
   } catch (error) {
     return res.status(422).json({
@@ -790,6 +796,9 @@ const userBuyPro = async (req, res) => {
   } = req.body;
   try {
     (0, _mail.sendCodeConfirmation)("49640", login, _proMltr.welcomeToProTemplate);
+    return res.status(200).json({
+      message: "Pro subscription activated"
+    });
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong..."

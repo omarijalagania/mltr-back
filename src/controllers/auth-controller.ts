@@ -756,6 +756,7 @@ export const userBuyPro = async (req: Request, res: Response) => {
   const { login } = req.body
   try {
     sendCodeConfirmation("49640", login, welcomeToProTemplate)
+    return res.status(200).json({ message: "Pro subscription activated" })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
