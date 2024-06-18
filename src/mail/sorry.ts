@@ -5,18 +5,53 @@ export const codeSorryTemplate = (code: string) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Dark Mode meta tags -->
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark only">
     <title>We are sorry</title>
-  </head>
-  <body style="background-color: black; color: white; padding: 15px">
-    <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
-    <h1
-      style="
+
+    <style>
+      /* Inline styles for maximum compatibility */
+      body {
+        padding: 15px;
+      }
+
+      h1 {
         color: #8be100;
         font-size: 44px;
         line-height: 40px;
         font-weight: 700;
-      "
-    >
+      }
+
+      /* Styles for dark mode */
+      [data-ogsc="dark-mode"] body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+      }
+      [data-ogsc="dark-mode"] h1 {
+        color: red !important; /* Dark mode green color */
+      }
+
+      /* Media query for devices with width less than 350px */
+      @media only screen and (max-width: 350px) {
+        .remove-padding {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        h1 {
+          color: #8be100 !important;
+        }
+      }
+    </style>
+
+
+  </head>
+  <body data-ogsc="light-mode">
+    <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
+    <h1>
       We are sorry to see you go
     </h1>
 
@@ -50,16 +85,9 @@ export const codeSorryTemplate = (code: string) => {
       <span style="font-weight: 700">Device:</span> iPhone 12 Pro
     </p>
 
-    <h2
-      style="
-        color: #8be100;
-        font-size: 44px;
-        line-height: 40px;
-        font-weight: 700;
-      "
-    >
+    <h1>
       ${code}
-    </h2>
+    </h1>
 
     <!-- One -->
 

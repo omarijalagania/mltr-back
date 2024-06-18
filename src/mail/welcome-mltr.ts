@@ -4,21 +4,49 @@ export const welcomeToMLTRTemplate = () => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Dark Mode meta tags -->
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark only">
     <title>Welcome to MLTR</title>
-    <style>
+   <style>
+      /* Inline styles for maximum compatibility */
+      body {
+        padding: 15px;
+      }
+
+      h1 {
+        color: #8be100;
+        font-size: 44px;
+        line-height: 40px;
+        font-weight: 700;
+      }
+
+      /* Styles for dark mode */
+      [data-ogsc="dark-mode"] body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+      }
+      [data-ogsc="dark-mode"] h1 {
+        color: red !important; /* Dark mode green color */
+      }
+
       /* Media query for devices with width less than 350px */
       @media only screen and (max-width: 350px) {
         .remove-padding {
-          padding: 0 !important; /* !important ensures higher priority */
-        }
-        .remove-padding {
+          padding: 0 !important;
           margin: 0 !important;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        h1 {
+          color: #8be100 !important;
         }
       }
     </style>
   </head>
-  <body style="background-color: black; color: white; padding: 15px">
-    <table width="100%" cellspacing="0" cellpadding="0" style="color: white">
+  <body data-ogsc="light-mode">
+    <table width="100%" cellspacing="0" cellpadding="0" style="color: inherit;">
       <tr>
         <td style="padding-bottom: 60px">
           <img height="85px" width="85px" src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
@@ -26,14 +54,7 @@ export const welcomeToMLTRTemplate = () => {
       </tr>
       <tr>
         <td>
-          <h1
-            style="
-              color: #8be100;
-              font-size: 44px;
-              line-height: 40px;
-              font-weight: 700;
-            "
-          >
+          <h1>
             Welcome to MLTR
           </h1>
         </td>
@@ -57,16 +78,9 @@ export const welcomeToMLTRTemplate = () => {
       </tr>
       <tr>
         <td>
-          <h2
-            style="
-              color: #8be100;
-              font-size: 32px;
-              line-height: 22px;
-              padding-bottom: 60px;
-            "
-          >
+          <h1>
             Getting Started
-          </h2>
+          </h1>
         </td>
       </tr>
       <tr>
