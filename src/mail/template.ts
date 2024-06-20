@@ -1,4 +1,8 @@
-export const codeConfirmationTemplate = (code: string) => {
+export const codeConfirmationTemplate = (
+  code: string,
+  ip?: string,
+  device?: string,
+) => {
   return `
  <!DOCTYPE html>
 <html lang="en">
@@ -60,11 +64,11 @@ export const codeConfirmationTemplate = (code: string) => {
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Country:</span> Ukraine (104.28.131.167)
+      <span style="font-weight: 700">Country:</span> ${ip}
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Device:</span> iPhone 12 Pro
+      <span style="font-weight: 700">Device:</span> ${device}
     </p>
 
     <h1>

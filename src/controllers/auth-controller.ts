@@ -29,6 +29,8 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     fat,
     customGoal,
     water,
+    ip,
+    device,
   } = req.body
 
   try {
@@ -93,7 +95,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         process.env.JWT_SECRET,
       )
 
-      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate)
+      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate, ip, device)
 
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -184,6 +186,8 @@ export const registerWithApple = async (req: Request, res: Response) => {
     fat,
     customGoal,
     water,
+    ip,
+    device,
   } = req.body
 
   try {
@@ -249,7 +253,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         process.env.JWT_SECRET,
       )
 
-      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate)
+      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate, ip, device)
 
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -337,6 +341,8 @@ export const userRegister = async (req: Request, res: Response) => {
     fat,
     customGoal,
     water,
+    ip,
+    device,
   } = req.body
 
   try {
@@ -393,7 +399,7 @@ export const userRegister = async (req: Request, res: Response) => {
           new: true,
         },
       )
-      sendCodeConfirmation(code, login, codeConfirmationTemplate)
+      sendCodeConfirmation(code, login, codeConfirmationTemplate, ip, device)
       return res.status(200).json({
         message: "User updated, confirmation code sent to email",
         user: user.email,
@@ -561,7 +567,7 @@ export const userLogin = async (req: Request, res: Response) => {
 }
 
 export const deactivateAccount = async (req: Request, res: Response) => {
-  const { login } = req.body
+  const { login, ip, device } = req.body
 
   let code = generateCode()
 
@@ -575,7 +581,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      sendCodeConfirmation("49640", login, codeSorryTemplate)
+      sendCodeConfirmation("49640", login, codeSorryTemplate, ip, device)
       user = await User.findOneAndUpdate(
         {
           email: login,
@@ -594,7 +600,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
 
     // FOR TEST END
     else {
-      sendCodeConfirmation(code, login, codeSorryTemplate)
+      sendCodeConfirmation(code, login, codeSorryTemplate, ip, device)
 
       user = await User.findOneAndUpdate(
         {
