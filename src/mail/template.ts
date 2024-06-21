@@ -64,11 +64,11 @@ export const codeConfirmationTemplate = (
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Country:</span> ${ip}
+      <span style="font-weight: 700">Country:</span> ${ip ? ip : "-"}
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Device:</span> ${device}
+      <span style="font-weight: 700">Device:</span> ${device ? device : "-"}
     </p>
 
     <h1>
