@@ -95,7 +95,14 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         process.env.JWT_SECRET,
       )
 
-      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate, ip, device)
+      sendCodeConfirmation(
+        "49640",
+        login,
+        welcomeToMLTRTemplate,
+        ip,
+        device,
+        "Welcome to MLTR",
+      )
 
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -253,7 +260,14 @@ export const registerWithApple = async (req: Request, res: Response) => {
         process.env.JWT_SECRET,
       )
 
-      sendCodeConfirmation("49640", login, welcomeToMLTRTemplate, ip, device)
+      sendCodeConfirmation(
+        "49640",
+        login,
+        welcomeToMLTRTemplate,
+        ip,
+        device,
+        "Welcome to MLTR",
+      )
 
       return res.status(201).json({
         message: "User Registered and logged in",
@@ -399,7 +413,14 @@ export const userRegister = async (req: Request, res: Response) => {
           new: true,
         },
       )
-      sendCodeConfirmation(code, login, codeConfirmationTemplate, ip, device)
+      sendCodeConfirmation(
+        code,
+        login,
+        codeConfirmationTemplate,
+        ip,
+        device,
+        "MLTR verification code",
+      )
       return res.status(200).json({
         message: "User updated, confirmation code sent to email",
         user: user.email,
@@ -427,7 +448,14 @@ export const userRegister = async (req: Request, res: Response) => {
         status: "inactive",
       })
 
-      sendCodeConfirmation(code, login, codeConfirmationTemplate)
+      sendCodeConfirmation(
+        code,
+        login,
+        codeConfirmationTemplate,
+        ip,
+        device,
+        "MLTR verification code",
+      )
       return res.status(200).json({
         message: "User registered, confirmation code sent to email",
         user: user.email,
@@ -439,7 +467,7 @@ export const userRegister = async (req: Request, res: Response) => {
 }
 
 export const getConfirmationCode = async (req: Request, res: Response) => {
-  const { login } = req.body
+  const { login, ip, device } = req.body
 
   try {
     let code = generateCode()
@@ -478,7 +506,14 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
         { new: true },
       )
 
-      sendCodeConfirmation(code, user.email, codeConfirmationTemplate)
+      sendCodeConfirmation(
+        code,
+        user.email,
+        codeConfirmationTemplate,
+        ip,
+        device,
+        "MLTR verification code",
+      )
       return res.status(201).json({
         message: "Confirmation code sent to email",
         user: user.email,
@@ -581,7 +616,14 @@ export const deactivateAccount = async (req: Request, res: Response) => {
     //FOR TEST
 
     if (login == "test@gmail.com") {
-      sendCodeConfirmation("49640", login, codeSorryTemplate, ip, device)
+      sendCodeConfirmation(
+        "49640",
+        login,
+        codeSorryTemplate,
+        ip,
+        device,
+        "Delete acc",
+      )
       user = await User.findOneAndUpdate(
         {
           email: login,
@@ -600,7 +642,14 @@ export const deactivateAccount = async (req: Request, res: Response) => {
 
     // FOR TEST END
     else {
-      sendCodeConfirmation(code, login, codeSorryTemplate, ip, device)
+      sendCodeConfirmation(
+        code,
+        login,
+        codeSorryTemplate,
+        ip,
+        device,
+        "Delete acc",
+      )
 
       user = await User.findOneAndUpdate(
         {
@@ -762,7 +811,14 @@ export const getUser = async (req: Request, res: Response) => {
 export const userBuyPro = async (req: Request, res: Response) => {
   const { login } = req.body
   try {
-    sendCodeConfirmation("49640", login, welcomeToProTemplate)
+    sendCodeConfirmation(
+      "49640",
+      login,
+      welcomeToProTemplate,
+      "",
+      "",
+      "Welcome to Pro!",
+    )
     return res.status(200).json({ message: "Pro subscription activated" })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })

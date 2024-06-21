@@ -6,6 +6,7 @@ export const sendCodeConfirmation = async (
   template: any,
   ip?: string,
   device?: string,
+  subject?: string,
 ) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -17,7 +18,7 @@ export const sendCodeConfirmation = async (
   const mailOptions = {
     from: `<${process.env.EMAIL_FROM}>`,
     to: email,
-    subject: "",
+    subject: subject,
     html: template(code, ip, device),
   }
   transporter.sendMail(mailOptions, (err: any, info: any) => {
