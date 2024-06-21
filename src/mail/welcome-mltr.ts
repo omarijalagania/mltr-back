@@ -278,57 +278,23 @@ export const welcomeToMLTRTemplate = () => {
 
     <!-- Footer -->
     <hr style="margin-top: 60px" />
-    <table
-      style="
-        width: 95%;
-        margin-top: 60px;
-        padding: 10px 0;
-        border-collapse: collapse;
-      "
-    >
+      <table style="width: 95%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
       <tr>
-        <td style="padding-right: 20px">
+        <td style="padding-right: 5px;">
           <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
         </td>
-        <td style="padding-right: 20px">
-          <a
-            style="
-              color: #7c7c7c;
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 20px;
-              text-decoration: none;
-            "
-            href="https://mltr.app/policies/terms.html"
-          >
+        <td style="padding-right: 5px;">
+          <a style="color: #7c7c7c; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             ONYX Labs
           </a>
         </td>
-        <td style="padding-right: 20px">
-          <a
-            style="
-              color: #c4ff46;
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 20px;
-              text-decoration: none;
-            "
-            href="https://mltr.app/policies/terms.html"
-          >
+        <td style="padding-right: 5px;">
+          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             Terms and Conditions
           </a>
         </td>
         <td>
-          <a
-            style="
-              color: #c4ff46;
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 20px;
-              text-decoration: none;
-            "
-            href="https://mltr.app/policies/privacy.html"
-          >
+          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
             Privacy Policy
           </a>
         </td>
