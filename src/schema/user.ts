@@ -13,4 +13,5 @@ export const userSchema = Joi.object({
   weight: Joi.number().min(1).max(1000).optional(),
   is_ft_weight: Joi.boolean().optional(),
   water: Joi.number().min(0).max(10000).optional(),
+  geo: Joi.string().optional(),
 })

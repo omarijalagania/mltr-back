@@ -68,6 +68,10 @@ const userSchema = new mongoose.Schema({
   userLocation: {
     type: String,
   },
+  geo: {
+    type: { type: String },
+    default: "",
+  },
 
   joined: { type: Date, default: Date.now },
 })
