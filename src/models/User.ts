@@ -70,7 +70,6 @@ const userSchema = new mongoose.Schema({
   },
   geo: {
     type: { type: String },
-    default: "",
   },
 
   joined: { type: Date, default: Date.now },
