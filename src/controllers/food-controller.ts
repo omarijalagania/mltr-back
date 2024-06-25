@@ -359,3 +359,153 @@ export const generateImage = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error", error })
   }
 }
+
+export const generateTextFromImageGPT = async (req: Request, res: Response) => {
+  const { image } = req.body
+
+  try {
+    const data = {
+      model: "gpt-4o",
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a nutrition analysis assistant. Your role is to analyze the nutritional value of all food and drink items in a given image. Each item should be analyzed separately, and the results should be returned as an array of JSON objects.",
+        },
+        {
+          role: "system",
+          content:
+            "Each JSON object should contain the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. The nutritional values should be normalized for a 100-gram portion.",
+        },
+        {
+          role: "system",
+          content:
+            "When provided with an image of one or multiple food items, whether packaged, fresh, or as part of a meal, identify and analyze each item separately. Ensure that the response includes separate JSON objects for each recognized item in the image. For each item, correctly identify the quantity and size of items (e.g., '4 medium tomatoes'). The serving parameter should reflect the quantity and type of items seen in the photo, and the weight should reflect the total weight for the serving size in the photo.",
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Analyze the nutritional value of these food items.",
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: image,
+              },
+            },
+          ],
+        },
+      ],
+      functions: [
+        {
+          name: "analyze_nutritional_value_from_photo",
+          description:
+            "Analyze the nutritional value of multiple food or drink items from photo data. Return the nutritional value per 100 grams for each item in the image. The response should be an array of JSON objects, each containing: name, type, calories, protein, fat, carbs, water, serving, and weight. Each item must be analyzed and returned as a separate JSON object.",
+          parameters: {
+            type: "object",
+            properties: {
+              items: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "Name of the food or drink item.",
+                    },
+                    type: {
+                      type: "string",
+                      description: "Type of the product (food or drink).",
+                    },
+                    calories: {
+                      type: "string",
+                      description: "Calories per 100 grams of the product.",
+                    },
+                    protein: {
+                      type: "string",
+                      description:
+                        "Protein content per 100 grams of the product.",
+                    },
+                    fat: {
+                      type: "string",
+                      description: "Fat content per 100 grams of the product.",
+                    },
+                    carbs: {
+                      type: "string",
+                      description:
+                        "Carbohydrate content per 100 grams of the product.",
+                    },
+                    water: {
+                      type: "string",
+                      description:
+                        "Water content per 100 grams of the product.",
+                    },
+                    serving: {
+                      type: "string",
+                      description:
+                        "Serving size or type. Reflects the quantity and size of items in the photo.",
+                    },
+                    weight: {
+                      type: "string",
+                      description:
+                        "Weight of the serving. Reflects the total weight for the serving size in the photo.",
+                    },
+                  },
+                  required: [
+                    "name",
+                    "type",
+                    "calories",
+                    "protein",
+                    "fat",
+                    "carbs",
+                    "water",
+                    "serving",
+                    "weight",
+                  ],
+                },
+              },
+            },
+            required: ["items"],
+          },
+        },
+      ],
+      function_call: {
+        name: "analyze_nutritional_value_from_photo",
+      },
+    }
+
+    const result = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(data),
+    })
+
+    const text = await result.json()
+
+    function convertArgumentsToJSON(argumentsString: any) {
+      try {
+        const jsonObject = JSON.parse(argumentsString)
+        return jsonObject
+      } catch (error) {
+        console.error("Invalid JSON string", error)
+        return null
+      }
+    }
+
+    if (text) {
+      const outPut = convertArgumentsToJSON(
+        text?.choices[0]?.message?.function_call?.arguments,
+      )
+      const arr = outPut?.items
+      res.status(200).json({ message: "Text generated", data: arr })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error })
+  }
+}

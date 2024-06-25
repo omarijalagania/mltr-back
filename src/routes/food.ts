@@ -2,6 +2,7 @@ import {
   addFood,
   generateImage,
   generateText,
+  generateTextFromImageGPT,
   getAllFoods,
   removeFood,
   updateFood,
@@ -21,5 +22,9 @@ router.patch("/update-food", authMiddleware, updateFood)
 
 router.post("/generate-text", generateText)
 router.post("/generate-image", generateImage)
+
+//Open Ai
+
+router.post("/gpt-image", generateTextFromImageGPT)
 
 export default router
