@@ -204,12 +204,12 @@ export const registerWithApple = async (req: Request, res: Response) => {
   } = req.body
 
   try {
-    let user = await User.findOne({ appleToken })
+    let user = await User.findOne({ email: login })
 
     if (user) {
       // User already exists, update user with new data
       user = await User.findOneAndUpdate(
-        { appleToken },
+        { email: login },
         {
           email: login,
           appleToken,
@@ -306,10 +306,10 @@ export const registerWithApple = async (req: Request, res: Response) => {
 }
 
 export const loginWithApple = async (req: Request, res: Response) => {
-  const { appleToken } = req.body
+  const { login } = req.body
 
   try {
-    let user = await User.findOne({ appleToken })
+    let user = await User.findOne({ email: login })
 
     if (user) {
       const token = jwt.sign(
