@@ -16,6 +16,15 @@ export const addUserWeight = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
+    const weightExists = await Weight.findOne({ userId, date })
+
+    if (weightExists) {
+      const updatedWeight = await Weight.findByIdAndUpdate(weightExists._id, {
+        weight,
+      })
+      return res.status(200).json({ updatedWeight, message: "Weight updated" })
+    }
+
     await Weight.create({ weight, userId, date })
 
     res.status(201).json({ message: "Weight added" })
