@@ -197,3 +197,21 @@ export const deleteNewHistory = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+export const deleteAllHistory = async (req: Request, res: Response) => {
+  const { userId } = req.body
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    await UserFoodHistory.deleteMany({ userId })
+
+    return res.status(200).json({ message: "History deleted" })
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}

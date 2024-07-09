@@ -2,6 +2,7 @@ import express from "express"
 import {
   addNewHistory,
   createHistory,
+  deleteAllHistory,
   deleteHistory,
   deleteNewHistory,
   editHistory,
@@ -24,5 +25,6 @@ router.get("/all/:userId", authMiddleware, getAllHistory)
 router.post("/add-new-history", authMiddleware, addNewHistory)
 router.patch("/edit-new-history", authMiddleware, editNewHistory)
 router.delete("/delete-new-history", authMiddleware, deleteNewHistory)
+router.post("/delete-all-history", authMiddleware, deleteAllHistory)
 
 export default router
