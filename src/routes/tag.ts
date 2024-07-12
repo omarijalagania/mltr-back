@@ -2,6 +2,7 @@ import express from "express"
 import {
   createNewTag,
   createTag,
+  deleteAllNewTags,
   deleteTags,
   editNewTag,
   editTag,
@@ -24,4 +25,5 @@ router.get("/all-new-tags/:userId", authMiddleware, getAllNewTags)
 router.post("/add-new-tag", authMiddleware, createNewTag)
 router.post("/hide-new-tag", authMiddleware, hideNewTag)
 router.post("/edit-new-tag-name", authMiddleware, editNewTag)
+router.post("/delete-all-new-tags", authMiddleware, deleteAllNewTags)
 export default router

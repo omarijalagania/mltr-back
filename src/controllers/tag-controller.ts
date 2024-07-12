@@ -160,6 +160,32 @@ export const createNewTag = async (req: Request, res: Response) => {
   }
 }
 
+export const deleteAllNewTags = async (req: Request, res: Response) => {
+  const { userId } = req.body
+  const isValid = isValidId(userId)
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const tags = await NewTag.deleteMany({ userId })
+
+    if (!tags) {
+      return res.status(404).json({ message: "No tags" })
+    }
+    return res.status(200).json({ message: "All tags deleted" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
 export const editNewTag = async (req: Request, res: Response) => {
   const { userId, tagId, tagName } = req.body
   const isValid = isValidId(userId)

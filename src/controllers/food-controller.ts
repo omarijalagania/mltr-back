@@ -92,6 +92,24 @@ export const removeFood = async (req: Request, res: Response) => {
   }
 }
 
+export const removeAllFoods = async (req: Request, res: Response) => {
+  const { userId } = req.body
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    await UserFoodList.updateOne({ userId }, { $set: { userFoodList: [] } })
+
+    res.status(200).json({ message: "All foods removed" })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" })
+  }
+}
+
 export const updateFood = async (req: Request, res: Response) => {
   const { userId, foodId, food, foodList } = req.body
 
@@ -366,7 +384,6 @@ export const generateTextFromImageGPT = async (req: Request, res: Response) => {
   try {
     const data = {
       model: "gpt-4o",
-      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
@@ -390,10 +407,11 @@ export const generateTextFromImageGPT = async (req: Request, res: Response) => {
               type: "text",
               text: "Analyze the nutritional value of these food items.",
             },
+
             {
               type: "image_url",
               image_url: {
-                url: image,
+                url: `data:image/jpeg;base64,${image}`,
               },
             },
           ],
@@ -487,6 +505,12 @@ export const generateTextFromImageGPT = async (req: Request, res: Response) => {
     })
 
     const text = await result.json()
+
+    if (text?.error?.message) {
+      return res
+        .status(500)
+        .json({ message: "Internal server error", error: text.error.message })
+    }
 
     function convertArgumentsToJSON(argumentsString: any) {
       try {

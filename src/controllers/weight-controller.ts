@@ -33,6 +33,28 @@ export const addUserWeight = async (req: Request, res: Response) => {
   }
 }
 
+export const deleteAllUserWeights = async (req: Request, res: Response) => {
+  const { userId } = req.body
+  const isValid = isValidId(userId)
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    await Weight.deleteMany({ userId })
+
+    res.status(200).json({ message: "All weights deleted" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
 export const getUserWeight = async (req: Request, res: Response) => {
   const { userId } = req.params
   const isValid = isValidId(userId)

@@ -27,6 +27,7 @@ const swaggerDocument = YAML.load("./src/config/swagger.yaml")
  */
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use(express.static(path.resolve("./public")))
+
 connectDB(false)
   .then(() => {
     app.use(express.json({ limit: "50mb" }))

@@ -4,6 +4,7 @@ import {
   generateText,
   generateTextFromImageGPT,
   getAllFoods,
+  removeAllFoods,
   removeFood,
   updateFood,
 } from "controllers"
@@ -16,6 +17,7 @@ const router = express.Router()
 router.get("/get-food", authMiddleware, getAllFoods)
 router.post("/post-food", authMiddleware, addFood)
 router.post("/delete-food", authMiddleware, removeFood)
+router.post("/remove-all-food", authMiddleware, removeAllFoods)
 router.patch("/update-food", authMiddleware, updateFood)
 
 //test
