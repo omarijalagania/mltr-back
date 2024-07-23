@@ -4,10 +4,6 @@ import { Request, Response } from "express"
 import { decodeTokenAndGetUserId } from "helpers"
 import { UserFoodList } from "models"
 import mongoose from "mongoose"
-import { GoogleGenerativeAI } from "@google/generative-ai"
-
-const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_API_KEY as string)
-const model = genAI.getGenerativeModel({ model: "gemini-pro" })
 
 export const getAllFoods = async (req: Request, res: Response) => {
   const { userId } = req.query
@@ -257,8 +253,6 @@ export const generateText = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error", error })
   }
 }
-
-// Generate image  data: image.replace(/^data:image\/jpeg;base64,/, ""),
 
 export const generateImage = async (req: Request, res: Response) => {
   const { image } = req.body

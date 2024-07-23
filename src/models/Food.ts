@@ -14,6 +14,8 @@ const foodSchema = new mongoose.Schema({
   tag: { type: String },
   water: { type: Number },
   weight: { type: Number },
+  name: { type: String },
+  servingName: { type: String },
   createdAt: { type: Date, default: Date.now },
 })
 

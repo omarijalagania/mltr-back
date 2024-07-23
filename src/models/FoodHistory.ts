@@ -16,6 +16,8 @@ const userFoodHistorySchema = new mongoose.Schema({
       weight: { type: Number },
       selectedDate: { type: String },
       id: { type: String },
+      name: { type: String },
+      servingName: { type: String },
       foodList: [
         {
           myFoodId: {
