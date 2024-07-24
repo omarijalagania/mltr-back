@@ -1335,9 +1335,8 @@ paths:
             schema:
               type: object
               example:
-                userId: 65c8bdff40bc6daf810dfb47
-                foodId: 65cdf9a4d023b59c05886c70
-                recipeId: 65cdf9a4d023b59c05886c71
+                userId: 666fe17a39af8c353c778521
+                foodId: 66a0cd5d3fb7b2726f2b7b30
       security:
         - bearerAuth: []
       responses:
@@ -1479,17 +1478,29 @@ paths:
             schema:
               type: object
               example:
-                userId: 65c8bdff40bc6daf810dfb47
-                foodId: 65cdf9a4d023b59c05886c70
-                recipeId: 65cdca7c79029046b3e7af4e
+                userId: 666fe17a39af8c353c778521
+                foodId: 66a0cd5d3fb7b2726f2b7b2b
                 food:
-                  calories: 777734343
-                  fat: 773344
-                foodList:
-                  - myFoodId: duu222
-                    pceCount: 333333
-                  - myFoodId: duu777777
-                    pceCount: 44444
+                  calories: 666
+                  carbs: 11
+                  createdDate: '2024-05-27T10:28:57.000+00:00'
+                  eatsTimes: 0
+                  fat: 11
+                  isInFridge: true
+                  isLiquid: false
+                  isRemoved: true
+                  isSet: false
+                  protein: 13
+                  tag: ''
+                  water: 75
+                  weight: 50
+                  id: '82'
+                  image: Served Food
+                  name: Egg
+                  servingName: ''
+                  foodList:
+                    - myFoodId: 66
+                    - pceCount: 32
       security:
         - bearerAuth: []
       responses:
