@@ -22,6 +22,7 @@ const userFoodListSchema = new mongoose.Schema({
       water: { type: Number },
       weight: { type: Number },
       id: { type: String },
+      image: { type: String },
       name: { type: String },
       servingName: { type: String },
       foodList: [
