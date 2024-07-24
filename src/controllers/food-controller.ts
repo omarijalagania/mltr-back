@@ -78,7 +78,7 @@ export const removeFood = async (req: Request, res: Response) => {
     }
 
     await UserFoodList.updateOne(
-      { userId, "userFoodList._id": foodId }, // find a document with userId and foodId
+      { userId: userId, "userFoodList._id": foodId }, // find a document with userId and foodId
       { "userFoodList.$.isRemoved": true }, // set isRemoved to true
     )
 
@@ -107,7 +107,7 @@ export const removeAllFoods = async (req: Request, res: Response) => {
 }
 
 export const updateFood = async (req: Request, res: Response) => {
-  const { userId, foodId, food, foodList } = req.body
+  const { userId, foodId, food } = req.body
 
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
 
@@ -124,11 +124,10 @@ export const updateFood = async (req: Request, res: Response) => {
     }
 
     await UserFoodList.findOneAndUpdate(
-      { userId, "userFoodList._id": foodId },
+      { userId: userId, "userFoodList._id": foodId },
       {
         $set: {
           ...updatedProperties,
-          "userFoodList.$.foodList": foodList,
         },
       },
       { new: true },
