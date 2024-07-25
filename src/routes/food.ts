@@ -4,6 +4,7 @@ import {
   generateText,
   generateTextFromImageGPT,
   getAllFoods,
+  gptCorrection,
   removeAllFoods,
   removeFood,
   updateFood,
@@ -28,5 +29,6 @@ router.post("/generate-image", generateImage)
 //Open Ai
 
 router.post("/gpt-image", generateTextFromImageGPT)
+router.post("/gpt-correction", gptCorrection)
 
 export default router

@@ -526,3 +526,140 @@ export const generateTextFromImageGPT = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error", error })
   }
 }
+
+export const gptCorrection = async (req: Request, res: Response) => {
+  const { userInput, original_response_as_a_string } = req.body
+
+  try {
+    const data = {
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a nutrition analysis assistant. Your role is to analyze and adjust the nutritional value of all food and drink items based on user corrections. Each item should be analyzed separately, and the results should be returned as an array of JSON objects.",
+        },
+        {
+          role: "system",
+          content:
+            "Each JSON object should contain the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. The nutritional values should be normalized for a 100-gram portion.",
+        },
+        {
+          role: "system",
+          content:
+            "When provided with correction details for one or multiple food items, update the nutritional values accordingly. Ensure that the response includes separate JSON objects for each corrected item, and make sure to adjust all relevant nutritional values based on the user's input. If the name of the food item is changed, regenerate the nutritional values based on the new name. The serving parameter should reflect the updated quantity and type of items as per the user input, and the weight should reflect the total weight for the updated serving size.",
+        },
+        {
+          role: "system",
+          content: `Here is the original response: ${original_response_as_a_string}`,
+        },
+        {
+          role: "user",
+          content: `Here are the correction details: ${userInput}`,
+        },
+      ],
+      functions: [
+        {
+          name: "adjust_nutritional_value",
+          description:
+            "Adjust the nutritional value of multiple food or drink items based on user corrections. Return the corrected nutritional value per 100 grams for each item. The response should be an array of JSON objects, each containing: name, type, calories, protein, fat, carbs, water, serving, and weight. Each corrected item must be analyzed and returned as a separate JSON object with updated values based on user input. If the name of the food item is changed, regenerate the nutritional values based on the new name.",
+          parameters: {
+            type: "object",
+            properties: {
+              corrections_response: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "Name of the food or drink item.",
+                    },
+                    type: {
+                      type: "string",
+                      description: "Type of the product (food or drink).",
+                    },
+                    calories: {
+                      type: "string",
+                      description: "Calories per 100 grams of the product.",
+                    },
+                    protein: {
+                      type: "string",
+                      description:
+                        "Protein content per 100 grams of the product.",
+                    },
+                    fat: {
+                      type: "string",
+                      description: "Fat content per 100 grams of the product.",
+                    },
+                    carbs: {
+                      type: "string",
+                      description:
+                        "Carbohydrate content per 100 grams of the product.",
+                    },
+                    water: {
+                      type: "string",
+                      description:
+                        "Water content per 100 grams of the product.",
+                    },
+                    serving: {
+                      type: "string",
+                      description:
+                        "Serving size or type. Reflects the quantity and size of items in the corrected analysis.",
+                    },
+                    weight: {
+                      type: "string",
+                      description:
+                        "Weight of the serving. Reflects the total weight for the corrected serving size.",
+                    },
+                  },
+                  required: [
+                    "name",
+                    "type",
+                    "calories",
+                    "protein",
+                    "fat",
+                    "carbs",
+                    "water",
+                    "serving",
+                    "weight",
+                  ],
+                },
+              },
+              user_input: {
+                type: "string",
+                description:
+                  "User-provided description of the issues and corrections for the original analysis.",
+              },
+            },
+            required: ["corrections_response"],
+          },
+        },
+      ],
+      function_call: {
+        name: "adjust_nutritional_value",
+      },
+    }
+
+    const result = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(data),
+    })
+
+    const text = await result.json()
+
+    if (text?.error?.message) {
+      return res
+        .status(500)
+        .json({ message: "Internal server error", error: text.error.message })
+    }
+
+    res.status(200).json({ message: "Text generated", data: text })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error })
+  }
+}
