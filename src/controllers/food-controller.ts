@@ -69,12 +69,12 @@ export const removeFood = async (req: Request, res: Response) => {
     }
 
     if (recipeId) {
-      await UserFoodList.updateOne(
+      const removedFood = await UserFoodList.updateOne(
         { userId, "userFoodList._id": foodId },
         { $pull: { "userFoodList.$.foodList": { _id: recipeId } } },
       )
 
-      return res.status(200).json({ message: "Recipe removed" })
+      return res.status(200).json({ message: "Recipe removed", removedFood })
     }
 
     await UserFoodList.updateOne(
@@ -98,9 +98,12 @@ export const removeAllFoods = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    await UserFoodList.updateOne({ userId }, { $set: { userFoodList: [] } })
+    const removedFood = await UserFoodList.updateOne(
+      { userId },
+      { $set: { userFoodList: [] } },
+    )
 
-    res.status(200).json({ message: "All foods removed" })
+    res.status(200).json({ message: "All foods removed", removedFood })
   } catch (error) {
     res.status(500).json({ message: "Internal server error" })
   }
@@ -123,7 +126,7 @@ export const updateFood = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    await UserFoodList.findOneAndUpdate(
+    const updatedFood = await UserFoodList.findOneAndUpdate(
       { userId: userId, "userFoodList._id": foodId },
       {
         $set: {
@@ -133,7 +136,7 @@ export const updateFood = async (req: Request, res: Response) => {
       { new: true },
     )
 
-    return res.status(200).json({ message: "Food updated" })
+    return res.status(200).json({ message: "Food updated", updatedFood })
   } catch (error) {
     res.status(500).json({ message: "Internal server error" })
   }
@@ -661,5 +664,29 @@ export const gptCorrection = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Text generated", data: text })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
+  }
+}
+
+export const getSingleFood = async (req: Request, res: Response) => {
+  const { userId, foodId } = req.body
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId as string)
+
+  try {
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const userFoodList = await UserFoodList.findOne(
+      { userId, "userFoodList._id": foodId },
+      { "userFoodList.$": 1 },
+    )
+
+    if (!userFoodList) {
+      return res.status(404).json({ message: "Food not found" })
+    }
+    res.status(200).json(userFoodList)
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" })
   }
 }
