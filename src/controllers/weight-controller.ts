@@ -101,3 +101,26 @@ export const updateUserWeight = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+export const deleteSingleUserWeight = async (req: Request, res: Response) => {
+  const { userId, weightId } = req.body
+  const isValid = isValidId(userId)
+  const isValidWeightId = isValidId(weightId)
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  try {
+    if (!isValid || !isValidWeightId) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    await Weight.deleteOne({ userId, _id: weightId })
+
+    res.status(200).json({ message: "Weight deleted" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}

@@ -153,8 +153,8 @@ export const createNewTag = async (req: Request, res: Response) => {
       return res.status(200).json(userFoodList)
     }
 
-    await NewTag.create({ userId, tagsArray })
-    return res.status(201).json({ message: "Tags added" })
+    const newTag = await NewTag.create({ userId, tagsArray })
+    return res.status(201).json({ message: "Tags added", newTag })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
@@ -187,7 +187,8 @@ export const deleteAllNewTags = async (req: Request, res: Response) => {
 }
 
 export const editNewTag = async (req: Request, res: Response) => {
-  const { userId, tagId, tagName } = req.body
+  const { userId, tagId, tag } = req.body
+
   const isValid = isValidId(userId)
   const isValidTagId = isValidId(tagId)
 
@@ -202,17 +203,25 @@ export const editNewTag = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "Not authorized" })
     }
 
+    const updateFields = {} as any
+    for (const key in tag) {
+      if (tag.hasOwnProperty(key)) {
+        updateFields[`tagsArray.$.${key}`] = tag[key]
+      }
+    }
+
     const tags = await NewTag.findOneAndUpdate(
       { userId, "tagsArray._id": tagId },
-      { "tagsArray.$.tagName": tagName },
+      { $set: updateFields },
       { new: true },
     )
 
     if (!tags) {
       return res.status(404).json({ message: "No tags" })
     }
-    return res.status(200).json({ message: "Tag Name updated" })
+    return res.status(200).json({ message: "Tag updated", data: tags })
   } catch (error) {
+    console.error("Error updating tag:", error)
     res.status(500).json({ message: "Something went wrong..." })
   }
 }

@@ -30,7 +30,7 @@ router.post("/generate-image", generateImage)
 
 //Open Ai
 
-router.post("/gpt-image", generateTextFromImageGPT)
-router.post("/gpt-correction", gptCorrection)
+router.post("/gpt-image", authMiddleware, generateTextFromImageGPT)
+router.post("/gpt-correction", authMiddleware, gptCorrection)
 
 export default router
