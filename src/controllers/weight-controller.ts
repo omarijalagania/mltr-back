@@ -25,9 +25,9 @@ export const addUserWeight = async (req: Request, res: Response) => {
       return res.status(200).json({ updatedWeight, message: "Weight updated" })
     }
 
-    await Weight.create({ weight, userId, date })
+    const newWeight = await Weight.create({ weight, userId, date })
 
-    res.status(201).json({ message: "Weight added" })
+    res.status(201).json({ message: "Weight added", newWeight })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
