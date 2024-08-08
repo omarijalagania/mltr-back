@@ -17,6 +17,7 @@ const foodSchema = new mongoose.Schema({
   name: { type: String },
   servingName: { type: String },
   createdAt: { type: Date, default: Date.now },
+  count_in_serving: { type: Number, default: 1 },
 })
 
 export default mongoose.model("Food", foodSchema)
