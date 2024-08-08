@@ -32,6 +32,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     ip,
     device,
     geo,
+    personal_goal,
   } = req.body
 
   try {
@@ -58,6 +59,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
           customGoal,
           water,
           geo,
+          personal_goal,
         },
         {
           new: true,
@@ -128,6 +130,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         customGoal: user.customGoal,
         water: user.water,
         geo: user.geo,
+        personal_goal: user.personal_goal,
       })
     }
   } catch (error) {
@@ -173,6 +176,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       customGoal: user.customGoal,
       water: user.water,
       geo: user.geo,
+      personal_goal: user.personal_goal,
     })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -201,6 +205,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
     ip,
     device,
     geo,
+    personal_goal,
   } = req.body
 
   try {
@@ -229,6 +234,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
           customGoal,
           water,
           geo,
+          personal_goal,
         },
         { new: true },
       )
@@ -262,6 +268,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         customGoal,
         water,
         geo,
+        personal_goal,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
@@ -298,6 +305,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         customGoal: user.customGoal,
         water: user.water,
         geo: user.geo,
+        personal_goal: user.personal_goal,
       })
     }
   } catch (error) {
@@ -337,6 +345,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
         customGoal: user.customGoal,
         water: user.water,
         geo: user.geo,
+        personal_goal: user.personal_goal,
       })
     }
     if (!user) {
@@ -368,6 +377,7 @@ export const userRegister = async (req: Request, res: Response) => {
     ip,
     device,
     geo,
+    personal_goal,
   } = req.body
 
   try {
@@ -420,6 +430,7 @@ export const userRegister = async (req: Request, res: Response) => {
           water,
           status: "inactive",
           geo,
+          personal_goal,
         },
         {
           new: true,
@@ -459,6 +470,7 @@ export const userRegister = async (req: Request, res: Response) => {
         water,
         status: "inactive",
         geo,
+        personal_goal,
       })
 
       sendCodeConfirmation(
@@ -609,6 +621,7 @@ export const userLogin = async (req: Request, res: Response) => {
       customGoal: user.customGoal,
       water: user.water,
       geo: user.geo,
+      personal_goal: user.personal_goal,
     })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -727,6 +740,7 @@ export const updateUser = async (req: Request, res: Response) => {
     customGoal,
     water,
     geo,
+    personal_goal,
   } = req.body
 
   try {
@@ -756,6 +770,7 @@ export const updateUser = async (req: Request, res: Response) => {
           customGoal,
           water,
           geo,
+          personal_goal,
         },
         { new: true },
       )
@@ -779,6 +794,7 @@ export const updateUser = async (req: Request, res: Response) => {
         customGoal,
         water,
         geo,
+        personal_goal,
       })
     }
   } catch (error) {

@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema({
   deactivateCode: {
     type: String,
   },
+  personal_goal: {
+    type: Number,
+    default: 0,
+  },
   water: {
     type: Number,
     default: 0,
