@@ -40,18 +40,21 @@ export const addFood = async (req: Request, res: Response) => {
     const user = await UserFoodList.findOne({ userId: convertedUserId })
 
     if (user) {
+      // Update the user's food list by adding each item in the array
       const userFoodList = await UserFoodList.findOneAndUpdate(
         { userId: convertedUserId },
-        { $push: { userFoodList: food } },
+        { $push: { userFoodList: { $each: food } } }, // Use $each to push all items in the array
         { new: true },
       )
       return res.status(200).json(userFoodList)
     }
 
+    // If user does not exist, create a new entry with the food array
     const userFood = await UserFoodList.create({
       userId: convertedUserId,
-      userFoodList: [food],
+      userFoodList: food, // Directly assign the array to userFoodList
     })
+
     res.status(200).json(userFood)
   } catch (error) {
     res.status(500).json({ message: "Internal server error" })
