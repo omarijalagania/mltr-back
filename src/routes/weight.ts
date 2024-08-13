@@ -2,6 +2,7 @@ import express from "express"
 const router = express.Router()
 import { authMiddleware } from "middlewares"
 import {
+  addUserMultipleWeights,
   addUserWeight,
   deleteAllUserWeights,
   deleteSingleUserWeight,
@@ -18,5 +19,6 @@ router.post(
   authMiddleware,
   deleteSingleUserWeight,
 )
+router.post("/add-multiple-user-weight", authMiddleware, addUserMultipleWeights)
 
 export default router

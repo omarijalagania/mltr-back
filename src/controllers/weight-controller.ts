@@ -33,6 +33,38 @@ export const addUserWeight = async (req: Request, res: Response) => {
   }
 }
 
+export const addUserMultipleWeights = async (req: Request, res: Response) => {
+  const { weights, userId } = req.body
+
+  try {
+    const isValid = isValidId(userId)
+    const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+    if (!isValid) {
+      return res.status(422).json({ message: "Invalid userId" })
+    }
+
+    if (!isUserIdValid) {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    const operations = weights.map((weight: any) => ({
+      updateOne: {
+        filter: { userId, date: weight.date },
+        update: { $set: { ...weight, userId } },
+        upsert: true,
+      },
+    }))
+
+    const result = await Weight.bulkWrite(operations)
+
+    res.status(201).json({ message: "Weights added/updated", result })
+  } catch (error) {
+    console.error("Error adding/updating weights:", error)
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
 export const deleteAllUserWeights = async (req: Request, res: Response) => {
   const { userId } = req.body
   const isValid = isValidId(userId)
