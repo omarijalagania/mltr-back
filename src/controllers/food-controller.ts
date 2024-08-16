@@ -172,6 +172,21 @@ export const generateText = async (req: Request, res: Response) => {
     }))
   }
 
+  function stringifyValues(obj: any): any {
+    if (typeof obj !== "object" || obj === null) {
+      return String(obj)
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map((item) => stringifyValues(item))
+    }
+
+    return Object.keys(obj).reduce((acc, key) => {
+      acc[key] = stringifyValues(obj[key])
+      return acc
+    }, {} as any)
+  }
+
   try {
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
@@ -196,7 +211,9 @@ export const generateText = async (req: Request, res: Response) => {
 
     const arr = convertObjectToArray(converted)
 
-    res.status(200).json({ message: "Text generated", data: arr })
+    const stringified = stringifyValues(arr)
+
+    res.status(200).json({ message: "Text generated", data: stringified })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
