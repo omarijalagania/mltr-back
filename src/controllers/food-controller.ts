@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import { Request, Response } from "express"
-import { decodeTokenAndGetUserId } from "helpers"
+import { convertToJSON, decodeTokenAndGetUserId } from "helpers"
 import { UserFoodList } from "models"
 import mongoose from "mongoose"
 
@@ -148,112 +148,55 @@ export const updateFood = async (req: Request, res: Response) => {
 export const generateText = async (req: Request, res: Response) => {
   const { obj } = req.body
 
+  function convertTextToObject(text: string) {
+    // Extract the JSON string using a regular expression
+    const jsonStringMatch = text.match(/```json\n([\s\S]*?)\n```/)
+
+    if (!jsonStringMatch || jsonStringMatch.length < 2) {
+      throw new Error("Invalid input format")
+    }
+
+    const jsonString = jsonStringMatch[1]
+
+    // Parse the JSON string into an object
+    const jsonObject = JSON.parse(jsonString)
+
+    return jsonObject
+  }
+
+  function convertObjectToArray(data: any) {
+    return Object.entries(data).map(([name, details]) => ({
+      name,
+      //@ts-ignore
+      ...details,
+    }))
+  }
+
   try {
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GENERATIVE_API_KEY}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: `{
-          "contents": [
-            {
-              "role": "user",
-              "parts": [
-                {
-                  "text": "You are a nutrition analysis assistant. Your role involves using the analyze_nutritional_value function to analyze the nutritional value of the following product(s) and return the result as an array of JSON objects, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. Here are the products: ${obj}"
-                }
-              ]
-            }
-          ],
-          "tools": [
-            {
-              "function_declarations": [
-                {
-                  "name": "analyze_nutritional_value",
-                  "description": "Analyze the nutritional value of one or more food or drink items from a text description and return the nutritional value per 100 grams (name, type, calories, protein, fat, carbs, water, serving, and weight) of each product as an array of JSON objects.",
-                  "parameters": {
-                    "type": "object",
-                    "properties": {
-                      "products": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string",
-                              "description": "Name of the food or drink item."
-                            },
-                            "type": {
-                              "type": "string",
-                              "description": "Type of the product (food or drink)."
-                            },
-                            "calories": {
-                              "type": "string",
-                              "description": "Calories per 100 grams of the product."
-                            },
-                            "protein": {
-                              "type": "string",
-                              "description": "Protein content per 100 grams of the product."
-                            },
-                            "fat": {
-                              "type": "string",
-                              "description": "Fat content per 100 grams of the product."
-                            },
-                            "carbs": {
-                              "type": "string",
-                              "description": "Carbohydrate content per 100 grams of the product."
-                            },
-                            "water": {
-                              "type": "string",
-                              "description": "Water content per 100 grams of the product."
-                            },
-                            "serving": {
-                              "type": "string",
-                              "description": "Serving size or type."
-                            },
-                            "weight": {
-                              "type": "string",
-                              "description": "Weight of the serving."
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "type",
-                            "calories",
-                            "protein",
-                            "fat",
-                            "carbs",
-                            "water",
-                            "serving",
-                            "weight"
-                          ]
-                        }
-                      }
-                    },
-                    "required": ["products"]
-                  }
-                }
-              ]
-            }
-          ],
-          "tool_config": {
-            "function_calling_config": {
-              "mode": "ANY",
-              "allowed_function_names": ["analyze_nutritional_value"]
-            }
-          }
-        }`,
+      "contents": [{
+        "parts":[{"text": "You are a nutrition analysis assistant. Your role involves  analyze the nutritional value of the following product(s) and return the result object, each containing the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. example structure: Pepsi: { type: drink, calories: 42 kcal, protein: 0 g, fat: 0 g, carbs: 11 g, water: 89 g, serving: Can,weight: 330 g } do not return text. Here are the products: ${obj}"}]
+        }]
+       }`,
       },
     )
 
     const text = await resp.json()
 
-    const productArr =
-      text?.candidates[0]?.content?.parts[0]?.functionCall?.args?.products
+    const productArr = text?.candidates[0]?.content?.parts[0]?.text
 
-    res.status(200).json({ message: "Text generated", data: productArr })
+    const converted = convertTextToObject(productArr)
+
+    const arr = convertObjectToArray(converted)
+
+    res.status(200).json({ message: "Text generated", data: arr })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error })
   }
