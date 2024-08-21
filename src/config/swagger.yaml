@@ -9009,7 +9009,7 @@ paths:
             schema:
               type: object
               example:
-                obj: apple
+                obj: apple, potato, pinapple
       security:
         - bearerAuth: []
       responses:
@@ -9801,7 +9801,7 @@ paths:
           schema:
             type: string
           required: true
-          example: 65c8bdff40bc6daf810dfb47
+          example: 666fe17a39af8c353c778521
       responses:
         '200':
           description: OK
@@ -9855,6 +9855,85 @@ paths:
                   water: 500
                   weight: 200
                   selectedDate: '2024-03-23'
+  /statistics//weight-stats/{userId}/{startDate}/{endDate}:
+    get:
+      tags:
+        - Statistics
+      summary: Get Statistics Date range
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 666fe17a39af8c353c778521
+        - name: startDate
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '2024-05-15'
+        - name: endDate
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '2024-07-15'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '219'
+            ETag:
+              schema:
+                type: string
+                example: W/"db-+WgrasKMUVB4lAdGWLOKgyl3t9I"
+            Date:
+              schema:
+                type: string
+                example: Wed, 21 Aug 2024 09:33:20 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - calories: 647.5
+                  carbs: 9.7125
+                  fat: 44.625
+                  protein: 51.84375
+                  water: 131.25
+                  selectedDate: '2024-05-15'
+                - calories: 647.5
+                  carbs: 9.7125
+                  fat: 44.625
+                  protein: 51.84375
+                  water: 131.25
+                  selectedDate: '2024-07-15'
   /statistics/weight-stats/{userId}:
     get:
       tags:

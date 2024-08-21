@@ -23,6 +23,7 @@ export const getAllStatistics = async (req: Request, res: Response) => {
       "userFoodHistoryList.fat": 1,
       "userFoodHistoryList.protein": 1,
       "userFoodHistoryList.water": 1,
+      "userFoodHistoryList.calories": 1,
       "userFoodHistoryList.weight": 1,
       "userFoodHistoryList.selectedDate": 1,
     })
@@ -32,6 +33,56 @@ export const getAllStatistics = async (req: Request, res: Response) => {
     }
 
     const historyList = history.userFoodHistoryList.filter((item) => {
+      return !(
+        item.carbs === 0 &&
+        item.fat === 0 &&
+        item.protein === 0 &&
+        item.water === 0 &&
+        item.weight === 0
+      )
+    })
+
+    return res.status(200).send(historyList)
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const getStatisticsBetweenDates = async (
+  req: Request,
+  res: Response,
+) => {
+  const { userId, startDate, endDate } = req.params
+
+  console.log("startDate", startDate, "endDate", endDate)
+
+  const query = {
+    $gte: startDate,
+    $lte: endDate,
+  }
+
+  try {
+    const history = await UserFoodHistory.findOne({
+      userId,
+    }).select({
+      "userFoodHistoryList.carbs": 1,
+      "userFoodHistoryList.fat": 1,
+      "userFoodHistoryList.protein": 1,
+      "userFoodHistoryList.water": 1,
+      "userFoodHistoryList.calories": 1,
+      "userFoodHistoryList.weight": 1,
+      "userFoodHistoryList.selectedDate": 1,
+    })
+
+    if (!history) {
+      return res.status(404).json({ message: "No history found" })
+    }
+
+    const filteredByDate = history.userFoodHistoryList?.filter((item: any) => {
+      return item?.selectedDate >= startDate && item?.selectedDate <= endDate
+    })
+
+    const historyList = filteredByDate?.filter((item) => {
       return !(
         item.carbs === 0 &&
         item.fat === 0 &&
