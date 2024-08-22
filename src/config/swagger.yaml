@@ -9141,6 +9141,72 @@ paths:
                     servingName: ''
                     foodList: []
                     _id: 66a0cd5d3fb7b2726f2b7b38
+  /food/generate-text-gpt:
+    post:
+      tags:
+        - Food
+      summary: Generate-text-gpt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                text: apple
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '164'
+            ETag:
+              schema:
+                type: string
+                example: W/"a4-3+96zNBJ8OVhz2V2HFNLlCpeCmY"
+            Date:
+              schema:
+                type: string
+                example: Thu, 22 Aug 2024 10:17:35 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Text generated
+                data:
+                  - name: apple
+                    type: food
+                    calories: 52
+                    protein: 0
+                    fat: 0
+                    carbs: 14
+                    water: 86
+                    serving: 1 medium apple
+                    weight: 182
   /history/all/{id}:
     get:
       tags:
