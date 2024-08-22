@@ -54,13 +54,6 @@ export const getStatisticsBetweenDates = async (
 ) => {
   const { userId, startDate, endDate } = req.params
 
-  console.log("startDate", startDate, "endDate", endDate)
-
-  const query = {
-    $gte: startDate,
-    $lte: endDate,
-  }
-
   try {
     const history = await UserFoodHistory.findOne({
       userId,

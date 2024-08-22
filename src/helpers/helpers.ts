@@ -45,4 +45,20 @@ function convertToJSON(outputString: any) {
   return jsonObject
 }
 
-export { generateCode, isValidId, decodeTokenAndGetUserId, convertToJSON }
+function convertArgumentsToJSON(argumentsString: any) {
+  try {
+    const jsonObject = JSON.parse(argumentsString)
+    return jsonObject
+  } catch (error) {
+    console.error("Invalid JSON string", error)
+    return null
+  }
+}
+
+export {
+  generateCode,
+  isValidId,
+  decodeTokenAndGetUserId,
+  convertToJSON,
+  convertArgumentsToJSON,
+}

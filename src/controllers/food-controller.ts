@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import { Request, Response } from "express"
-import { convertToJSON, decodeTokenAndGetUserId } from "helpers"
+import { convertArgumentsToJSON, decodeTokenAndGetUserId } from "helpers"
 import { UserFoodList } from "models"
 import mongoose from "mongoose"
 
@@ -471,20 +471,11 @@ export const generateTextFromImageGPT = async (req: Request, res: Response) => {
         .json({ message: "Internal server error", error: text.error.message })
     }
 
-    function convertArgumentsToJSON(argumentsString: any) {
-      try {
-        const jsonObject = JSON.parse(argumentsString)
-        return jsonObject
-      } catch (error) {
-        console.error("Invalid JSON string", error)
-        return null
-      }
-    }
-
     if (text) {
       const outPut = convertArgumentsToJSON(
         text?.choices[0]?.message?.function_call?.arguments,
       )
+
       const arr = outPut?.items
       res.status(200).json({ message: "Text generated", data: arr })
     }
@@ -651,5 +642,144 @@ export const getSingleFood = async (req: Request, res: Response) => {
     res.status(200).json(userFoodList)
   } catch (error) {
     res.status(500).json({ message: "Internal server error" })
+  }
+}
+
+export const generateTextGpt = async (req: Request, res: Response) => {
+  const { text } = req.body
+
+  const data = {
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a nutrition analysis assistant. Your role is to analyze the nutritional value of all food and drink items based on their names provided as text. Each item should be analyzed separately, and the results should be returned as an array of JSON objects.",
+      },
+      {
+        role: "system",
+        content:
+          "Each JSON object should contain the following keys: name, type, calories, protein, fat, carbs, water, serving, and weight. The nutritional values should be normalized for a 100-gram portion.",
+      },
+      {
+        role: "system",
+        content:
+          "When provided with the name of one or multiple food items, identify and analyze each item separately. Ensure that the response includes separate JSON objects for each recognized item in the text. For each item, correctly identify the quantity and size of items (e.g., '4 medium tomatoes'). The serving parameter should reflect the quantity and type of items described in the text, and the weight should reflect the total weight for the serving size specified in the text.",
+      },
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: `Analyze the nutritional value of these food items: ${text}`,
+          },
+        ],
+      },
+    ],
+    functions: [
+      {
+        name: "analyze_nutritional_value_from_text",
+        description:
+          "Analyze the nutritional value of multiple food or drink items based on their names provided as text. Return the nutritional value per 100 grams for each item. The response should be an array of JSON objects, each containing: name, type, calories, protein, fat, carbs, water, serving, and weight. Each item must be analyzed and returned as a separate JSON object.",
+        parameters: {
+          type: "object",
+          properties: {
+            items: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "Name of the food or drink item.",
+                  },
+                  type: {
+                    type: "string",
+                    description: "Type of the product (food or drink).",
+                  },
+                  calories: {
+                    type: "integer",
+                    description: "Calories per 100 grams of the product.",
+                  },
+                  protein: {
+                    type: "integer",
+                    description:
+                      "Protein content per 100 grams of the product.",
+                  },
+                  fat: {
+                    type: "integer",
+                    description: "Fat content per 100 grams of the product.",
+                  },
+                  carbs: {
+                    type: "integer",
+                    description:
+                      "Carbohydrate content per 100 grams of the product.",
+                  },
+                  water: {
+                    type: "integer",
+                    description: "Water content per 100 grams of the product.",
+                  },
+                  serving: {
+                    type: "string",
+                    description:
+                      "Serving size or type. Reflects the quantity and size of items described in the text.",
+                  },
+                  weight: {
+                    type: "integer",
+                    description:
+                      "Weight of the serving. Reflects the total weight for the serving size described in the text.",
+                  },
+                },
+                required: [
+                  "name",
+                  "type",
+                  "calories",
+                  "protein",
+                  "fat",
+                  "carbs",
+                  "water",
+                  "serving",
+                  "weight",
+                ],
+              },
+            },
+          },
+          required: ["items"],
+        },
+      },
+    ],
+    function_call: {
+      name: "analyze_nutritional_value_from_text",
+    },
+  }
+
+  try {
+    const result = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(data),
+    })
+
+    const dataRes = await result.json()
+
+    if (dataRes?.error?.message) {
+      return res.status(500).json({
+        message: "Internal server error",
+        error: dataRes.error.message,
+      })
+    }
+
+    if (dataRes) {
+      const outPut = convertArgumentsToJSON(
+        dataRes?.choices[0]?.message?.function_call?.arguments,
+      )
+      const arr = outPut?.items
+      res.status(200).json({ message: "Text generated", data: arr })
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error })
   }
 }

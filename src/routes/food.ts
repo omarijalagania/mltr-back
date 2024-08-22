@@ -3,6 +3,7 @@ import {
   generateImage,
   generateText,
   generateTextFromImageGPT,
+  generateTextGpt,
   getAllFoods,
   getSingleFood,
   gptCorrection,
@@ -32,5 +33,6 @@ router.post("/generate-image", generateImage)
 
 router.post("/gpt-image", authMiddleware, generateTextFromImageGPT)
 router.post("/gpt-correction", authMiddleware, gptCorrection)
+router.post("/generate-text-gpt", authMiddleware, generateTextGpt)
 
 export default router
