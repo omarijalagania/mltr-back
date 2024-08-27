@@ -1,11 +1,12 @@
 import { Request, Response } from "express"
 import { User } from "models"
-import { generateCode } from "helpers"
+import { decodeTokenAndGetUserId, generateCode } from "helpers"
 import {
   codeConfirmationTemplate,
   codeSorryTemplate,
   sendCodeConfirmation,
 } from "mail"
+import { ObjectId } from "mongodb"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
@@ -853,6 +854,63 @@ export const userBuyPro = async (req: Request, res: Response) => {
       "Welcome to Pro!",
     )
     return res.status(200).json({ message: "Pro subscription activated" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const getUserDetails = async (req: Request, res: Response) => {
+  const { userId } = req.params
+
+  const isUserIdValid = decodeTokenAndGetUserId(req, userId)
+
+  if (!isUserIdValid) {
+    return res.status(403).json({ message: "Not authorized" })
+  }
+
+  try {
+    const user = await User.aggregate([
+      {
+        $match: {
+          _id: new ObjectId(userId),
+        },
+      },
+      {
+        $project: {
+          code: 0,
+          __v: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: "newtags",
+          localField: "_id",
+          foreignField: "userId",
+          as: "newtags",
+        },
+      },
+      {
+        $lookup: {
+          from: "userfoodhistories",
+          localField: "_id",
+          foreignField: "userId",
+          as: "userfoodhistories",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "userfoodlists",
+          localField: "_id",
+          foreignField: "userId",
+          as: "userfoodlists",
+        },
+      },
+    ])
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+    res.status(200).json(user)
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }

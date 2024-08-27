@@ -13,6 +13,7 @@ import {
   tokenVerify,
   getUser,
   userBuyPro,
+  getUserDetails,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -40,6 +41,7 @@ router.post(
 )
 router.patch("/update-user", authMiddleware, updateUser)
 router.get("/get-user", authMiddleware, getUser)
+router.get("/user-details/:userId", authMiddleware, getUserDetails)
 
 //Pro
 
