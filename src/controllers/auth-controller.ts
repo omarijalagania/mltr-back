@@ -891,6 +891,14 @@ export const getUserDetails = async (req: Request, res: Response) => {
       },
       {
         $lookup: {
+          from: "weights",
+          localField: "_id",
+          foreignField: "userId",
+          as: "weights",
+        },
+      },
+      {
+        $lookup: {
           from: "userfoodhistories",
           localField: "_id",
           foreignField: "userId",
