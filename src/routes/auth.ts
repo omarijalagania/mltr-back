@@ -14,6 +14,7 @@ import {
   getUser,
   userBuyPro,
   getUserDetails,
+  getAllUsers,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 
@@ -50,5 +51,8 @@ router.post("/pro", authMiddleware, userBuyPro)
 //Token verify
 
 router.get("/verify", tokenVerify)
+
+//Admin routes
+router.get("/admin/users", authMiddleware, getAllUsers)
 
 export default router
