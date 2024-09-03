@@ -923,3 +923,28 @@ export const getUserDetails = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+//Admin Part
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1
+  const limit = parseInt(req.query.limit as string) || 10
+  const sortField = (req.query.sortField as string) || "joined" // Default sort field
+  const sortOrder = req.query.sortOrder === "desc" ? -1 : 1 // Default to ascending order
+
+  try {
+    const users = await User.find()
+      .sort({ [sortField]: sortOrder })
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .select("-code -__v -appleToken -deactivateCode")
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "Users not found" })
+    }
+
+    res.status(200).json({ users, page, limit })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
