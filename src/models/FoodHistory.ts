@@ -18,6 +18,11 @@ const userFoodHistorySchema = new mongoose.Schema({
       id: { type: String },
       name: { type: String },
       servingName: { type: String },
+      waterHydration: {
+        type: Number,
+        default: 0,
+      },
+
       foodList: [
         {
           myFoodId: {
