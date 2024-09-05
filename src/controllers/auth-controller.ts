@@ -11,6 +11,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
 import { welcomeToProTemplate } from "mail/pro-mltr"
+import { isAdmin } from "middlewares/auth-middleware"
 
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
@@ -67,7 +68,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         },
       )
       const token = jwt.sign(
-        { _id: user?._id, name: user?.email },
+        { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
         process.env.JWT_SECRET,
       )
 
@@ -97,7 +98,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         geo,
       })
       const token = jwt.sign(
-        { _id: user?._id, name: user?.email },
+        { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
         process.env.JWT_SECRET,
       )
 
@@ -152,7 +153,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign(
-      { _id: user?._id, name: user?.email },
+      { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
       process.env.JWT_SECRET,
     )
 
@@ -241,7 +242,12 @@ export const registerWithApple = async (req: Request, res: Response) => {
       )
 
       const token = jwt.sign(
-        { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
+        {
+          _id: user?._id,
+          name: user?.email,
+          appleToken: user?.appleToken,
+          isAdmin: user?.isAdmin,
+        },
         process.env.JWT_SECRET,
       )
 
@@ -272,7 +278,12 @@ export const registerWithApple = async (req: Request, res: Response) => {
         personal_goal,
       })
       const token = jwt.sign(
-        { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
+        {
+          _id: user?._id,
+          name: user?.email,
+          appleToken: user?.appleToken,
+          isAdmin: user?.isAdmin,
+        },
         process.env.JWT_SECRET,
       )
 
@@ -322,7 +333,12 @@ export const loginWithApple = async (req: Request, res: Response) => {
 
     if (user) {
       const token = jwt.sign(
-        { _id: user?._id, name: user?.email, appleToken: user?.appleToken },
+        {
+          _id: user?._id,
+          name: user?.email,
+          appleToken: user?.appleToken,
+          isAdmin: user?.isAdmin,
+        },
         process.env.JWT_SECRET,
       )
       return res.status(201).json({
@@ -597,7 +613,7 @@ export const userLogin = async (req: Request, res: Response) => {
       },
     )
     const token = jwt.sign(
-      { _id: user?._id, name: user?.email },
+      { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
       process.env.JWT_SECRET,
     )
 
@@ -623,6 +639,7 @@ export const userLogin = async (req: Request, res: Response) => {
       water: user.water,
       geo: user.geo,
       personal_goal: user.personal_goal,
+      isAdmin: user.isAdmin,
     })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -816,7 +833,11 @@ export const tokenVerify = async (req: Request, res: Response) => {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET)
 
     const newToken = jwt.sign(
-      { _id: decoded.user?._id, name: decoded.user?.email },
+      {
+        _id: decoded.user?._id,
+        name: decoded.user?.email,
+        isAdmin: decoded.user?.isAdmin,
+      },
       process.env.JWT_SECRET,
     )
 
