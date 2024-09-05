@@ -18,6 +18,7 @@ import Joi from "joi"
 import { defaultTemplate } from "mail/templateDefault"
 
 const isValidEmail = Joi.string().email().required()
+import { isAdmin } from "middlewares/auth-middleware"
 
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
