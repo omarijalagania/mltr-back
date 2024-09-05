@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers
@@ -23,3 +23,28 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export default authMiddleware
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers
+
+  if (!authorization) {
+    res.status(403).send("not authorized")
+  } else {
+    const [, token] = authorization.trim().split(" ")
+    if (!token) {
+      res.status(403).send("empty token")
+    }
+
+    const verified = jwt.verify(token, process.env.JWT_SECRET)
+
+    if (verified) {
+      if ((verified as JwtPayload).isAdmin) {
+        next()
+      } else {
+        res.status(403).send("not an admin")
+      }
+    } else {
+      res.status(403).send("token not verified")
+    }
+  }
+}

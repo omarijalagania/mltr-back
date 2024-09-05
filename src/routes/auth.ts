@@ -17,6 +17,7 @@ import {
   getAllUsers,
 } from "controllers"
 import { authMiddleware } from "middlewares"
+import { isAdmin } from "middlewares/auth-middleware"
 
 const router = express.Router()
 
@@ -53,6 +54,6 @@ router.post("/pro", authMiddleware, userBuyPro)
 router.get("/verify", tokenVerify)
 
 //Admin routes
-router.get("/admin/users", authMiddleware, getAllUsers)
+router.get("/admin/users", authMiddleware, isAdmin, getAllUsers)
 
 export default router
