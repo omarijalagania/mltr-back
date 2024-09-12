@@ -11,8 +11,9 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
 import { welcomeToProTemplate } from "mail/pro-mltr"
-import { isAdmin } from "middlewares/auth-middleware"
-
+import Queue from "bull"
+import { codeConfirmationTemplateTest } from "mail/template-test"
+import { sendBulkEmails } from "mail/mail-bulk"
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
@@ -156,6 +157,10 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
       process.env.JWT_SECRET,
     )
+
+    // Update the lastLogin time
+    user.lastLogin = new Date()
+    await user.save()
 
     return res.status(200).json({
       message: "User logged in",
@@ -341,6 +346,11 @@ export const loginWithApple = async (req: Request, res: Response) => {
         },
         process.env.JWT_SECRET,
       )
+
+      // Update the lastLogin time
+      user.lastLogin = new Date()
+      await user.save()
+
       return res.status(201).json({
         message: "User logged in",
         token,
@@ -616,6 +626,10 @@ export const userLogin = async (req: Request, res: Response) => {
       { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
       process.env.JWT_SECRET,
     )
+
+    // Update the lastLogin time
+    user.lastLogin = new Date()
+    await user.save()
 
     return res.status(201).json({
       message: "User Logged in",
@@ -950,21 +964,77 @@ export const getUserDetails = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1
   const limit = parseInt(req.query.limit as string) || 10
-  const sortField = (req.query.sortField as string) || "joined" // Default sort field
-  const sortOrder = req.query.sortOrder === "desc" ? -1 : 1 // Default to ascending order
+  const sortField = req.query.sortField as string
+  const sortOrder = req.query.sortOrder === "asc" ? 1 : -1
+  const search = (req.query.search as string) || "" // Search term
 
   try {
-    const users = await User.find()
-      .sort({ [sortField]: sortOrder })
+    const query = search
+      ? {
+          $or: [
+            { email: { $regex: search, $options: "i" } }, // Case-insensitive search for email
+            { username: { $regex: search, $options: "i" } }, // Case-insensitive search for username
+          ],
+        }
+      : {}
+
+    const totalUsers = await User.countDocuments(query)
+    const totalPages = Math.ceil(totalUsers / limit)
+
+    let userQuery = User.find(query)
       .limit(limit)
       .skip((page - 1) * limit)
       .select("-code -__v -appleToken -deactivateCode")
+
+    if (sortField) {
+      userQuery = userQuery.sort({ [sortField]: sortOrder })
+    }
+
+    const users = await userQuery
 
     if (!users || users.length === 0) {
       return res.status(404).json({ message: "Users not found" })
     }
 
-    res.status(200).json({ users, page, limit })
+    res.status(200).json({ users, page, limit, totalPages })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+const emailQueue = new Queue("emails", {
+  redis: {
+    host: "127.0.0.1",
+    port: 6379,
+  },
+})
+
+export const bulkEmailSend = async (req: Request, res: Response) => {
+  try {
+    const { emails, description, subject } = req.body // Assuming the array of emails is in req.body.emails
+
+    if (!Array.isArray(emails)) {
+      return res.status(400).json({ message: "Invalid email list" })
+    }
+
+    // Add each email to the queue
+    emails.forEach((email) => {
+      emailQueue.add({
+        to: email,
+        subject: subject,
+        body: description,
+      })
+    })
+
+    // Process the queue to send emails
+    emailQueue.process(async (job) => {
+      const { to, subject, body } = job.data
+
+      await sendBulkEmails(to, codeConfirmationTemplateTest, body, subject)
+      // Send email here using your preferred email service
+    })
+
+    res.status(200).json({ message: "Emails are being processed" })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
