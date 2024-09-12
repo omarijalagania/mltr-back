@@ -18,7 +18,6 @@ import Joi from "joi"
 import { defaultTemplate } from "mail/templateDefault"
 
 const isValidEmail = Joi.string().email().required()
-import { isAdmin } from "middlewares/auth-middleware"
 
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
@@ -175,6 +174,10 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
     // Update the lastLogin time
     user.lastLogin = new Date()
     user.status = "active"
+    await user.save()
+
+    // Update the lastLogin time
+    user.lastLogin = new Date()
     await user.save()
 
     return res.status(200).json({
