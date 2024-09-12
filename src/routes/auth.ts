@@ -15,6 +15,7 @@ import {
   userBuyPro,
   getUserDetails,
   getAllUsers,
+  bulkEmailSend,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 import { isAdmin } from "middlewares/auth-middleware"
@@ -55,5 +56,6 @@ router.get("/verify", tokenVerify)
 
 //Admin routes
 router.get("/admin/users", authMiddleware, isAdmin, getAllUsers)
+router.post("/admin/send-emails", authMiddleware, isAdmin, bulkEmailSend)
 
 export default router
