@@ -16,6 +16,9 @@ import {
   getUserDetails,
   getAllUsers,
   bulkEmailSend,
+  testFunc,
+  adminUserUpdate,
+  getUserDetailsAdmin,
 } from "controllers"
 import { authMiddleware } from "middlewares"
 import { isAdmin } from "middlewares/auth-middleware"
@@ -57,5 +60,14 @@ router.get("/verify", tokenVerify)
 //Admin routes
 router.get("/admin/users", authMiddleware, isAdmin, getAllUsers)
 router.post("/admin/send-emails", authMiddleware, isAdmin, bulkEmailSend)
+router.get(
+  "/admin/user-details/:userId",
+  authMiddleware,
+  isAdmin,
+  getUserDetailsAdmin,
+)
+router.post("/admin/update-user", authMiddleware, isAdmin, adminUserUpdate)
+
+router.get("/admin/test", testFunc)
 
 export default router
