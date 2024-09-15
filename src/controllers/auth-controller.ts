@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { User } from "models"
-import { decodeTokenAndGetUserId, generateCode } from "helpers"
+import { decodeTokenAndGetUserId, generateCode, isValidId } from "helpers"
 import {
   codeConfirmationTemplate,
   codeSorryTemplate,
@@ -1035,6 +1035,217 @@ export const bulkEmailSend = async (req: Request, res: Response) => {
     })
 
     res.status(200).json({ message: "Emails are being processed" })
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const testFunc = async (req: Request, res: Response) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Dark Mode meta tags -->
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark only">
+    <title>Confirm Code</title>
+
+    <style>
+      /* Inline styles for maximum compatibility */
+      body {
+        padding: 15px;
+      }
+
+      h1 {
+        color: #8be100;
+        font-size: 44px;
+        line-height: 40px;
+        font-weight: 700;
+      }
+
+      /* Styles for dark mode */
+      [data-ogsc="dark-mode"] body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+      }
+      [data-ogsc="dark-mode"] h1 {
+        color: red !important; /* Dark mode green color */
+      }
+
+      /* Media query for devices with width less than 350px */
+      @media only screen and (max-width: 350px) {
+        .remove-padding {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        h1 {
+          color: #8be100 !important;
+        }
+      }
+    </style>
+
+
+  </head>
+  <body data-ogsc="light-mode">
+    <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
+   
+   <p>Test Body text</p>
+
+    <!-- One -->
+
+    <div style="display: flex; margin-bottom: 20px">
+      <p
+        style="
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 22px;
+          padding-right: 40px;
+        "
+      >
+        If you did not request this verification code, please disregard this
+        email. If you have any questions or concerns, please contact our support
+        team at
+        <span
+          style="
+            color: #c4ff46;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 22px;
+          "
+          >mltr.support@onyxlabs.tech</span
+        >
+      </p>
+    </div>
+
+    <!-- Explore -->
+
+    <div style="margin-top: 40px">
+      <p style="font-weight: 400; font-size: 16px; line-height: 22px">
+        Warm regards,
+      </p>
+
+      <p style="font-weight: 400; font-size: 16px; line-height: 22px">
+        The MLTR Team
+      </p>
+    </div>
+
+    <!-- Footer -->
+   <hr style="margin-top: 60px" />
+       <table style="width: 95%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
+      <tr>
+        <td style="padding-right: 5px;">
+          <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
+        </td>
+        <td style="padding-right: 5px;">
+          <a style="color: #7c7c7c; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
+            ONYX Labs
+          </a>
+        </td>
+        <td style="padding-right: 5px;">
+          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
+            Terms and Conditions
+          </a>
+        </td>
+        <td>
+          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
+            Privacy Policy
+          </a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`)
+}
+
+export const adminUserUpdate = async (req: Request, res: Response) => {
+  const { userId, isAdmin } = req.body
+
+  const isValidIdParam = isValidId(userId)
+
+  if (!isValidIdParam) {
+    return res.status(422).json({ message: "Invalid user ID" })
+  }
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      { isAdmin },
+      { new: true },
+    )
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    res.status(200).json({ message: "User updated", user })
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const getUserDetailsAdmin = async (req: Request, res: Response) => {
+  const { userId } = req.params
+
+  const isUserIdValid = isValidId(userId)
+
+  if (!isUserIdValid) {
+    return res.status(403).json({ message: "Id is not valid" })
+  }
+
+  try {
+    const user = await User.aggregate([
+      {
+        $match: {
+          _id: new ObjectId(userId),
+        },
+      },
+      {
+        $project: {
+          code: 0,
+          __v: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: "newtags",
+          localField: "_id",
+          foreignField: "userId",
+          as: "newtags",
+        },
+      },
+      {
+        $lookup: {
+          from: "weights",
+          localField: "_id",
+          foreignField: "userId",
+          as: "weights",
+        },
+      },
+      {
+        $lookup: {
+          from: "userfoodhistories",
+          localField: "_id",
+          foreignField: "userId",
+          as: "userfoodhistories",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "userfoodlists",
+          localField: "_id",
+          foreignField: "userId",
+          as: "userfoodlists",
+        },
+      },
+    ])
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+    res.status(200).json(user)
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
