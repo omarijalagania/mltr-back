@@ -967,20 +967,34 @@ export const getAllUsers = async (req: Request, res: Response) => {
   const sortField = req.query.sortField as string
   const sortOrder = req.query.sortOrder === "asc" ? 1 : -1
   const search = (req.query.search as string) || "" // Search term
+  const inactiveDays = req.query.inactiveDays
+    ? parseInt(req.query.inactiveDays as string)
+    : null
 
   try {
-    const query = search
+    // Create the base query for search
+    const query: any = search
       ? {
           $or: [
-            { email: { $regex: search, $options: "i" } }, // Case-insensitive search for email
-            { username: { $regex: search, $options: "i" } }, // Case-insensitive search for username
+            { email: { $regex: search, $options: "i" } },
+            { username: { $regex: search, $options: "i" } },
           ],
         }
       : {}
 
+    // If inactiveDays is provided and greater than 0, apply inactivity filter
+    if (inactiveDays && inactiveDays > 0) {
+      const cutoffDate = new Date()
+      cutoffDate.setDate(cutoffDate.getDate() - inactiveDays)
+
+      query.lastLogin = { $lte: cutoffDate }
+    }
+
+    // Count total users for pagination
     const totalUsers = await User.countDocuments(query)
     const totalPages = Math.ceil(totalUsers / limit)
 
+    // Fetch users with pagination and sorting
     let userQuery = User.find(query)
       .limit(limit)
       .skip((page - 1) * limit)
