@@ -13,6 +13,7 @@ import statisticsRoute from "./routes"
 import foodRoute from "./routes"
 import termsRoute from "./routes"
 import weightRoute from "./routes"
+import logRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
 
@@ -47,6 +48,7 @@ connectDB(false)
     app.use("/food", foodRoute)
     app.use("/statistics", statisticsRoute)
     app.use("/weight", weightRoute)
+    app.use("/log", logRoute)
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
