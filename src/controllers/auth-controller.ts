@@ -1094,7 +1094,6 @@ export const bulkEmailSend = async (req: Request, res: Response) => {
       const { to, subject, body } = job.data
 
       await sendBulkEmails(to, codeConfirmationTemplateTest, body, subject)
-      // Send email here using your preferred email service
     })
 
     res.status(200).json({ message: "Emails are being processed" })
@@ -1104,6 +1103,7 @@ export const bulkEmailSend = async (req: Request, res: Response) => {
 }
 
 export const testFunc = async (req: Request, res: Response) => {
+  const { body } = req.query
   res.send(`<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -1156,7 +1156,7 @@ export const testFunc = async (req: Request, res: Response) => {
   <body data-ogsc="light-mode">
     <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
    
-   <p>Test Body text</p>
+   <div style="overflow: hidden">${body}</div>
 
     <!-- One -->
 

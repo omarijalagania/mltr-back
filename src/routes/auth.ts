@@ -22,6 +22,7 @@ import {
 } from "controllers"
 import { authMiddleware } from "middlewares"
 import { isAdmin } from "middlewares/auth-middleware"
+import { getAllEmailTemplates } from "controllers/email-templates-controller"
 
 const router = express.Router()
 
@@ -69,5 +70,12 @@ router.get(
 router.post("/admin/update-user", authMiddleware, isAdmin, adminUserUpdate)
 
 router.get("/admin/test", testFunc)
+
+router.get(
+  "/admin/email-templates",
+  authMiddleware,
+  isAdmin,
+  getAllEmailTemplates,
+)
 
 export default router
