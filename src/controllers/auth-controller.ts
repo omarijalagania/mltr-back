@@ -685,7 +685,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "Delete acc",
+        "MLTR account removal confirmation",
       )
       user = await User.findOneAndUpdate(
         {
@@ -711,7 +711,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "Delete acc",
+        "MLTR account removal confirmation",
       )
 
       user = await User.findOneAndUpdate(
