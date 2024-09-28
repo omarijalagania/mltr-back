@@ -42,8 +42,24 @@ export const welcomeToProTemplate = () => {
         h1 {
           color: #8be100 !important;
         }
+          hr {
+            background-color: #858A97 !important;
+            }
       }
     </style>
+
+    <style>
+  @media screen and (max-width: 600px) {
+    .content {
+        width: 100% !important;
+        display: block !important;
+    }
+    .onyx-logo {
+      margin-top: 9px !important;
+    }
+  }
+</style>
+
   </head>
   <body data-ogsc="light-mode">
     <table width="100%" cellspacing="0" cellpadding="0" style="color: inherit;">
@@ -147,24 +163,24 @@ export const welcomeToProTemplate = () => {
     </table>
 
     <!-- Footer -->
-    <hr style="margin-top: 60px;" />
+    <hr style="margin-top: 60px; border: none !important; background-color: #858A97 !important; height: 0.5px !important;" />
     <table style="width: 95%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
       <tr>
-        <td style="padding-right: 5px;">
-          <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
+        <td>
+          <img class="onyx-logo" width="25px" height="25px" src="${process.env.BACKEND_URL}/images/ONYX_logo_100.png" alt="onyx" />
         </td>
-        <td style="padding-right: 5px;">
+        <td>
           <a style="color: #7c7c7c; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             ONYX Labs
           </a>
         </td>
-        <td style="padding-right: 5px;">
-          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
+        <td class="content">
+          <a style="color: #8be100; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             Terms and Conditions
           </a>
         </td>
-        <td>
-          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
+        <td class="content">
+          <a style="color: #8be100; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
             Privacy Policy
           </a>
         </td>
