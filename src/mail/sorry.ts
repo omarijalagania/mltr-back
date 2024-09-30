@@ -17,6 +17,7 @@ export const codeSorryTemplate = (
     <style>
       /* Inline styles for maximum compatibility */
       body {
+        
         padding: 15px;
       }
 
@@ -48,25 +49,24 @@ export const codeSorryTemplate = (
         h1 {
           color: #8be100 !important;
         }
-           hr {
+        hr {
             background-color: #858A97 !important;
             }
       }
     </style>
-<style>
-  @media screen and (max-width: 600px) {
-    .content {
-        width: 100% !important;
-        display: block !important;
-    }
-    .onyx-logo {
-      margin-top: 9px !important;
-    }
-  }
+
+    <style>
+    .onyx-logo { margin-top: 8px !important; }
+    @media screen and (max-width: 450px) 
+    { 
+    
+    .content { width: 100% !important; display: block !important; }
+    
+    } 
 </style>
 
   </head>
-  <body data-ogsc="light-mode">
+  <body class="body-content" style="max-width: 450px !important; margin: 0 auto !important;" data-ogsc="light-mode">
     <img width="85px" height="85px" src="${
       process.env.BACKEND_URL
     }/images/MLTR_logo_500.png" alt="mltr" />
@@ -74,14 +74,18 @@ export const codeSorryTemplate = (
       We are sorry to see you go
     </h1>
 
-    <p>
+    <p style="
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 22px;
+          ">
       Thank you for giving MLTR a chance. We're sorry to see you go and would
       love to know how we could have made your experience better. If you have
       any feedback or suggestions, please consider sharing them with our
       development team at
       <span
         style="
-          color: #c4ff46;
+          color: #8be100;
           font-weight: 700;
           font-size: 16px;
           line-height: 22px;
@@ -97,11 +101,15 @@ export const codeSorryTemplate = (
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Country:</span> ${ip ? ip : "-"}
+      <span style="font-weight: 400; font-size: 16px; line-height: 22px">Country:</span> ${
+        ip ? ip : "-"
+      }
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 700">Device:</span> ${device ? device : "-"}
+      <span style="font-weight: 400; font-size: 16px; line-height: 22px">Device:</span> ${
+        device ? device : "-"
+      }
     </p>
 
     <h1>
@@ -148,7 +156,7 @@ export const codeSorryTemplate = (
 
     <!-- Footer -->
     <hr style="margin-top: 60px; border: none !important; background-color: #858A97 !important; height: 0.5px !important;" />
-      <table style="width: 95%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
+      <table class="table-width" style="width: 90%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
       <tr>
         <td>
           <img class="onyx-logo" width="25px" height="25px" src="${
