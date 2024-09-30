@@ -75,7 +75,7 @@ export const codeSorryTemplate = (
     </h1>
 
     <p style="
-          font-weight: 700;
+          font-weight: 400;
           font-size: 16px;
           line-height: 22px;
           ">
@@ -86,7 +86,7 @@ export const codeSorryTemplate = (
       <span
         style="
           color: #8be100;
-          font-weight: 700;
+          font-weight: 400;
           font-size: 16px;
           line-height: 22px;
         "
@@ -95,7 +95,7 @@ export const codeSorryTemplate = (
       Your input is invaluable and can help us improve.
     </p>
 
-    <p style="text-align: left; font-size: 14px; line-height: 22px">
+    <p style="text-align: left; font-weight: 400; font-size: 16px; line-height: 22px">
       Please do not share this verification code with anyone. It’s our little
       secret.
     </p>
