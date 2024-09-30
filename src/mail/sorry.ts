@@ -101,13 +101,13 @@ export const codeSorryTemplate = (
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 400; font-size: 16px; line-height: 22px">Country:</span> ${
+      <span style="font-weight: 700; font-size: 16px; line-height: 22px">Country:</span> ${
         ip ? ip : "-"
       }
     </p>
 
     <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-      <span style="font-weight: 400; font-size: 16px; line-height: 22px">Device:</span> ${
+      <span style="font-weight: 700; font-size: 16px; line-height: 22px">Device:</span> ${
         device ? device : "-"
       }
     </p>
@@ -132,11 +132,11 @@ export const codeSorryTemplate = (
         team at
         <span
           style="
-            color: #8be100;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 22px;
-          "
+          color: #8be100;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 22px;
+        "
           >mltr.support@onyxlabs.tech</span
         >
       </p>
