@@ -8,9 +8,11 @@ export const welcomeToProTemplate = () => {
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark only">
     <title>Welcome to MLTR Pro</title>
-    <style>
+  
+        <style>
       /* Inline styles for maximum compatibility */
       body {
+        
         padding: 15px;
       }
 
@@ -27,7 +29,7 @@ export const welcomeToProTemplate = () => {
         color: #ffffff !important;
       }
       [data-ogsc="dark-mode"] h1 {
-        color: #4caf50 !important; /* Dark mode green color */
+        color: red !important; /* Dark mode green color */
       }
 
       /* Media query for devices with width less than 350px */
@@ -42,10 +44,24 @@ export const welcomeToProTemplate = () => {
         h1 {
           color: #8be100 !important;
         }
+        hr {
+            background-color: #858A97 !important;
+            }
       }
     </style>
+
+    <style>
+    .onyx-logo { margin-top: 8px !important; }
+    @media screen and (max-width: 450px) 
+    { 
+    
+    .content { width: 100% !important; display: block !important; }
+    
+    } 
+</style>
+
   </head>
-  <body data-ogsc="light-mode">
+  <body class="body-content" style="max-width: 450px !important; margin: 0 auto !important;" data-ogsc="light-mode">
     <table width="100%" cellspacing="0" cellpadding="0" style="color: inherit;">
       <tr>
         <td style="padding-bottom: 60px;">
@@ -147,24 +163,24 @@ export const welcomeToProTemplate = () => {
     </table>
 
     <!-- Footer -->
-    <hr style="margin-top: 60px;" />
-    <table style="width: 95%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
+    <hr style="margin-top: 60px; border: none !important; background-color: #858A97 !important; height: 0.5px !important;" />
+    <table class="table-width" style="width: 90%; margin-top: 60px; padding: 10px 0; border-collapse: collapse;">
       <tr>
-        <td style="padding-right: 5px;">
-          <img src="${process.env.BACKEND_URL}/images/onyx.png" alt="onyx" />
+        <td>
+          <img class="onyx-logo" width="25px" height="25px" src="${process.env.BACKEND_URL}/images/ONYX_logo_100.png" alt="onyx" />
         </td>
-        <td style="padding-right: 5px;">
+        <td>
           <a style="color: #7c7c7c; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             ONYX Labs
           </a>
         </td>
-        <td style="padding-right: 5px;">
-          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
+        <td class="content">
+          <a style="color: #8be100; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/terms.html">
             Terms and Conditions
           </a>
         </td>
-        <td>
-          <a style="color: #c4ff46; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
+        <td class="content">
+          <a style="color: #8be100; font-weight: 400; font-size: 14px; line-height: 20px; text-decoration: none;" href="https://mltr.app/policies/privacy.html">
             Privacy Policy
           </a>
         </td>

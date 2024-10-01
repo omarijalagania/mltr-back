@@ -14,6 +14,10 @@ import { welcomeToProTemplate } from "mail/pro-mltr"
 import Queue from "bull"
 import { codeConfirmationTemplateTest } from "mail/template-test"
 import { sendBulkEmails } from "mail/mail-bulk"
+import Joi from "joi"
+
+const isValidEmail = Joi.string().email().required()
+
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
@@ -39,6 +43,10 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
   } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (user) {
@@ -145,6 +153,10 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
   const { login } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (!user) {
@@ -216,6 +228,10 @@ export const registerWithApple = async (req: Request, res: Response) => {
   } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (user) {
@@ -334,6 +350,10 @@ export const loginWithApple = async (req: Request, res: Response) => {
   const { login } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (user) {
@@ -408,6 +428,10 @@ export const userRegister = async (req: Request, res: Response) => {
   } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let code = generateCode()
     let user: any
     user = await User.findOne({ email: login })
@@ -522,6 +546,10 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
   const { login, ip, device } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let code = generateCode()
     let user: any
     user = await User.findOne({ email: login })
@@ -585,6 +613,10 @@ export const userLogin = async (req: Request, res: Response) => {
   const { login, code } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     const user = await User.findOne({ email: login })
 
     if (!user) {
@@ -666,6 +698,10 @@ export const deactivateAccount = async (req: Request, res: Response) => {
   let code = generateCode()
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (!user) {
@@ -681,7 +717,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "Delete acc",
+        "MLTR account removal confirmation",
       )
       user = await User.findOneAndUpdate(
         {
@@ -707,7 +743,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "Delete acc",
+        "MLTR account removal confirmation",
       )
 
       user = await User.findOneAndUpdate(
@@ -734,6 +770,10 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
   const { login, code } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (!user) {
@@ -776,6 +816,10 @@ export const updateUser = async (req: Request, res: Response) => {
   } = req.body
 
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     let user = await User.findOne({ email: login })
 
     if (!user) {
@@ -880,6 +924,10 @@ export const getUser = async (req: Request, res: Response) => {
 export const userBuyPro = async (req: Request, res: Response) => {
   const { login } = req.body
   try {
+    if (isValidEmail.validate(login).error) {
+      return res.status(422).json({ message: "Invalid email" })
+    }
+
     sendCodeConfirmation(
       "49640",
       login,
