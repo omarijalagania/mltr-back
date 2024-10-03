@@ -90,7 +90,7 @@ export const codeSorryTemplate = (
           font-size: 16px;
           line-height: 22px;
         "
-        >mltr.support@onyxlabs.tech</span
+        >mltr.suggestions@onyxlabs.tech</span
       >
       Your input is invaluable and can help us improve.
     </p>
