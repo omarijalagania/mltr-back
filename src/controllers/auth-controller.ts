@@ -548,65 +548,58 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
   const { login, ip, device } = req.body
 
   try {
+    // Validate email
     if (isValidEmail.validate(login).error) {
       return res.status(422).json({ message: "Invalid email" })
     }
 
     let code = generateCode()
-    let user: any
-    user = await User.findOne({ email: login })
-    /* Delete verification code, 1 hour after user registered or updated */
-    setInterval(async () => {
-      // Execute the update operation
-      user = await User.findOneAndUpdate(
-        { email: login },
-        {
-          code: "",
-        },
-      )
-    }, 600000)
-
-    /* Delete user after one day after inactive status */
-    setInterval(async () => {
-      var query = { status: { $eq: "inactive" } }
-      user = await User.deleteMany(query)
-    }, 86400000)
-
-    const salt = await bcrypt.genSalt(10)
-    // generate hashed password with salt (password = entered password, from request body)
-    const hashedCode = await bcrypt.hash(code, salt)
+    let user = await User.findOne({ email: login })
 
     if (user) {
-      // User already exists, update user with new data
+      const salt = await bcrypt.genSalt(10)
+      const hashedCode = await bcrypt.hash(code, salt)
+
+      // Update the user with the new code and set status to inactive
       user = await User.findOneAndUpdate(
         { email: login },
         {
-          email: login,
           code: hashedCode,
           status: "inactive",
         },
         { new: true },
       )
 
-      sendCodeConfirmation(
-        code,
-        user.email,
-        codeConfirmationTemplate,
-        ip,
-        device,
-        "MLTR verification code",
-      )
+      // Send the confirmation code to the user's email
+      if (user && user.email) {
+        sendCodeConfirmation(
+          code,
+          user.email,
+          codeConfirmationTemplate,
+          ip,
+          device,
+          "MLTR verification code",
+        )
+      } else {
+        return res.status(500).json({ message: "User email not found" })
+      }
+
+      // Use a timeout or job scheduler for deleting the code after 1 hour
+      setTimeout(async () => {
+        await User.findOneAndUpdate({ email: login }, { code: "" })
+      }, 3600000) // 1 hour
+
       return res.status(201).json({
         message: "Confirmation code sent to email",
         user: user.email,
       })
     } else {
-      // User does not exist, send message
       return res.status(404).json({
         message: "User not found, please register first",
       })
     }
   } catch (error) {
+    console.error(error) // Log the specific error for better debugging
     res.status(500).json({ message: "Something went wrong..." })
   }
 }

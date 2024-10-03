@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import AdminEmailSendLogs from "models/AdminEmailSendLogs"
 import AdminEmailLog from "models/AdminEmailSendLogs"
+import Bug from "models/Bug"
 import EmailLog from "models/EmailLog"
 
 export const recordEmailSendLog = async (req: Request, res: Response) => {
@@ -135,5 +136,84 @@ export const getEmailSendLogById = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error fetching email logs:", error)
     res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+//BUgs
+
+export const createBugReport = async (req: Request, res: Response) => {
+  const { title, description } = req.body
+
+  try {
+    const bug = new Bug({ title, description })
+    await bug.save()
+
+    return res.status(201).json({ message: "Bug report created" })
+  } catch (error) {
+    console.error("Error creating bug report:", error)
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const getBugReports = async (req: Request, res: Response) => {
+  try {
+    const bugs = await Bug.find().sort({ createdAt: -1 }).exec()
+    return res.status(200).json({ data: bugs })
+  } catch (error) {
+    console.error("Error fetching bug reports:", error)
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const editBugReport = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const { title, description } = req.body
+
+  try {
+    const bug = await Bug.findByIdAndUpdate(
+      id,
+      { title, description },
+      { new: true },
+    )
+
+    if (!bug) {
+      return res.status(404).json({ message: "Bug report not found" })
+    }
+
+    return res.status(200).json({ message: "Bug report updated" })
+  } catch (error) {
+    console.error("Error updating bug report:", error)
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const getBugById = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  try {
+    const bug = await Bug.findById(id)
+    if (!bug) {
+      return res.status(404).json({ message: "Bug report not found" })
+    }
+
+    return res.status(200).json({ data: bug })
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+export const deleteBugReport = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  try {
+    const bug = await Bug.findByIdAndDelete(id)
+    if (!bug) {
+      return res.status(404).json({ message: "Bug report not found" })
+    }
+
+    return res.status(200).json({ message: "Bug report deleted" })
+  } catch (error) {
+    console.error("Error deleting bug report:", error)
+    return res.status(500).json({ message: "Something went wrong..." })
   }
 }

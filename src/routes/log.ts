@@ -1,4 +1,9 @@
 import {
+  createBugReport,
+  deleteBugReport,
+  editBugReport,
+  getBugById,
+  getBugReports,
   getEmailSendLogById,
   getEmailSendLogs,
   recordEmailSendLog,
@@ -22,5 +27,13 @@ router.get(
   isAdmin,
   getEmailSendLogById,
 )
+
+// Bugs
+
+router.post("/admin/bug/create", authMiddleware, isAdmin, createBugReport)
+router.get("/admin/bug/get-all", authMiddleware, isAdmin, getBugReports)
+router.get("/admin/bug/get/:id", authMiddleware, isAdmin, getBugById)
+router.patch("/admin/bug/update/:id", authMiddleware, isAdmin, editBugReport)
+router.delete("/admin/bug/delete/:id", authMiddleware, isAdmin, deleteBugReport)
 
 export default router
