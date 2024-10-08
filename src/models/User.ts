@@ -81,6 +81,10 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
 
+  deletedAt: {
+    type: Date,
+  },
+
   lastLogin: {
     type: Date,
   },
