@@ -178,6 +178,13 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
 
     // Update the lastLogin time
     user.lastLogin = new Date()
+
+    user.status = "active"
+    await user.save()
+
+    // Update the lastLogin time
+    user.lastLogin = new Date()
+    user.status = "active"
     await user.save()
 
     return res.status(200).json({
