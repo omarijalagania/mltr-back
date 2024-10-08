@@ -173,6 +173,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
 
     // Update the lastLogin time
     user.lastLogin = new Date()
+    user.status = "active"
     await user.save()
 
     return res.status(200).json({
@@ -370,6 +371,7 @@ export const loginWithApple = async (req: Request, res: Response) => {
 
       // Update the lastLogin time
       user.lastLogin = new Date()
+      user.status = "active"
       await user.save()
 
       return res.status(201).json({
@@ -643,10 +645,8 @@ export const userLogin = async (req: Request, res: Response) => {
 
     /* Set user status "active" after successfully logged in */
     await User.findOneAndUpdate(
-      { email: login },
-      {
-        status: "active",
-      },
+      { email: login, status: { $in: ["active", "deleted"] } }, // Query criteria
+      { status: "active" }, // Update operation
     )
     const token = jwt.sign(
       { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
@@ -655,6 +655,7 @@ export const userLogin = async (req: Request, res: Response) => {
 
     // Update the lastLogin time
     user.lastLogin = new Date()
+    user.status = "active"
     await user.save()
 
     return res.status(201).json({
@@ -774,18 +775,47 @@ export const confirmDeactivationCode = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    if (user) {
-      if (user.deactivateCode === code) {
-        user = await User.findOneAndDelete({ email: login })
-        return res.status(200).json({ message: "Account deactivated" })
-      } else {
-        return res.status(422).json({ message: "Wrong code" })
-      }
+    if (user.deactivateCode === code) {
+      user.status = "deleted" // Assuming 'status' is the field to mark the user as deleted
+      user.deletedAt = new Date()
+      await user.save()
+      return res
+        .status(200)
+        .json({ message: "Account status changed to deleted" })
+    } else {
+      return res.status(422).json({ message: "Wrong code" })
     }
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+// export const confirmDeactivationCode = async (req: Request, res: Response) => {
+//   const { login, code } = req.body
+
+//   try {
+//     if (isValidEmail.validate(login).error) {
+//       return res.status(422).json({ message: "Invalid email" })
+//     }
+
+//     let user = await User.findOne({ email: login })
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" })
+//     }
+
+//     if (user) {
+//       if (user.deactivateCode === code) {
+//         user = await User.findOneAndDelete({ email: login })
+//         return res.status(200).json({ message: "Account deactivated" })
+//       } else {
+//         return res.status(422).json({ message: "Wrong code" })
+//       }
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: "Something went wrong..." })
+//   }
+// }
 
 export const updateUser = async (req: Request, res: Response) => {
   const {

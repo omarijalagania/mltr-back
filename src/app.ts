@@ -4,6 +4,7 @@ import express from "express"
 import path from "path"
 import cors from "cors"
 import bodyParser from "body-parser"
+import cron from "node-cron"
 import { connectDB } from "config"
 import authRoute from "./routes"
 import tagRoute from "./routes"
@@ -16,6 +17,7 @@ import weightRoute from "./routes"
 import logRoute from "./routes"
 import YAML from "yamljs"
 import swaggerUI from "swagger-ui-express"
+import { User } from "models"
 
 export const app = express()
 
@@ -49,6 +51,29 @@ connectDB(false)
     app.use("/statistics", statisticsRoute)
     app.use("/weight", weightRoute)
     app.use("/log", logRoute)
+
+    // Schedule a cron job to run daily at midnight
+    cron.schedule("0 0 * * *", async () => {
+      try {
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+        // Find and remove users with status 'deleted' and deletedAt older than 30 days
+        const result = await User.deleteMany({
+          status: "deleted",
+          deletedAt: { $lte: thirtyDaysAgo },
+        })
+
+        console.log(
+          `Removed ${result.deletedCount} users with status 'deleted' older than 30 days`,
+        )
+      } catch (error) {
+        console.error(
+          "Error running cron job to remove old deleted accounts:",
+          error,
+        )
+      }
+    })
 
     app.listen(process.env.SERVER_PORT, () =>
       console.log(

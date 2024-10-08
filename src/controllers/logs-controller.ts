@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { User } from "models"
 import AdminEmailSendLogs from "models/AdminEmailSendLogs"
 import AdminEmailLog from "models/AdminEmailSendLogs"
 import Bug from "models/Bug"
@@ -167,12 +168,12 @@ export const getBugReports = async (req: Request, res: Response) => {
 
 export const editBugReport = async (req: Request, res: Response) => {
   const { id } = req.params
-  const { title, description } = req.body
+  const { title, description, isActive } = req.body
 
   try {
     const bug = await Bug.findByIdAndUpdate(
       id,
-      { title, description },
+      { title, description, isActive },
       { new: true },
     )
 
@@ -182,7 +183,6 @@ export const editBugReport = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "Bug report updated" })
   } catch (error) {
-    console.error("Error updating bug report:", error)
     return res.status(500).json({ message: "Something went wrong..." })
   }
 }
@@ -214,6 +214,33 @@ export const deleteBugReport = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Bug report deleted" })
   } catch (error) {
     console.error("Error deleting bug report:", error)
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
+
+// Statistics
+
+export const getUsersByCountry = async (req: Request, res: Response) => {
+  try {
+    // MongoDB aggregation to group users by country and count them
+    const countryCount = await User.aggregate([
+      {
+        $group: {
+          _id: "$geo", // Group by 'geo' field
+          count: { $sum: 1 }, // Count the number of users in each country
+        },
+      },
+    ])
+
+    // Mapping to the desired format
+    const data = countryCount.map((item) => ({
+      country: item._id, // Use geo code as country
+      value: item.count, // Use count as value
+    }))
+
+    // Response
+    res.json(data)
+  } catch (error) {
     return res.status(500).json({ message: "Something went wrong..." })
   }
 }

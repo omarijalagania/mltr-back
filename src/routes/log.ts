@@ -6,6 +6,7 @@ import {
   getBugReports,
   getEmailSendLogById,
   getEmailSendLogs,
+  getUsersByCountry,
   recordEmailSendLog,
 } from "controllers"
 import express from "express"
@@ -35,5 +36,14 @@ router.get("/admin/bug/get-all", authMiddleware, isAdmin, getBugReports)
 router.get("/admin/bug/get/:id", authMiddleware, isAdmin, getBugById)
 router.patch("/admin/bug/update/:id", authMiddleware, isAdmin, editBugReport)
 router.delete("/admin/bug/delete/:id", authMiddleware, isAdmin, deleteBugReport)
+
+// Country Statistics
+
+router.get(
+  "/admin/country-statistics",
+  authMiddleware,
+  isAdmin,
+  getUsersByCountry,
+)
 
 export default router
