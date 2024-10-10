@@ -5,8 +5,10 @@ import {
   deleteAllHistory,
   deleteHistory,
   deleteNewHistory,
+  deleteSpecificFoodFromHistory,
   editHistory,
   editNewHistory,
+  editNewHistoryParts,
   getAllHistory,
   getHistory,
 } from "controllers"
@@ -24,6 +26,12 @@ router.delete("/remove", authMiddleware, deleteHistory)
 router.get("/all/:userId", authMiddleware, getAllHistory)
 router.post("/add-new-history", authMiddleware, addNewHistory)
 router.patch("/edit-new-history", authMiddleware, editNewHistory)
+router.patch("/edit-new-history-part", authMiddleware, editNewHistoryParts)
+router.delete(
+  "/delete-new-history-part",
+  authMiddleware,
+  deleteSpecificFoodFromHistory,
+)
 router.delete("/delete-new-history", authMiddleware, deleteNewHistory)
 router.post("/delete-all-history", authMiddleware, deleteAllHistory)
 
