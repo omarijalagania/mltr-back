@@ -9366,7 +9366,7 @@ paths:
           description: Unauthorized
         "404":
           description: History not found
-  /food/post-food:
+    /food/post-food:
     post:
       tags:
         - Food
@@ -17557,7 +17557,7 @@ paths:
                       _id: 65e73db320ecc920ce6db545
                   __v: 0
   /history/edit-new-history-part:
-    patch:
+    post:
       tags:
         - New History
       summary: Edit HIstory part
@@ -17568,9 +17568,19 @@ paths:
               type: object
               example:
                 userId: 66faaa38536af07a279b8980
-                foodId: 66e19f0a8eddda7bf88b0d0b
+                foodId: 65e73db320ecc920ce6db545
                 historyList:
-                  calories: 0
+                  - calories: 666
+                    carbs: 666
+                    fat: 66
+                    protein: 666
+                    water: 500
+                    weight: 200
+                    selectedDate: '2024-03-23'
+                    id: lol_another_uddate_Test
+                    foodList:
+                      - myFoodId: food77
+                        pceCount: 34
       security:
         - bearerAuth: []
       responses:
@@ -17592,15 +17602,15 @@ paths:
             Content-Length:
               schema:
                 type: integer
-                example: '8378'
+                example: '497'
             ETag:
               schema:
                 type: string
-                example: W/"20ba-/P9LIEhC/Zml4jYrdyEfPx4wctk"
+                example: W/"1f1-4PF8+isPPDPrZTPkL79jxSecwDc"
             Date:
               schema:
                 type: string
-                example: Thu, 10 Oct 2024 12:24:44 GMT
+                example: Mon, 14 Oct 2024 10:31:02 GMT
             Connection:
               schema:
                 type: string
@@ -17614,409 +17624,28 @@ paths:
               schema:
                 type: object
               example:
-                message: History edited
-                history:
-                  _id: 66e19ef88eddda7bf88b0cfd
+                message: History List
+                updatedMerged:
+                  _id: 6707ca4c61bbe1f16c59bbf9
                   userId: 66faaa38536af07a279b8980
                   userFoodHistoryList:
-                    - waterHydration: 0
-                      calories: 0
-                      carbs: 0
+                    - calories: 99900
+                      carbs: 40404040404
                       fat: 15
                       protein: 20
                       water: 500
                       weight: 200
                       selectedDate: '2024-03-23'
-                      id: '2'
+                      id: lol_another_uddate_Test
                       foodList:
-                        - myFoodId: food1
+                        - myFoodId: food25
                           pceCount: 2
-                          _id: 66e19f0a8eddda7bf88b0d0c
-                        - myFoodId: food2
+                          _id: 65e73db320ecc920ce6db546
+                        - myFoodId: food00000001
                           pceCount: 1
-                          _id: 66e19f0a8eddda7bf88b0d0d
-                      _id: 66e19f0a8eddda7bf88b0d0b
-                    - waterHydration: 0
-                      calories: 0
-                      carbs: 0
-                      fat: 15
-                      protein: 20
-                      water: 500
-                      weight: 200
-                      selectedDate: '2024-03-23'
-                      id: '2'
-                      foodList:
-                        - myFoodId: food1
-                          pceCount: 2
-                          _id: 66e1ab318eddda7bf88b0db3
-                        - myFoodId: food2
-                          pceCount: 1
-                          _id: 66e1ab318eddda7bf88b0db4
-                      _id: 66e1ab318eddda7bf88b0db2
-                    - waterHydration: 0
-                      calories: 370
-                      carbs: 4
-                      fat: 63
-                      protein: 12
-                      water: 18
-                      selectedDate: '2024-09-11'
-                      id: ab5c7086-965b-4fc0-a6b4-f7b86e008031
-                      foodList:
-                        - myFoodId: jaffa cakes
-                          pceCount: 1
-                          _id: 66e1ac968eddda7bf88b0df0
-                      _id: 66e1ac968eddda7bf88b0def
-                    - waterHydration: 0
-                      calories: 150
-                      carbs: 15
-                      fat: 8
-                      protein: 10
-                      water: 55
-                      selectedDate: '2024-09-11'
-                      id: 12a66552-a7b5-44d3-96d8-37bfe3707399
-                      foodList:
-                        - myFoodId: roast dinner
-                          pceCount: 1
-                          _id: 66e2023b8eddda7bf88b1134
-                      _id: 66e2023b8eddda7bf88b1133
-                    - waterHydration: 0
-                      calories: 417
-                      carbs: 91
-                      fat: 3
-                      protein: 11
-                      water: 92
-                      selectedDate: '2024-09-11'
-                      id: 3b428d60-571f-4633-b80a-6481a1eca2ac
-                      foodList:
-                        - myFoodId: milk
-                          pceCount: 1
-                          _id: 66e202808eddda7bf88b1156
-                        - myFoodId: cereal with sugar
-                          pceCount: 1
-                          _id: 66e202808eddda7bf88b1157
-                      _id: 66e202808eddda7bf88b1155
-                    - waterHydration: 0
-                      calories: 1842
-                      carbs: 35
-                      fat: 142
-                      protein: 96
-                      water: 209
-                      selectedDate: '2024-09-12'
-                      id: dbf91401-486e-4e7b-9a10-bf0631c08af7
-                      foodList:
-                        - myFoodId: chicken
-                          pceCount: 1
-                          _id: 66e223de8eddda7bf88b12a5
-                        - myFoodId: pesto
-                          pceCount: 1
-                          _id: 66e223de8eddda7bf88b12a6
-                        - myFoodId: cheese
-                          pceCount: 1
-                          _id: 66e223de8eddda7bf88b12a7
-                        - myFoodId: bacon
-                          pceCount: 1
-                          _id: 66e223de8eddda7bf88b12a8
-                        - myFoodId: rice
-                          pceCount: 1
-                          _id: 66e223de8eddda7bf88b12a9
-                      _id: 66e223de8eddda7bf88b12a4
-                    - waterHydration: 0
-                      calories: 250
-                      carbs: 30
-                      fat: 10
-                      protein: 12
-                      water: 46
-                      selectedDate: '2024-09-16'
-                      id: 2a013990-76a8-45db-b8be-4ad4201de965
-                      foodList:
-                        - myFoodId: burger
-                          pceCount: 1
-                          _id: 66e814118eddda7bf88b4878
-                      _id: 66e814118eddda7bf88b4877
-                    - waterHydration: 0
-                      calories: 42
-                      carbs: 11
-                      fat: 0
-                      protein: 0
-                      water: 89
-                      selectedDate: '2024-09-16'
-                      id: 353b201a-4f2a-4e2b-925f-2c7b9fdc1cc2
-                      foodList:
-                        - myFoodId: can of Coke
-                          pceCount: 1
-                          _id: 66e84a458eddda7bf88b4a9d
-                      _id: 66e84a458eddda7bf88b4a9c
-                    - waterHydration: 0
-                      calories: 295
-                      carbs: 30
-                      fat: 13
-                      protein: 17
-                      water: 40
-                      selectedDate: '2024-09-24'
-                      id: aaa83ddf-24e5-46ed-b07b-60fd2a2fe064
-                      foodList:
-                        - myFoodId: burger
-                          pceCount: 1
-                          _id: 66f30bbd8eddda7bf88bbb37
-                      _id: 66f30bbd8eddda7bf88bbb36
-                    - waterHydration: 0
-                      calories: 648
-                      carbs: 64.9
-                      fat: 27
-                      protein: 34
-                      water: 65
-                      selectedDate: '2024-09-26'
-                      id: b0eb23d6-a670-43f4-ac2c-8231c2bf426f
-                      foodList:
-                        - myFoodId: beans
-                          pceCount: 1
-                          _id: 66f4a6e48eddda7bf88bd4c3
-                        - myFoodId: sausage
-                          pceCount: 1
-                          _id: 66f4a6e48eddda7bf88bd4c4
-                      _id: 66f4a6e48eddda7bf88bd4c2
-                    - waterHydration: 0
-                      calories: 433
-                      carbs: 1.3
-                      fat: 33
-                      protein: 37
-                      water: 8
-                      selectedDate: '2024-09-30'
-                      id: 2f9db626-9c15-4f77-beae-4235e7778903
-                      foodList:
-                        - myFoodId: bacon bits
-                          pceCount: 1
-                          _id: 66fae5628eddda7bf88c1bb2
-                      _id: 66fae5628eddda7bf88c1bb1
-                    - waterHydration: 0
-                      calories: 541
-                      carbs: 1.4
-                      fat: 42
-                      protein: 37
-                      water: 5
-                      selectedDate: '2024-09-30'
-                      id: a4e1c831-89f5-410a-89e3-96c33200f5d4
-                      foodList:
-                        - myFoodId: bacon
-                          pceCount: 1
-                          _id: 66fae6218eddda7bf88c1c00
-                      _id: 66fae6218eddda7bf88c1bff
-                    - waterHydration: 0
-                      calories: 533
-                      carbs: 1.4
-                      fat: 42
-                      protein: 37
-                      water: 11
-                      selectedDate: '2024-09-30'
-                      id: fbd1889f-9291-46b3-a2a5-2b5e060a8e78
-                      foodList:
-                        - myFoodId: Bacon Bits
-                          pceCount: 1
-                          _id: 66fae6f08eddda7bf88c1c56
-                      _id: 66fae6f08eddda7bf88c1c55
-                    - waterHydration: 0
-                      calories: 504
-                      carbs: 1.4
-                      fat: 42
-                      protein: 36
-                      water: 0
-                      selectedDate: '2024-09-30'
-                      id: 10e39844-9afc-483f-a7e9-aff4e9cf3e03
-                      foodList:
-                        - myFoodId: Bacon bits
-                          pceCount: 1
-                          _id: 66fae90a8eddda7bf88c1cba
-                      _id: 66fae90a8eddda7bf88c1cb9
-                    - waterHydration: 0
-                      calories: 541
-                      carbs: 1.43
-                      fat: 42
-                      protein: 37
-                      water: 5
-                      selectedDate: '2024-09-30'
-                      id: 36754f99-c9d8-439c-aec7-b8032a204edc
-                      foodList:
-                        - myFoodId: Bacon
-                          pceCount: 1
-                          _id: 66fae9338eddda7bf88c1d11
-                      _id: 66fae9338eddda7bf88c1d10
-                    - waterHydration: 0
-                      calories: 541
-                      carbs: 1.4
-                      fat: 42
-                      protein: 37
-                      water: 10.9
-                      selectedDate: '2024-09-30'
-                      id: 86acba48-2b25-4f07-aa5a-94dd737a36cb
-                      foodList:
-                        - myFoodId: Bacon
-                          pceCount: 1
-                          _id: 66fae9898eddda7bf88c1d6e
-                      _id: 66fae9898eddda7bf88c1d6d
-                    - waterHydration: 0
-                      calories: 266
-                      carbs: 33
-                      fat: 10
-                      protein: 11
-                      water: 45
-                      selectedDate: '2024-09-30'
-                      id: 9757fbf7-2433-4de7-980b-98271c8b5544
-                      foodList:
-                        - myFoodId: ham and cheese pizza
-                          pceCount: 1
-                          _id: 66fae9a58eddda7bf88c1dc8
-                      _id: 66fae9a58eddda7bf88c1dc7
-                    - waterHydration: 0
-                      calories: 500
-                      carbs: 10
-                      fat: 40
-                      protein: 25
-                      water: 25
-                      selectedDate: '2024-10-02'
-                      id: e43d9287-71c4-4237-bc57-e2321fd1fffe
-                      foodList:
-                        - myFoodId: Salad with bacon bits
-                          pceCount: 1
-                          _id: 66fd5b978eddda7bf88c3979
-                      _id: 66fd5b978eddda7bf88c3978
-                    - waterHydration: 0
-                      calories: 541
-                      carbs: 1.4
-                      fat: 42
-                      protein: 37
-                      water: 6.2
-                      selectedDate: '2024-10-02'
-                      id: a3f75d85-2eb5-4b06-b0ad-63aeea382223
-                      foodList:
-                        - myFoodId: Bacon bits
-                          pceCount: 1
-                          _id: 66fd5ba58eddda7bf88c39db
-                      _id: 66fd5ba58eddda7bf88c39da
-                    - waterHydration: 0
-                      calories: 548
-                      carbs: 1.4
-                      fat: 48
-                      protein: 37
-                      water: 0
-                      selectedDate: '2024-10-02'
-                      id: 40521e14-9cd7-4faf-8714-df83f18c6f07
-                      foodList:
-                        - myFoodId: bacon bits
-                          pceCount: 1
-                          _id: 66fd5bb18eddda7bf88c3a41
-                      _id: 66fd5bb18eddda7bf88c3a40
-                    - waterHydration: 0
-                      calories: 1840
-                      carbs: 234
-                      fat: 77
-                      protein: 58
-                      water: 0
-                      selectedDate: '2024-10-02'
-                      id: 044c8b44-73c1-42a4-ac8f-226f399cd0ce
-                      foodList:
-                        - myFoodId: Large McDonald's Meal
-                          pceCount: 1
-                          _id: 66fd6e808eddda7bf88c3c59
-                        - myFoodId: Burger
-                          pceCount: 1
-                          _id: 66fd6e808eddda7bf88c3c5a
-                        - myFoodId: Chips
-                          pceCount: 1
-                          _id: 66fd6e808eddda7bf88c3c5b
-                        - myFoodId: Coke
-                          pceCount: 1
-                          _id: 66fd6e808eddda7bf88c3c5c
-                      _id: 66fd6e808eddda7bf88c3c58
-                    - waterHydration: 0
-                      calories: 500
-                      carbs: 1
-                      fat: 42
-                      protein: 37
-                      water: 10
-                      selectedDate: '2024-10-03'
-                      id: bcf2397e-ccc8-41c2-8416-98208f45a0f9
-                      foodList:
-                        - myFoodId: Bacon bits
-                          pceCount: 1
-                          _id: 66fee99c8eddda7bf88c4e0a
-                      _id: 66fee99c8eddda7bf88c4e09
-                    - waterHydration: 0
-                      calories: 1
-                      carbs: 0
-                      fat: 0
-                      protein: 0
-                      water: 99
-                      selectedDate: '2024-10-04'
-                      id: 34025c14-8b32-4702-85fe-e0e210fa7aee
-                      foodList:
-                        - myFoodId: pepsi max
-                          pceCount: 1
-                          _id: 66ff31978eddda7bf88c51d0
-                      _id: 66ff31978eddda7bf88c51cf
-                    - waterHydration: 0
-                      calories: 139
-                      carbs: 37
-                      fat: 0
-                      protein: 1
-                      water: 261
-                      selectedDate: '2024-10-04'
-                      id: fee45bbc-289c-45c4-b7ed-e4294a068eb1
-                      foodList:
-                        - myFoodId: apple
-                          pceCount: 1
-                          _id: 66ff34b98eddda7bf88c5275
-                        - myFoodId: pear
-                          pceCount: 1
-                          _id: 66ff34b98eddda7bf88c5276
-                        - myFoodId: watermelon
-                          pceCount: 1
-                          _id: 66ff34b98eddda7bf88c5277
-                      _id: 66ff34b98eddda7bf88c5274
-                    - waterHydration: 0
-                      calories: 873
-                      carbs: 90
-                      fat: 51
-                      protein: 24
-                      water: 131
-                      selectedDate: '2024-10-04'
-                      id: 068530e2-c0c3-41f2-af9f-4a94ee01ab18
-                      foodList:
-                        - myFoodId: burger
-                          pceCount: 1
-                          _id: 66ff35898eddda7bf88c5303
-                        - myFoodId: chips
-                          pceCount: 1
-                          _id: 66ff35898eddda7bf88c5304
-                        - myFoodId: coke
-                          pceCount: 1
-                          _id: 66ff35898eddda7bf88c5305
-                      _id: 66ff35898eddda7bf88c5302
-                    - waterHydration: 0
-                      calories: 541
-                      carbs: 1.4
-                      fat: 42
-                      protein: 37
-                      water: 6.4
-                      selectedDate: '2024-10-04'
-                      id: 30362fe0-dac0-44b1-badb-04084e8bc88b
-                      foodList:
-                        - myFoodId: Bacon
-                          pceCount: 1
-                          _id: 66ffff088eddda7bf88c6009
-                      _id: 66ffff088eddda7bf88c6008
-                    - waterHydration: 0
-                      calories: 270
-                      carbs: 49
-                      fat: 4
-                      protein: 9
-                      water: 38
-                      selectedDate: '2024-10-04'
-                      id: fe4ea928-4aa4-44f2-b1b1-016496c12af7
-                      foodList:
-                        - myFoodId: baguette
-                          pceCount: 1
-                          _id: 6700227b8eddda7bf88c6330
-                      _id: 6700227b8eddda7bf88c632f
+                          _id: 65e73db320ecc920ce6db547
+                      _id: 65e73db320ecc920ce6db545
+                      waterHydration: 0
                   __v: 0
   /history/delete-new-history:
     delete:
@@ -18068,10 +17697,31 @@ paths:
               example:
                 message: History deleted
   /history/delete-new-history-part:
-    delete:
+    post:
       tags:
         - New History
       summary: Delete History part
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 66faaa38536af07a279b8980
+                foodId: 670d01f7b56da4215a5503de
+                historyList:
+                  - calories: 222
+                    carbs: 2222
+                    fat: 22
+                    protein: 22
+                    water: 500
+                    weight: 200
+                    selectedDate: '2024-03-23'
+                    id: lol_another_uddate_Test
+                    foodList:
+                      - myFoodId: food77
+                        pceCount: 34
+                        _id: 670cf2e65c0422815f9eca8a
       security:
         - bearerAuth: []
       responses:
@@ -18093,15 +17743,15 @@ paths:
             Content-Length:
               schema:
                 type: integer
-                example: '504'
+                example: '488'
             ETag:
               schema:
                 type: string
-                example: W/"1f8-Gwwklm6bYV+L5yUOLLLnJ1Zd8Dw"
+                example: W/"1e8-/6AzU7C9UJVFh64eqdSWsx+pjr0"
             Date:
               schema:
                 type: string
-                example: Thu, 10 Oct 2024 12:37:49 GMT
+                example: Mon, 14 Oct 2024 11:37:04 GMT
             Connection:
               schema:
                 type: string
@@ -18115,19 +17765,20 @@ paths:
               schema:
                 type: object
               example:
-                message: Food deleted from history
-                history:
+                message: History List
+                updatedMerged:
                   _id: 6707ca4c61bbe1f16c59bbf9
                   userId: 66faaa38536af07a279b8980
                   userFoodHistoryList:
-                    - calories: 99900
-                      carbs: 40404040404
-                      fat: 15
-                      protein: 20
+                    - calories: 222
+                      carbs: 2222
+                      fat: 22
+                      protein: 22
                       water: 500
                       weight: 200
                       selectedDate: '2024-03-23'
                       id: lol_another_uddate_Test
+                      waterHydration: 0
                       foodList:
                         - myFoodId: food25
                           pceCount: 2
@@ -18135,8 +17786,7 @@ paths:
                         - myFoodId: food00000001
                           pceCount: 1
                           _id: 65e73db320ecc920ce6db547
-                      _id: 65e73db320ecc920ce6db545
-                      waterHydration: 0
+                      _id: 670d02606a65d9735e25106d
                   __v: 0
   /history/delete-all-history:
     post:
@@ -27236,6 +26886,26 @@ paths:
                     userLocation: ''
                 page: 1
                 limit: 1
+  /auth/admin/update-user:
+    post:
+      tags:
+        - Admin > Users
+      summary: Update user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: test
+                isAdmin: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /auth/admin/send-emails:
     post:
       tags:
@@ -27374,3 +27044,5 @@ paths:
                         _id: 66ee9510ad4cd0f971cb60da
                         sendedAt: '2024-09-21T09:42:40.642Z'
                     __v: 0
+
+

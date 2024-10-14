@@ -26,9 +26,9 @@ router.delete("/remove", authMiddleware, deleteHistory)
 router.get("/all/:userId", authMiddleware, getAllHistory)
 router.post("/add-new-history", authMiddleware, addNewHistory)
 router.patch("/edit-new-history", authMiddleware, editNewHistory)
-router.patch("/edit-new-history-part", authMiddleware, editNewHistoryParts)
+router.post("/edit-new-history-part", authMiddleware, editNewHistoryParts)
 router.delete("/delete-new-history", authMiddleware, deleteNewHistory)
-router.delete(
+router.post(
   "/delete-new-history-part",
   authMiddleware,
   deleteSpecificFoodFromHistory,
