@@ -232,10 +232,13 @@ export const editNewHistoryParts = async (req: Request, res: Response) => {
     })
 
     if (!historyListBack) {
-      return res.status(404).json({ message: "History not found" })
+      return res.status(404).json({ message: "History not found 1" })
     }
 
-    const foodListArr = historyListBack.userFoodHistoryList
+    const foodListArr = historyListBack.userFoodHistoryList.filter(
+      //@ts-ignore
+      (item) => item._id.toString() === foodId,
+    )
 
     const mergedArr = [...historyList, ...foodListArr]
 
@@ -266,7 +269,7 @@ export const editNewHistoryParts = async (req: Request, res: Response) => {
 
       return res.status(200).json({ message: "History List", updatedMerged })
     } else {
-      return res.status(404).json({ message: "History not found" })
+      return res.status(404).json({ message: "History not found 2" })
     }
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong..." })
@@ -295,7 +298,10 @@ export const deleteSpecificFoodFromHistory = async (
       return res.status(404).json({ message: "History not found" })
     }
 
-    const foodListArr = historyListBack.userFoodHistoryList
+    const foodListArr = historyListBack.userFoodHistoryList.filter(
+      //@ts-ignore
+      (item) => item._id.toString() === foodId,
+    )
 
     const mergedArr = [...historyList, ...foodListArr]
 
