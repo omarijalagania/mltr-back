@@ -267,7 +267,13 @@ export const editNewHistoryParts = async (req: Request, res: Response) => {
         },
       )
 
-      return res.status(200).json({ message: "History List", updatedMerged })
+      const latestHistory = await UserFoodHistory.findOne({
+        userId,
+        "userFoodHistoryList.0.selectedDate":
+          updatedMerged?.userFoodHistoryList[0].selectedDate,
+      })
+
+      return res.status(200).json({ message: "History List", latestHistory })
     } else {
       return res.status(404).json({ message: "History not found 2" })
     }
@@ -346,7 +352,13 @@ export const deleteSpecificFoodFromHistory = async (
         { new: true },
       )
 
-      return res.status(200).json({ message: "History List", updatedMerged })
+      const latestHistory = await UserFoodHistory.findOne({
+        userId,
+        "userFoodHistoryList.0.selectedDate":
+          updatedMerged?.userFoodHistoryList[0].selectedDate,
+      })
+
+      return res.status(200).json({ message: "History List", latestHistory })
     } else {
       return res.status(404).json({ message: "History not found" })
     }
