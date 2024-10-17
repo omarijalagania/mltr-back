@@ -1,6 +1,6 @@
-import { Request, Response } from "express"
+import e, { Request, Response } from "express"
 import { decodeTokenAndGetUserId, isValidId } from "helpers"
-import { History, UserFoodHistory } from "models"
+import { History, UserFoodHistory, UserFoodList } from "models"
 
 export const createHistory = async (req: Request, res: Response) => {
   const { userId, weight, date } = req.body
@@ -221,37 +221,63 @@ export const editNewHistoryParts = async (req: Request, res: Response) => {
 
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
 
-  const updatedProperties = {} as { [key: string]: any }
-  for (const key in historyList) {
-    if (historyList.hasOwnProperty(key)) {
-      updatedProperties[`userFoodHistoryList.$.${key}`] = historyList[key]
-    }
-  }
-
   try {
     if (!isUserIdValid) {
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    const updatedHistory = await UserFoodHistory.findOneAndUpdate(
-      { userId: userId, "userFoodHistoryList._id": foodId },
-      {
-        $set: {
-          ...updatedProperties,
-        },
-      },
-      { new: true },
-    )
+    const historyListBack = await UserFoodHistory.findOne({
+      userId,
+      "userFoodHistoryList._id": foodId,
+    })
 
-    if (!updatedHistory) {
-      return res.status(404).json({ message: "History not found" })
+    if (!historyListBack) {
+      return res.status(404).json({ message: "History not found 1" })
     }
 
-    return res
-      .status(200)
-      .json({ message: "History edited", history: updatedHistory })
+    const foodListArr = historyListBack.userFoodHistoryList.filter(
+      //@ts-ignore
+      (item) => item._id.toString() === foodId,
+    )
+
+    const mergedArr = [...historyList, ...foodListArr]
+
+    if (mergedArr.length === 2) {
+      const obj1 = mergedArr[0]
+      const obj2 = mergedArr[1]
+
+      const mergedObject = { ...obj1, ...obj2, foodList: [...obj2.foodList] }
+
+      obj1.foodList.forEach((food: any) => mergedObject.foodList.push(food))
+
+      delete mergedObject.__parentArray
+      delete mergedObject.__index
+      delete mergedObject.$__parent
+      delete mergedObject.$__
+      delete mergedObject._doc
+      delete mergedObject.$isNew
+
+      const updatedMerged = await UserFoodHistory.findOneAndUpdate(
+        {
+          userId,
+          "userFoodHistoryList._id": foodId,
+        },
+        {
+          $set: { "userFoodHistoryList.$": mergedObject },
+        },
+      )
+
+      const latestHistory = await UserFoodHistory.findOne({
+        userId,
+        "userFoodHistoryList.0.selectedDate":
+          updatedMerged?.userFoodHistoryList[0].selectedDate,
+      })
+
+      return res.status(200).json({ message: "History List", latestHistory })
+    } else {
+      return res.status(404).json({ message: "History not found 2" })
+    }
   } catch (error) {
-    console.error("Error updating history:", error) // Debugging log
     return res.status(500).json({ message: "Something went wrong..." })
   }
 }
@@ -260,7 +286,7 @@ export const deleteSpecificFoodFromHistory = async (
   req: Request,
   res: Response,
 ) => {
-  const { userId, foodId } = req.body
+  const { userId, foodId, historyList } = req.body
 
   const isUserIdValid = decodeTokenAndGetUserId(req, userId)
 
@@ -269,19 +295,73 @@ export const deleteSpecificFoodFromHistory = async (
       return res.status(403).json({ message: "Not authorized" })
     }
 
-    const updatedHistory = await UserFoodHistory.findOneAndUpdate(
-      { userId: userId },
-      { $pull: { userFoodHistoryList: { _id: foodId } } },
-      { new: true },
-    )
+    const historyListBack = await UserFoodHistory.findOne({
+      userId,
+      "userFoodHistoryList._id": foodId,
+    })
 
-    if (!updatedHistory) {
+    if (!historyListBack) {
       return res.status(404).json({ message: "History not found" })
     }
 
-    return res
-      .status(200)
-      .json({ message: "Food deleted from history", history: updatedHistory })
+    const foodListArr = historyListBack.userFoodHistoryList.filter(
+      //@ts-ignore
+      (item) => item._id.toString() === foodId,
+    )
+
+    const mergedArr = [...historyList, ...foodListArr]
+
+    if (mergedArr.length === 2) {
+      const obj1 = mergedArr[0]
+      const obj2 = mergedArr[1]
+
+      const foodToRemove = obj1.foodList[0]._id.toString()
+
+      // Filter out the object from obj2.foodList based on the _id
+      obj2.foodList = obj2.foodList.filter(
+        (food: { _id: any }) => food._id.toString() !== foodToRemove,
+      )
+
+      obj1.foodList = obj1.foodList.filter(
+        (food: { _id: any }) => food._id.toString() !== foodToRemove,
+      )
+
+      // Merge properties except foodList
+      let mergedObject = {
+        ...obj1,
+        ...obj2,
+        foodList: [...obj2.foodList, ...obj1.foodList],
+      }
+
+      // Remove unwanted properties if needed
+      delete mergedObject.__parentArray
+      delete mergedObject.__index
+      delete mergedObject.$__parent
+      delete mergedObject.$__
+      delete mergedObject._doc
+      delete mergedObject.$isNew
+
+      const updatedMerged = await UserFoodHistory.findOneAndUpdate(
+        {
+          userId,
+          "userFoodHistoryList._id": foodId,
+        },
+        {
+          $set: { "userFoodHistoryList.$": mergedObject },
+        },
+        { new: true },
+      )
+
+      const latestHistory = await UserFoodHistory.findOne({
+        userId,
+        "userFoodHistoryList.0.selectedDate":
+          updatedMerged?.userFoodHistoryList[0].selectedDate,
+      })
+
+      return res.status(200).json({ message: "History List", latestHistory })
+    } else {
+      return res.status(404).json({ message: "History not found" })
+    }
   } catch (error) {
     console.error("Error deleting food from history:", error) // Debugging log
     return res.status(500).json({ message: "Something went wrong..." })
