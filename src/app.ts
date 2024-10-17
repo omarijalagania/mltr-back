@@ -38,8 +38,9 @@ connectDB(false)
 
     app.use(
       cors({
-        origin: "*",
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        origin: process.env.CLIENT_URL, // Allow only the frontend origin
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // Specify allowed methods
+        credentials: true, // Allow credentials if needed
       }),
     )
 
