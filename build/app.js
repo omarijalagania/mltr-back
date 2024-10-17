@@ -2,7 +2,7 @@
  * Load swagger document.
  */exports.app=app;const swaggerDocument=_yamljs.default.load("./src/config/swagger.yaml");/**
  * Setting up swagger middleware.
- */app.use("/api-docs",_swaggerUiExpress.default.serve,_swaggerUiExpress.default.setup(swaggerDocument));app.use(_express.default.static(_path.default.resolve("./public")));(0,_config.connectDB)(false).then(()=>{app.use(_express.default.json({limit:"50mb"}));app.use(_express.default.urlencoded({limit:"50mb"}));app.use((0,_cors.default)({}));// app.get("/", async (_, res) => {
+ */app.use("/api-docs",_swaggerUiExpress.default.serve,_swaggerUiExpress.default.setup(swaggerDocument));app.use(_express.default.static(_path.default.resolve("./public")));(0,_config.connectDB)(false).then(()=>{app.use(_express.default.json({limit:"50mb"}));app.use(_express.default.urlencoded({limit:"50mb"}));app.use((0,_cors.default)({origin:"*",methods:"GET,HEAD,PUT,PATCH,POST,DELETE"}));// app.get("/", async (_, res) => {
 //   res.status(200).send("Welcome to Node.js Server")
 // })
 app.use("/",_routes.default);app.use("/",_routes.default);app.use("/history",_routes.default);app.use("/auth",_routes.default);app.use("/tag",_routes.default);app.use("/food",_routes.default);app.use("/statistics",_routes.default);app.use("/weight",_routes.default);app.use("/log",_routes.default);// Schedule a cron job to run daily at midnight
