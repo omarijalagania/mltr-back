@@ -939,6 +939,9 @@ export const getUser = async (req: Request, res: Response) => {
       return res.status(4040).json({ message: "user not found" })
     }
 
+    user.lastLogin = new Date()
+    await user.save()
+
     res.status(200).json(user)
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -1121,6 +1124,7 @@ export const bulkEmailSend = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: "Emails are being processed" })
   } catch (error) {
+    console.error(error)
     res.status(500).json({ message: "Something went wrong..." })
   }
 }
