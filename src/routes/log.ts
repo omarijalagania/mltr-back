@@ -37,6 +37,10 @@ router.get("/admin/bug/get/:id", authMiddleware, isAdmin, getBugById)
 router.patch("/admin/bug/update/:id", authMiddleware, isAdmin, editBugReport)
 router.delete("/admin/bug/delete/:id", authMiddleware, isAdmin, deleteBugReport)
 
+// non admin
+
+router.get("/get/bug", authMiddleware, getBugReports)
+
 // Country Statistics
 
 router.get(
