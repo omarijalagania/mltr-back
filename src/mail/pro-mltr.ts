@@ -7,7 +7,7 @@ export const welcomeToProTemplate = () => {
     <!-- Dark Mode meta tags -->
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark only">
-    <title>Welcome to MLTR Pro</title>
+    <title>Welcome to Biteme Pro</title>
   
         <style>
       /* Inline styles for maximum compatibility */
@@ -65,7 +65,7 @@ export const welcomeToProTemplate = () => {
     <table width="100%" cellspacing="0" cellpadding="0" style="color: inherit;">
       <tr>
         <td style="padding-bottom: 60px;">
-          <img height="85px" width="85px" src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
+          <img height="85px" width="85px" src="${process.env.BACKEND_URL}/images/mltr.png" alt="Biteme" />
         </td>
       </tr>
       <tr>
@@ -78,7 +78,7 @@ export const welcomeToProTemplate = () => {
       <tr>
         <td style="text-align: left; font-size: 14px; line-height: 22px; padding-bottom: 60px; padding-top: 20px;">
           <p style="color: inherit;">
-            We are thrilled to have you on board with MLTR Pro! You're all set to enhance your health journey with some top-notch tools that'll make staying on track a breeze. Here are some cool things you can do now!
+            We are thrilled to have you on board with Biteme Pro! You're all set to enhance your health journey with some top-notch tools that'll make staying on track a breeze. Here are some cool things you can do now!
           </p>
         </td>
       </tr>
@@ -147,7 +147,7 @@ export const welcomeToProTemplate = () => {
       </tr>
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px; color: inherit;">
-          <p style="padding: 10px 0;">Thanks for choosing MLTR Pro. Here's to a healthier, more informed you!</p>
+          <p style="padding: 10px 0;">Thanks for choosing Biteme Pro. Here's to a healthier, more informed you!</p>
         </td>
       </tr>
       <tr>
@@ -157,7 +157,7 @@ export const welcomeToProTemplate = () => {
       </tr>
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px; color: inherit;">
-          The MLTR Team
+          The Biteme Team
         </td>
       </tr>
     </table>

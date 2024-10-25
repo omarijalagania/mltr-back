@@ -69,9 +69,9 @@ export const codeConfirmationTemplate = (
   <body class="body-content" style="max-width: 450px !important; margin: 0 auto !important;" data-ogsc="light-mode">
     <img width="85px" height="85px" src="${
       process.env.BACKEND_URL
-    }/images/MLTR_logo_500.png" alt="mltr" />
+    }/images/MLTR_logo_500.png" alt="Biteme" />
     <h1>
-      Your MLTR verification code
+      Your Biteme verification code
     </h1>
     <p style="text-align: left; font-size: 14px; line-height: 22px">
       Please do not share this verification code with anyone. It’s our little
@@ -124,7 +124,7 @@ export const codeConfirmationTemplate = (
       </p>
 
       <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-        The MLTR Team
+        The Biteme Team
       </p>
     </div>
 

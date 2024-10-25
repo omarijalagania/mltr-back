@@ -7,7 +7,7 @@ export const welcomeToMLTRTemplate = () => {
     <!-- Dark Mode meta tags -->
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark only">
-    <title>Welcome to MLTR</title>
+    <title>Welcome to Biteme</title>
  
         <style>
       /* Inline styles for maximum compatibility */
@@ -86,7 +86,7 @@ export const welcomeToMLTRTemplate = () => {
           "
         >
           <p>
-            Welcome aboard! We're thrilled to have you join the MLTR family. Our
+            Welcome aboard! We're thrilled to have you join the Biteme family. Our
             mission is simple: to help you lead a healthier, more balanced life
             with ease and insight.
           </p>
@@ -276,7 +276,7 @@ export const welcomeToMLTRTemplate = () => {
       </tr>
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          Thank you for choosing MLTR. Let’s make your health and wellness
+          Thank you for choosing Biteme. Let’s make your health and wellness
           journey rewarding and enjoyable!
         </td>
       </tr>
@@ -287,7 +287,7 @@ export const welcomeToMLTRTemplate = () => {
       </tr>
       <tr>
         <td style="font-weight: 400; font-size: 16px; line-height: 22px">
-          The MLTR Team
+          The Biteme Team
         </td>
       </tr>
     </table>
