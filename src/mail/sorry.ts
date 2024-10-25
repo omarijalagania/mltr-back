@@ -69,7 +69,7 @@ export const codeSorryTemplate = (
   <body class="body-content" style="max-width: 450px !important; margin: 0 auto !important;" data-ogsc="light-mode">
     <img width="85px" height="85px" src="${
       process.env.BACKEND_URL
-    }/images/MLTR_logo_500.png" alt="mltr" />
+    }/images/MLTR_logo_500.png" alt="Biteme" />
     <h1>
       We are sorry to see you go
     </h1>
@@ -79,7 +79,7 @@ export const codeSorryTemplate = (
           font-size: 16px;
           line-height: 22px;
           ">
-      Thank you for giving MLTR a chance. We're sorry to see you go and would
+      Thank you for giving Biteme a chance. We're sorry to see you go and would
       love to know how we could have made your experience better. If you have
       any feedback or suggestions, please consider sharing them with our
       development team at
@@ -150,7 +150,7 @@ export const codeSorryTemplate = (
       </p>
 
       <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-        The MLTR Team
+        The Biteme Team
       </p>
     </div>
 

@@ -50,7 +50,7 @@ export const codeConfirmationTemplateTest = (body?: any) => {
 
   </head>
   <body data-ogsc="light-mode">
-    <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="mltr" />
+    <img src="${process.env.BACKEND_URL}/images/mltr.png" alt="Biteme" />
    
    ${body}
 
@@ -88,7 +88,7 @@ export const codeConfirmationTemplateTest = (body?: any) => {
       </p>
 
       <p style="font-weight: 400; font-size: 16px; line-height: 22px">
-        The MLTR Team
+        The Biteme Team
       </p>
     </div>
 

@@ -118,7 +118,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         welcomeToMLTRTemplate,
         ip,
         device,
-        "Welcome to MLTR",
+        "Welcome to Biteme",
       )
 
       return res.status(201).json({
@@ -327,7 +327,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         welcomeToMLTRTemplate,
         ip,
         device,
-        "Welcome to MLTR",
+        "Welcome to Biteme",
       )
 
       return res.status(201).json({
@@ -507,7 +507,7 @@ export const userRegister = async (req: Request, res: Response) => {
         codeConfirmationTemplate,
         ip,
         device,
-        "MLTR verification code",
+        "Biteme verification code",
       )
       return res.status(200).json({
         message: "User updated, confirmation code sent to email",
@@ -544,7 +544,7 @@ export const userRegister = async (req: Request, res: Response) => {
         codeConfirmationTemplate,
         ip,
         device,
-        "MLTR verification code",
+        "Biteme verification code",
       )
       return res.status(200).json({
         message: "User registered, confirmation code sent to email",
@@ -590,7 +590,7 @@ export const getConfirmationCode = async (req: Request, res: Response) => {
           codeConfirmationTemplate,
           ip,
           device,
-          "MLTR verification code",
+          "Biteme verification code",
         )
       } else {
         return res.status(500).json({ message: "User email not found" })
@@ -723,7 +723,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "MLTR account removal confirmation",
+        "Biteme account removal confirmation",
       )
       user = await User.findOneAndUpdate(
         {
@@ -749,7 +749,7 @@ export const deactivateAccount = async (req: Request, res: Response) => {
         codeSorryTemplate,
         ip,
         device,
-        "MLTR account removal confirmation",
+        "Biteme account removal confirmation",
       )
 
       user = await User.findOneAndUpdate(
