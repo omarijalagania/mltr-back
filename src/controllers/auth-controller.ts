@@ -79,6 +79,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       )
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
+
         process.env.JWT_SECRET,
       )
 
@@ -109,6 +110,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
+
         process.env.JWT_SECRET,
       )
 
@@ -168,6 +170,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
+
       process.env.JWT_SECRET,
     )
 

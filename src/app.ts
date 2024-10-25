@@ -36,7 +36,13 @@ connectDB(false)
     app.use(express.json({ limit: "50mb" }))
     app.use(express.urlencoded({ limit: "50mb" }))
 
-    app.use(cors())
+    app.use(
+      cors({
+        origin: process.env.CLIENT_URL, // Allow only the frontend origin
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // Specify allowed methods
+        credentials: true, // Allow credentials if needed
+      }),
+    )
 
     // app.get("/", async (_, res) => {
     //   res.status(200).send("Welcome to Node.js Server")
