@@ -107,6 +107,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         customGoal,
         water,
         geo,
+        status: "",
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
@@ -299,6 +300,7 @@ export const registerWithApple = async (req: Request, res: Response) => {
         customGoal,
         water,
         geo,
+        status: "",
         personal_goal,
       })
       const token = jwt.sign(
