@@ -20,9 +20,6 @@ import { defaultTemplate } from "mail/templateDefault"
 const isValidEmail = Joi.string().email().required()
 import { isAdmin } from "middlewares/auth-middleware"
 
-import Queue from "bull"
-import { codeConfirmationTemplateTest } from "mail/template-test"
-import { sendBulkEmails } from "mail/mail-bulk"
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
@@ -122,7 +119,6 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         welcomeToMLTRTemplate,
         ip,
         device,
-        "Welcome to Biteme",
         "Welcome to Biteme",
       )
 
