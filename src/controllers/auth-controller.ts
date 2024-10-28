@@ -11,6 +11,9 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { welcomeToMLTRTemplate } from "mail/welcome-mltr"
 import { welcomeToProTemplate } from "mail/pro-mltr"
+import Queue from "bull"
+import { codeConfirmationTemplateTest } from "mail/template-test"
+import { sendBulkEmails } from "mail/mail-bulk"
 import Joi from "joi"
 import { defaultTemplate } from "mail/templateDefault"
 
@@ -119,6 +122,7 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         welcomeToMLTRTemplate,
         ip,
         device,
+        "Welcome to Biteme",
         "Welcome to Biteme",
       )
 
@@ -450,11 +454,12 @@ export const userRegister = async (req: Request, res: Response) => {
       )
     }, 600000)
 
-    /* Delete user after one day after inactive status */
-    setInterval(async () => {
-      var query = { status: { $eq: "inactive" } }
-      user = await User.deleteMany(query)
-    }, 86400000)
+    /* Delete user after one day after inactive status CHANGE */
+
+    // setInterval(async () => {
+    //   var query = { status: { $eq: "inactive" } }
+    //   user = await User.deleteMany(query)
+    // }, 86400000)
 
     const salt = await bcrypt.genSalt(10)
     // generate hashed password with salt (password = entered password, from request body)
