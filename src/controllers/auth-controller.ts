@@ -463,11 +463,12 @@ export const userRegister = async (req: Request, res: Response) => {
       )
     }, 600000)
 
-    /* Delete user after one day after inactive status */
-    setInterval(async () => {
-      var query = { status: { $eq: "inactive" } }
-      user = await User.deleteMany(query)
-    }, 86400000)
+    /* Delete user after one day after inactive status CHANGE */
+
+    // setInterval(async () => {
+    //   var query = { status: { $eq: "inactive" } }
+    //   user = await User.deleteMany(query)
+    // }, 86400000)
 
     const salt = await bcrypt.genSalt(10)
     // generate hashed password with salt (password = entered password, from request body)
