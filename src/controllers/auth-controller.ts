@@ -940,7 +940,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findById(userId)
 
     if (!user) {
-      return res.status(4040).json({ message: "user not found" })
+      return res.status(404).json({ message: "user not found" })
     }
 
     user.lastLogin = new Date()

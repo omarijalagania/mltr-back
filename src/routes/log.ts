@@ -8,6 +8,7 @@ import {
   getEmailSendLogs,
   getUsersByCountry,
   recordEmailSendLog,
+  recordSubscription,
 } from "controllers"
 import express from "express"
 const router = express.Router()
@@ -49,5 +50,9 @@ router.get(
   isAdmin,
   getUsersByCountry,
 )
+
+//Subscription Webhook
+
+router.post("/subscription", recordSubscription)
 
 export default router

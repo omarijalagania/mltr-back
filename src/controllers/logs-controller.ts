@@ -4,6 +4,7 @@ import AdminEmailSendLogs from "models/AdminEmailSendLogs"
 import AdminEmailLog from "models/AdminEmailSendLogs"
 import Bug from "models/Bug"
 import EmailLog from "models/EmailLog"
+import Subscribe from "models/Subscribe"
 
 export const recordEmailSendLog = async (req: Request, res: Response) => {
   const { senderId, sendTo, subject, body } = req.body
@@ -243,4 +244,60 @@ export const getUsersByCountry = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong..." })
   }
+}
+
+// Subscription Webhook
+
+export const recordSubscription = async (req: Request, res: Response) => {
+  const {
+    appHubId,
+    eventStatus,
+    eventReason,
+    purchasedAt,
+    userId,
+    userSubscriptions,
+  } = req.body
+
+  try {
+    const subscription = await Subscribe.findOne({ appHubId })
+
+    if (subscription) {
+      await Subscribe.findOneAndUpdate(
+        { appHubId },
+        {
+          $set: {
+            eventStatus,
+            eventReason,
+            purchasedAt,
+            userId,
+            userSubscriptions,
+          },
+        },
+        { new: true },
+      )
+      res.status(200).json({ message: "Subscription updated" })
+    } else {
+      await Subscribe.create({
+        appHubId,
+        eventStatus,
+        eventReason,
+        purchasedAt,
+        userId,
+        userSubscriptions,
+      })
+      res.status(201).json({ message: "Subscription recorded" })
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+
+  // try {
+  //   const subscription = new Subscribe({ appHubId, eventStatus, eventReason, purchasedAt, userId, userSubscriptions })
+  //   await subscription.save()
+
+  //   return res.status(201).json({ message: "Subscription recorded" })
+  // } catch (error) {
+  //   console.error("Error recording subscription:", error)
+  //   return res.status(500).json({ message: "Something went wrong..." })
+  // }
 }
