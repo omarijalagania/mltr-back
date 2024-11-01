@@ -7,6 +7,7 @@ import {
   getEmailSendLogById,
   getEmailSendLogs,
   getUsersByCountry,
+  getUsersByCountryDropdown,
   recordEmailSendLog,
 } from "controllers"
 import express from "express"
@@ -51,3 +52,10 @@ router.get(
 )
 
 export default router
+
+router.get(
+  "/admin/country-stats-dropdown",
+  authMiddleware,
+  isAdmin,
+  getUsersByCountryDropdown,
+)

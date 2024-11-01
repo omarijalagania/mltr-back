@@ -1062,6 +1062,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     : null
 
   const isDateInvalid = req.query.isDateInvalid
+  const country = req.query.country
 
   try {
     // Create the base query for search
@@ -1087,6 +1088,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
       query.lastLogin = { ...query.lastLogin, $exists: false }
     } else if (isDateInvalid === "false") {
       query.lastLogin = { ...query.lastLogin, $exists: true }
+    }
+
+    if (country) {
+      query.geo = country
     }
 
     // Count total users for pagination

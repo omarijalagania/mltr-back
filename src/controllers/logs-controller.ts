@@ -244,3 +244,46 @@ export const getUsersByCountry = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Something went wrong..." })
   }
 }
+
+export const getUsersByCountryDropdown = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    // MongoDB aggregation to group users by country and count them
+    const countryCount = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          uniqueGeos: { $addToSet: { $toUpper: "$geo" } },
+        },
+      },
+
+      {
+        $project: {
+          _id: 0,
+          uniqueGeos: 1,
+        },
+      },
+    ])
+
+    // Extract the unique geos array
+    const uniqueGeos = countryCount.length > 0 ? countryCount[0].uniqueGeos : []
+
+    // Response
+    res.json(
+      uniqueGeos
+        .map((geo: string) => {
+          if (geo !== "") {
+            return {
+              value: geo,
+              label: geo,
+            }
+          }
+        })
+        .filter((item: any) => (item ? item : "")) || [],
+    )
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong..." })
+  }
+}
