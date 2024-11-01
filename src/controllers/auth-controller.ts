@@ -1061,6 +1061,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
     ? parseInt(req.query.inactiveDays as string)
     : null
 
+  const isDateInvalid = req.query.isDateInvalid
+
   try {
     // Create the base query for search
     const query: any = search
@@ -1078,6 +1080,13 @@ export const getAllUsers = async (req: Request, res: Response) => {
       cutoffDate.setDate(cutoffDate.getDate() - inactiveDays)
 
       query.lastLogin = { $lte: cutoffDate }
+    }
+
+    // Add $exists condition for lastLogin based on isDateInvalid
+    if (isDateInvalid === "true") {
+      query.lastLogin = { ...query.lastLogin, $exists: false }
+    } else if (isDateInvalid === "false") {
+      query.lastLogin = { ...query.lastLogin, $exists: true }
     }
 
     // Count total users for pagination
