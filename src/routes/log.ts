@@ -10,6 +10,13 @@ import {
   getUsersByCountryDropdown,
   recordEmailSendLog,
 } from "controllers"
+import {
+  createNewTemplate,
+  deleteTemplate,
+  getAllTemplates,
+  getSingleTemplate,
+  updateTemplate,
+} from "controllers/email-templates-controller"
 import express from "express"
 const router = express.Router()
 import { authMiddleware } from "middlewares"
@@ -59,3 +66,11 @@ router.get(
   isAdmin,
   getUsersByCountryDropdown,
 )
+
+// Templates
+
+router.get("/admin/templates", authMiddleware, isAdmin, getAllTemplates)
+router.get("/admin/templates/:id", authMiddleware, isAdmin, getSingleTemplate)
+router.post("/admin/templates", authMiddleware, isAdmin, createNewTemplate)
+router.patch("/admin/templates/:id", authMiddleware, isAdmin, updateTemplate)
+router.delete("/admin/templates/:id", authMiddleware, isAdmin, deleteTemplate)
