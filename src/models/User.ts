@@ -89,6 +89,19 @@ const userSchema = new mongoose.Schema({
     type: Date,
   },
 
+  foodAllergies: {
+    type: String,
+  },
+
+  foodAversions: {
+    type: String,
+  },
+
+  isMlLiquid: {
+    type: Boolean,
+    default: false,
+  },
+
   joined: { type: Date, default: Date.now },
 })
 

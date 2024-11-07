@@ -26,6 +26,7 @@ const userFoodListSchema = new mongoose.Schema({
       name: { type: String },
       servingName: { type: String },
       count_in_serving: { type: Number, default: 1 },
+      tagList: [],
       foodList: [
         {
           myFoodId: {

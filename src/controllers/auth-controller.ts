@@ -20,6 +20,19 @@ import { defaultTemplate } from "mail/templateDefault"
 const isValidEmail = Joi.string().email().required()
 import { isAdmin } from "middlewares/auth-middleware"
 
+// foodAllergies: {
+//   type: String,
+// },
+
+// foodAversions: {
+//   type: String,
+// },
+
+// isMlLiquid: {
+//   type: Boolean,
+//   default: false,
+// },
+
 export const registerWithGoogle = async (req: Request, res: Response) => {
   const {
     login,
@@ -42,6 +55,9 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
     device,
     geo,
     personal_goal,
+    foodAllergies,
+    foodAversions,
+    isMlLiquid,
   } = req.body
 
   try {
@@ -73,6 +89,9 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
           water,
           geo,
           personal_goal,
+          foodAllergies,
+          foodAversions,
+          isMlLiquid,
         },
         {
           new: true,
@@ -108,6 +127,9 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         water,
         geo,
         status: "active",
+        foodAllergies,
+        foodAversions,
+        isMlLiquid,
       })
       const token = jwt.sign(
         { _id: user?._id, name: user?.email, isAdmin: user?.isAdmin },
@@ -145,6 +167,9 @@ export const registerWithGoogle = async (req: Request, res: Response) => {
         water: user.water,
         geo: user.geo,
         personal_goal: user.personal_goal,
+        foodAllergies: user.foodAllergies,
+        foodAversions: user.foodAversions,
+        isMlLiquid: user.isMlLiquid,
       })
     }
   } catch (error) {
@@ -200,6 +225,9 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
       water: user.water,
       geo: user.geo,
       personal_goal: user.personal_goal,
+      foodAllergies: user.foodAllergies,
+      foodAversions: user.foodAversions,
+      isMlLiquid: user.isMlLiquid,
     })
   } catch (error) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -229,6 +257,9 @@ export const registerWithApple = async (req: Request, res: Response) => {
     device,
     geo,
     personal_goal,
+    foodAllergies,
+    foodAversions,
+    isMlLiquid,
   } = req.body
 
   try {
@@ -262,6 +293,9 @@ export const registerWithApple = async (req: Request, res: Response) => {
           water,
           geo,
           personal_goal,
+          foodAllergies,
+          foodAversions,
+          isMlLiquid,
         },
         { new: true },
       )
@@ -302,6 +336,9 @@ export const registerWithApple = async (req: Request, res: Response) => {
         geo,
         status: "active",
         personal_goal,
+        foodAllergies,
+        foodAversions,
+        isMlLiquid,
       })
       const token = jwt.sign(
         {
@@ -344,6 +381,9 @@ export const registerWithApple = async (req: Request, res: Response) => {
         water: user.water,
         geo: user.geo,
         personal_goal: user.personal_goal,
+        foodAllergies: user.foodAllergies,
+        foodAversions: user.foodAversions,
+        isMlLiquid: user.isMlLiquid,
       })
     }
   } catch (error) {
@@ -399,6 +439,9 @@ export const loginWithApple = async (req: Request, res: Response) => {
         water: user.water,
         geo: user.geo,
         personal_goal: user.personal_goal,
+        foodAllergies: user.foodAllergies,
+        foodAversions: user.foodAversions,
+        isMlLiquid: user.isMlLiquid,
       })
     }
     if (!user) {
@@ -431,6 +474,9 @@ export const userRegister = async (req: Request, res: Response) => {
     device,
     geo,
     personal_goal,
+    foodAllergies,
+    foodAversions,
+    isMlLiquid,
   } = req.body
 
   try {
@@ -489,6 +535,9 @@ export const userRegister = async (req: Request, res: Response) => {
           status: "inactive",
           geo,
           personal_goal,
+          foodAllergies,
+          foodAversions,
+          isMlLiquid,
         },
         {
           new: true,
@@ -529,6 +578,9 @@ export const userRegister = async (req: Request, res: Response) => {
         status: "inactive",
         geo,
         personal_goal,
+        foodAllergies,
+        foodAversions,
+        isMlLiquid,
       })
 
       sendCodeConfirmation(
@@ -685,6 +737,9 @@ export const userLogin = async (req: Request, res: Response) => {
       geo: user.geo,
       personal_goal: user.personal_goal,
       isAdmin: user.isAdmin,
+      foodAllergies: user.foodAllergies,
+      foodAversions: user.foodAversions,
+      isMlLiquid: user.isMlLiquid,
     })
   } catch (err) {
     res.status(500).json({ message: "Something went wrong..." })
@@ -841,6 +896,9 @@ export const updateUser = async (req: Request, res: Response) => {
     water,
     geo,
     personal_goal,
+    foodAllergies,
+    foodAversions,
+    isMlLiquid,
   } = req.body
 
   try {
@@ -875,6 +933,9 @@ export const updateUser = async (req: Request, res: Response) => {
           water,
           geo,
           personal_goal,
+          foodAllergies,
+          foodAversions,
+          isMlLiquid,
         },
         { new: true },
       )
@@ -899,6 +960,9 @@ export const updateUser = async (req: Request, res: Response) => {
         water,
         geo,
         personal_goal,
+        foodAllergies,
+        foodAversions,
+        isMlLiquid,
       })
     }
   } catch (error) {
